@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { NavLink, Link } from "react-router-dom";
+import learnspaceLogo from "../assets/learnspace-logo.png";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -8,7 +9,7 @@ export default function Header() {
   return (
     <header className="site-header">
       <div className="container header-inner">
-        <Link to="/" className="brand" onClick={close}>Learn<span>Space</span></Link>
+        <Link to="/" className="brand" onClick={close}><img className="brand-logo" src={learnspaceLogo} alt="" />Learn<span>Space</span></Link>
         <button className="menu-toggle" onClick={() => setOpen(!open)} aria-label="Ouvrir le menu">
           {open ? "✕" : "☰"}
         </button>

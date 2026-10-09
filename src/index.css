@@ -62,7 +62,8 @@ main { flex: 1; }
 /* Header */
 .site-header { position: sticky; top: 0; z-index: 20; background: rgba(7, 17, 31, .91); border-bottom: 1px solid var(--border); backdrop-filter: blur(18px); }
 .header-inner { min-height: 76px; display: flex; align-items: center; gap: 30px; }
-.brand { font-family: "Manrope", sans-serif; color: var(--text); font-size: 23px; font-weight: 800; letter-spacing: -.8px; white-space: nowrap; }
+.brand { display: inline-flex; align-items: center; gap: 9px; font-family: "Manrope", sans-serif; color: var(--text); font-size: 23px; font-weight: 800; letter-spacing: -.8px; white-space: nowrap; }
+.brand-logo { width: 44px; height: 44px; border-radius: 50%; object-fit: contain; }
 .brand span { color: var(--primary); }
 .main-nav { display: flex; align-items: center; gap: 25px; margin-left: auto; }
 .main-nav a { position: relative; color: #b8c8d7; font-size: 13px; transition: color .2s; }
