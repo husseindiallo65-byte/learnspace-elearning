@@ -1,12 +1,11 @@
 import { Link } from "react-router-dom";
-import learnspaceLogo from "../assets/learnspace-logo.png";
 
 export default function Footer() {
   return (
     <footer className="site-footer">
       <div className="container footer-inner">
         <div>
-          <Link to="/" className="brand"><img className="brand-logo" src={learnspaceLogo} alt="" />Learn<span>Space</span></Link>
+          <Link to="/" className="brand"><span className="footer-brand-icon" aria-hidden="true" />Learn<span>Space</span></Link>
           <p>Apprends aujourd'hui, construis ton avenir.</p>
         </div>
         <div className="footer-links">
