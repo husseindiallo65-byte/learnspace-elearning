@@ -104,6 +104,7 @@ function BenefitIcon({ title }) {
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [contactNotice, setContactNotice] = useState("");
   const [statCounts, setStatCounts] = useState({ courses: 1, online: 1 });
   const closeMenu = () => setMenuOpen(false);
   const scrollToSection = (sectionId) => {
@@ -116,6 +117,19 @@ export default function Home() {
   };
   const authenticated = isDemoAuthenticated();
   const navigate = useNavigate();
+
+  const handleContactSubmit = (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const name = formData.get("nom");
+    const email = formData.get("email");
+    const message = formData.get("message");
+    const subject = `Message LearnSpace de ${name}`;
+    const body = `Nom : ${name}\nE-mail : ${email}\n\nMessage :\n${message}`;
+
+    setContactNotice("Votre application de messagerie va s’ouvrir pour envoyer votre message.");
+    window.location.href = `mailto:husseindiallo65@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  };
 
   useEffect(() => {
     const targets = { courses: courses.length, online: 100 };
@@ -168,6 +182,7 @@ export default function Home() {
           <a href="#formations" onClick={(event) => { event.preventDefault(); scrollToSection("formations"); }}>Formations</a>
           <a href="#categories" onClick={(event) => { event.preventDefault(); scrollToSection("categories"); }}>Catégories</a>
           <a href="#benefits" onClick={(event) => { event.preventDefault(); scrollToSection("benefits"); }}>Apprends autrement</a>
+          <a href="#contact" onClick={(event) => { event.preventDefault(); scrollToSection("contact"); }}>Contact</a>
         </nav>
 
         <div className="ls-header-actions">
@@ -319,6 +334,100 @@ export default function Home() {
             <span>Découvrir les cours</span>
             <Icon name="arrow" size={19} />
           </Link>
+        </div>
+      </section>
+
+      <section className="ls-contact section" id="contact">
+        <div className="container contact-container">
+          <div className="contact-info">
+            <div className="contact-badge">
+              <span>NOUS CONTACTER</span>
+            </div>
+
+            <h2>
+              Une question ?
+              <span> Écrivons-nous.</span>
+            </h2>
+
+            <p className="contact-description">
+              Remplis le formulaire et ton application de messagerie préparera l'envoi. Nous vous répondrons dans les plus brefs délais.
+            </p>
+
+            <div className="contact-features">
+              <div className="contact-feature">
+                <div className="feature-icon" aria-hidden="true">ϟ</div>
+                <div>
+                  <h3>Rapide</h3>
+                  <p>Une réponse en un rien de temps.</p>
+                </div>
+              </div>
+
+              <div className="contact-feature">
+                <div className="feature-icon" aria-hidden="true">✓</div>
+                <div>
+                  <h3>Sécurisé</h3>
+                  <p>Vos informations sont protégées.</p>
+                </div>
+              </div>
+
+              <div className="contact-feature">
+                <div className="feature-icon" aria-hidden="true">♧</div>
+                <div>
+                  <h3>À votre écoute</h3>
+                  <p>Nous sommes là pour vous aider.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="contact-form-card">
+            <form onSubmit={handleContactSubmit}>
+              <div className="contact-fields">
+                <div className="form-group">
+                  <label htmlFor="contact-nom"><span className="contact-label-icon" aria-hidden="true">♙</span> Nom</label>
+                  <input
+                    type="text"
+                    id="contact-nom"
+                    name="nom"
+                    autoComplete="name"
+                    placeholder="Veuillez entrer votre nom"
+                    required
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="contact-email"><span className="contact-label-icon" aria-hidden="true">✉</span> Adresse e-mail</label>
+                  <input
+                    type="email"
+                    id="contact-email"
+                    name="email"
+                    autoComplete="email"
+                    placeholder="Veuillez entrer votre adresse e-mail"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="form-group message-group">
+                <label htmlFor="contact-message"><span className="contact-label-icon" aria-hidden="true">▤</span> Message</label>
+                <textarea
+                  id="contact-message"
+                  name="message"
+                  placeholder="Veuillez entrer votre message"
+                  rows="6"
+                  required
+                />
+              </div>
+
+              {contactNotice && <p className="contact-notice" role="status">{contactNotice}</p>}
+              <button type="submit" className="contact-submit button-fill-left">
+                <span aria-hidden="true">➤</span>
+                Envoyer le message
+                <span className="submit-arrow" aria-hidden="true">→</span>
+              </button>
+            </form>
+
+          </div>
         </div>
       </section>
     </div>
