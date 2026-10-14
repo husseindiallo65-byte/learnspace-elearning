@@ -106,6 +106,10 @@ export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [statCounts, setStatCounts] = useState({ courses: 1, online: 1 });
   const closeMenu = () => setMenuOpen(false);
+  const scrollToSection = (sectionId) => {
+    closeMenu();
+    document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
+  };
   const goHome = () => {
     closeMenu();
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -161,9 +165,9 @@ export default function Home() {
 
         <nav className={`ls-nav ${menuOpen ? "ls-nav-open" : ""}`} aria-label="Navigation principale">
           <Link className="active" to="/" onClick={goHome}>Accueil</Link>
-          <a href="#formations" onClick={closeMenu}>Formations</a>
-          <a href="#categories" onClick={closeMenu}>Catégories</a>
-          <a href="#benefits" onClick={closeMenu}>Apprends autrement</a>
+          <a href="#formations" onClick={(event) => { event.preventDefault(); scrollToSection("formations"); }}>Formations</a>
+          <a href="#categories" onClick={(event) => { event.preventDefault(); scrollToSection("categories"); }}>Catégories</a>
+          <a href="#benefits" onClick={(event) => { event.preventDefault(); scrollToSection("benefits"); }}>Apprends autrement</a>
         </nav>
 
         <div className="ls-header-actions">
