@@ -114,7 +114,7 @@ export default function Home() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const targets = { courses: 4, online: 100 };
+    const targets = { courses: courses.length, online: 100 };
     const duration = 1400;
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {

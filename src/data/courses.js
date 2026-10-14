@@ -115,6 +115,68 @@ export const courses = [
     quiz: [
       { question: "Quel outil est adapté à des données en lignes et colonnes ?", options: ["Un tableur", "Un lecteur audio", "Une galerie photo", "Un navigateur seul"], answer: 0 }
     ]
+  },
+  {
+    id: "html-css",
+    title: "Apprendre HTML et CSS",
+    category: "Développement web",
+    level: "Débutant",
+    duration: "6 heures",
+    modulesCount: 2,
+    students: 680,
+    rating: "4.8",
+    color: "orange",
+    icon: "💻",
+    shortDescription: "Crée et mets en forme tes premières pages web.",
+    description: "Découvre HTML pour structurer une page et CSS pour créer des mises en page adaptées à tous les écrans.",
+    instructor: "Aminata Ndiaye",
+    objectives: ["Structurer une page avec HTML", "Utiliser les balises sémantiques", "Mettre en forme avec CSS", "Créer une mise en page responsive"],
+    modules: [
+      { id: "module-1", title: "Module 1 — Les bases du HTML", chapters: [
+        { id: "structure-html", title: "Structurer une page HTML", content: "Découvre la structure d'un document HTML et le rôle des balises principales comme les titres, les paragraphes et les liens." },
+        { id: "balises-semantiques", title: "Utiliser les balises sémantiques", content: "Les balises header, nav, main, section et footer donnent du sens au contenu et facilitent sa compréhension." }
+      ]},
+      { id: "module-2", title: "Module 2 — Les bases du CSS", chapters: [
+        { id: "styles-css", title: "Mettre en forme avec CSS", content: "Apprends à sélectionner des éléments et à modifier leurs couleurs, polices, espacements et bordures avec CSS." },
+        { id: "mise-en-page", title: "Créer une mise en page responsive", content: "Utilise Flexbox, Grid et les media queries pour adapter une page aux écrans mobiles et aux ordinateurs." }
+      ]}
+    ],
+    quiz: [
+      { question: "Quel langage sert à structurer le contenu d'une page web ?", options: ["CSS", "HTML", "SQL", "Bash"], answer: 1 },
+      { question: "À quoi sert principalement CSS ?", options: ["À mettre en forme une page", "À stocker des données", "À envoyer des courriels", "À créer un serveur"], answer: 0 },
+      { question: "Quelle balise représente le contenu principal d'une page ?", options: ["<main>", "<color>", "<style>", "<img>"], answer: 0 }
+    ]
+  },
+  {
+    id: "javascript-debutant",
+    title: "Les bases de JavaScript",
+    category: "Développement web",
+    level: "Débutant",
+    duration: "7 heures",
+    modulesCount: 2,
+    students: 590,
+    rating: "4.9",
+    color: "green",
+    icon: "🟨",
+    shortDescription: "Ajoute de l'interactivité à tes pages web.",
+    description: "Apprends les fondamentaux de JavaScript et utilise-les pour réagir aux actions des utilisateurs et manipuler une page web.",
+    instructor: "Moussa Fall",
+    objectives: ["Déclarer des variables", "Utiliser les conditions et les boucles", "Créer des fonctions", "Réagir aux événements d'une page"],
+    modules: [
+      { id: "module-1", title: "Module 1 — Les fondamentaux", chapters: [
+        { id: "variables-js", title: "Variables et types de données", content: "Découvre let et const, puis manipule des chaînes de caractères, des nombres et des valeurs booléennes." },
+        { id: "conditions-js", title: "Conditions et boucles", content: "Utilise les conditions pour choisir une action et les boucles pour répéter des instructions." }
+      ]},
+      { id: "module-2", title: "Module 2 — Fonctions et interactions", chapters: [
+        { id: "fonctions-js", title: "Créer des fonctions", content: "Une fonction regroupe des instructions réutilisables. Apprends à lui transmettre des paramètres et à retourner un résultat." },
+        { id: "evenements-js", title: "Réagir aux événements", content: "Les événements comme un clic permettent de déclencher du code et de rendre une page interactive." }
+      ]}
+    ],
+    quiz: [
+      { question: "Quel mot-clé permet de déclarer une variable qui ne sera pas réassignée ?", options: ["const", "for", "return", "if"], answer: 0 },
+      { question: "À quoi sert une fonction ?", options: ["À regrouper des instructions réutilisables", "À styliser une page", "À créer une image", "À remplacer HTML"], answer: 0 },
+      { question: "Quel événement correspond à un clic sur un élément ?", options: ["change", "click", "loadtext", "style"], answer: 1 }
+    ]
   }
 ];
 

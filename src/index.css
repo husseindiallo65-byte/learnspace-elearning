@@ -203,6 +203,7 @@ main { flex: 1; }
 .view-switch button.active { color: var(--primary); border-color: #5feb9860; background: #5feb9810; }
 .results-line { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin: 24px 0 16px; color: var(--muted); font-size: 12px; }
 .results-line strong { color: var(--text); }
+.results-line .text-link { color: #000; }
 .list-view { grid-template-columns: 1fr; }
 .list-view .course-card { display: grid; grid-template-columns: 210px minmax(0, 1fr); }
 .list-view .course-art { min-height: 100%; }
