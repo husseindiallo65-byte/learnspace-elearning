@@ -32,7 +32,16 @@ export default function Auth({ mode }) {
       } else {
         await loginDemoAccount(values);
       }
-      navigate(location.state?.from?.pathname || "/dashboard", { replace: true });
+      navigate(
+        location.state?.from
+          ? {
+              pathname: location.state.from.pathname,
+              search: location.state.from.search,
+              hash: location.state.from.hash,
+            }
+          : "/dashboard",
+        { replace: true },
+      );
     } catch (authError) {
       setError(authError instanceof Error ? authError.message : "Impossible de terminer l’opération.");
     } finally {
@@ -100,7 +109,10 @@ export default function Auth({ mode }) {
 
           <p className="auth-switch">
             {isRegistration ? "Tu as déjà un compte ?" : "Tu n’as pas encore de compte ?"}{" "}
-            <Link to={isRegistration ? "/connexion" : "/inscription"}>
+            <Link
+              to={isRegistration ? "/connexion" : "/inscription"}
+              state={location.state?.from ? { from: location.state.from } : undefined}
+            >
               {isRegistration ? "Se connecter" : "S’inscrire"}
             </Link>
           </p>

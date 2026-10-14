@@ -40,8 +40,8 @@
   align-items: center;
   justify-content: space-between;
   gap: 28px;
-  min-height: 92px;
-  padding: 18px 4.5%;
+  min-height: 72px;
+  padding: 8px 4.5%;
   border-bottom: 1px solid #5feb9850;
   background: #fff;
 }
@@ -747,7 +747,7 @@
 
 @media (max-width: 900px) {
   .ls-header {
-    min-height: 80px;
+    min-height: 66px;
     flex-wrap: wrap;
   }
 
@@ -823,7 +823,8 @@
 
 @media (max-width: 650px) {
   .ls-header {
-    padding: 14px 5%;
+    min-height: 58px;
+    padding: 8px 5%;
   }
 
   .ls-brand {

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import Header from "./components/Header.jsx";
 import Footer from "./components/Footer.jsx";
@@ -22,7 +22,15 @@ function ProtectedRoute({ children }) {
 }
 
 export default function App() {
-  const { pathname } = useLocation();
+  const location = useLocation();
+  const { pathname } = location;
+  const [isRefreshing, setIsRefreshing] = useState(true);
+
+  useEffect(() => {
+    setIsRefreshing(true);
+    const timeoutId = window.setTimeout(() => setIsRefreshing(false), 850);
+    return () => window.clearTimeout(timeoutId);
+  }, [location.key]);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -69,8 +77,8 @@ export default function App() {
           <Route path="/inscription" element={<Auth mode="register" />} />
           <Route path="/connexion" element={<Auth mode="login" />} />
           <Route path="/formations" element={<Formations />} />
-          <Route path="/formations/:id" element={<FormationDetail />} />
-          <Route path="/formations/:id/cours/:chapterId" element={<Course />} />
+          <Route path="/formations/:id" element={<ProtectedRoute><FormationDetail /></ProtectedRoute>} />
+          <Route path="/formations/:id/cours/:chapterId" element={<ProtectedRoute><Course /></ProtectedRoute>} />
           <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
           <Route path="/profil" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
           <Route path="/certificats/:id" element={<Certificate />} />
@@ -79,6 +87,13 @@ export default function App() {
       </main>
       <Footer />
       <BackToTop />
+      {isRefreshing && (
+        <div className="page-refresh-loader" role="status" aria-label="Chargement de la page">
+          <span className="page-refresh-loader-ring">
+            <span className="page-refresh-loader-icon" aria-hidden="true" />
+          </span>
+        </div>
+      )}
     </div>
   );
 }

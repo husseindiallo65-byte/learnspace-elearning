@@ -16,9 +16,9 @@ export const courses = [
     objectives: ["Comprendre les composants React", "Utiliser les props et le state", "Réagir aux événements", "Créer une interface simple"],
     modules: [
       { id: "module-1", title: "Module 1 — Les bases", chapters: [
-        { id: "introduction", title: "Présentation de React", content: "React permet de construire des interfaces utilisateur à partir de composants réutilisables. Dans ce chapitre, découvre son rôle et les concepts essentiels." },
-        { id: "installation", title: "Installer un projet avec Vite", content: "Vite permet de démarrer rapidement un projet frontend. Crée un projet, installe les dépendances puis lance le serveur de développement." },
-        { id: "composants", title: "Créer ton premier composant", content: "Un composant React est une fonction JavaScript qui retourne une interface en JSX. Les composants rendent le code plus lisible et réutilisable." }
+        { id: "introduction", title: "Présentation de React", content: "React permet de construire des interfaces utilisateur à partir de composants réutilisables. Dans ce chapitre, découvre son rôle et les concepts essentiels.", videoUrl: "https://youtu.be/ygAuD83FAeA", videoEmbedUrl: "https://www.youtube-nocookie.com/embed/ygAuD83FAeA" },
+        { id: "installation", title: "Installer un projet avec Vite", content: "Vite permet de démarrer rapidement un projet frontend. Crée un projet, installe les dépendances puis lance le serveur de développement.", videoUrl: "https://youtu.be/nol0O75VHBE", videoEmbedUrl: "https://www.youtube-nocookie.com/embed/nol0O75VHBE" },
+        { id: "composants", title: "Créer ton premier composant", content: "Un composant React est une fonction JavaScript qui retourne une interface en JSX. Les composants rendent le code plus lisible et réutilisable.", videoUrl: "https://youtu.be/zoVdbxOTAFs", videoEmbedUrl: "https://www.youtube-nocookie.com/embed/zoVdbxOTAFs" }
       ]},
       { id: "module-2", title: "Module 2 — Interactions", chapters: [
         { id: "props", title: "Comprendre les props", content: "Les props transmettent des données d'un composant parent vers un composant enfant. Elles permettent de réutiliser un composant avec des contenus différents." },

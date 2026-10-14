@@ -5,7 +5,7 @@ export default function Footer() {
     <footer className="site-footer">
       <div className="container footer-inner">
         <div>
-          <Link to="/" className="brand"><span className="footer-brand-icon" aria-hidden="true" />Learn<span>Space</span></Link>
+          <Link to="/" className="brand"><span className="brand-icon" aria-hidden="true" />Learn<span>Space</span></Link>
           <p>Apprends aujourd'hui, construis ton avenir.</p>
         </div>
         <div className="footer-links">

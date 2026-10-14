@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import CourseCard from "../../components/CourseCard.jsx";
 import { courses, categories } from "../../data/courses.js";
@@ -104,6 +104,7 @@ function BenefitIcon({ title }) {
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [statCounts, setStatCounts] = useState({ courses: 1, online: 1 });
   const closeMenu = () => setMenuOpen(false);
   const goHome = () => {
     closeMenu();
@@ -111,6 +112,34 @@ export default function Home() {
   };
   const authenticated = isDemoAuthenticated();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const targets = { courses: 4, online: 100 };
+    const duration = 1400;
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setStatCounts(targets);
+      return undefined;
+    }
+
+    let frameId;
+    let startTime;
+    const animateCounts = (time) => {
+      if (startTime === undefined) startTime = time;
+      const progress = Math.min((time - startTime) / duration, 1);
+      const easedProgress = 1 - (1 - progress) ** 3;
+
+      setStatCounts({
+        courses: Math.round(1 + (targets.courses - 1) * easedProgress),
+        online: Math.round(1 + (targets.online - 1) * easedProgress),
+      });
+
+      if (progress < 1) frameId = window.requestAnimationFrame(animateCounts);
+    };
+
+    frameId = window.requestAnimationFrame(animateCounts);
+    return () => window.cancelAnimationFrame(frameId);
+  }, []);
 
   return (
     <div className="learnspace-home">
@@ -201,8 +230,8 @@ export default function Home() {
         </div>
 
         <section className="ls-stats" aria-label="Nos formations">
-          <div className="ls-stat-item"><strong>4+</strong><span>Formations de démonstration</span></div>
-          <div className="ls-stat-item"><strong>100%</strong><span>En ligne</span></div>
+          <div className="ls-stat-item"><strong>{statCounts.courses}+</strong><span>Formations de démonstration</span></div>
+          <div className="ls-stat-item"><strong>{statCounts.online}%</strong><span>En ligne</span></div>
           <div className="ls-stat-item"><strong>À ton rythme</strong><span>Apprentissage flexible</span></div>
         </section>
       </section>
