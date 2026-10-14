@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { NavLink, Link, useNavigate } from "react-router-dom";
+import { NavLink, Link, useLocation, useNavigate } from "react-router-dom";
 import { isDemoAuthenticated, logoutDemoAccount } from "../utils/demoAuth.js";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   const authenticated = isDemoAuthenticated();
+  const isRegistrationPage = pathname === "/inscription";
   const close = () => setOpen(false);
   const goHome = () => {
     close();
@@ -32,15 +34,15 @@ export default function Header() {
           <NavLink to="/profil" onClick={close}>Apprends autrement</NavLink>
           {authenticated ? (
             <button className="mobile-auth-action" type="button" onClick={logout}>Se déconnecter</button>
-          ) : (
+          ) : !isRegistrationPage ? (
             <NavLink className="mobile-auth-action" to="/inscription" onClick={close}>S’inscrire / Se connecter</NavLink>
-          )}
+          ) : null}
         </nav>
         {authenticated ? (
           <button className="button button-small header-cta" type="button" onClick={logout}>Se déconnecter</button>
-        ) : (
+        ) : !isRegistrationPage ? (
           <Link className="button button-small button-fill-left button-primary-hover header-cta" to="/inscription"><span>S’inscrire / Se connecter</span></Link>
-        )}
+        ) : null}
       </div>
     </header>
   );
