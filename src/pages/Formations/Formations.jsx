@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 import CourseCard from "../../components/CourseCard.jsx";
 import { courses, categories } from "../../data/courses.js";
 import courseReact from "../../assets/course-react.webp";
@@ -18,6 +18,7 @@ const courseImages = {
 
 export default function Formations() {
   const [params] = useSearchParams();
+  const location = useLocation();
   const [search, setSearch] = useState(params.get("search") || "");
   const [category, setCategory] = useState(params.get("category") || "Toutes");
   const [level, setLevel] = useState("Tous");
@@ -36,7 +37,7 @@ export default function Formations() {
   }, [search, category, level, sort]);
 
   return <section className="page-section"><div className="container"><div className="page-heading"><span className="eyebrow">APPRENDS À TON RYTHME</span><h1>Catalogue des formations</h1><p>Recherche un cours, filtre par catégorie ou choisis ton niveau.</p></div>
-    <div className="catalog-toolbar panel"><label className="search-field"><span aria-hidden="true">⌕</span><input autoFocus={params.get("focusSearch") === "1"} aria-label="Rechercher une formation" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Rechercher une formation..." /></label><label className="filter-field"><span>Catégorie</span><select value={category} onChange={(e) => setCategory(e.target.value)}>{categories.map((item) => <option key={item}>{item}</option>)}</select></label><label className="filter-field"><span>Niveau</span><select value={level} onChange={(e) => setLevel(e.target.value)}>{["Tous","Débutant","Intermédiaire","Avancé"].map((item) => <option key={item}>{item}</option>)}</select></label><label className="filter-field"><span>Trier par</span><select value={sort} onChange={(e) => setSort(e.target.value)}><option value="popular">Popularité</option><option value="title">Titre</option><option value="duration">Durée</option><option value="rating">Note</option></select></label><div className="view-switch"><button className={view === "grid" ? "active" : ""} onClick={() => setView("grid")} aria-label="Affichage en grille">▦</button><button className={view === "list" ? "active" : ""} onClick={() => setView("list")} aria-label="Affichage en liste">☰</button></div></div>
+    <div className="catalog-toolbar panel"><label className="search-field"><span aria-hidden="true">⌕</span><input autoFocus={location.state?.focusSearch === true} aria-label="Rechercher une formation" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Rechercher une formation..." /></label><label className="filter-field"><span>Catégorie</span><select value={category} onChange={(e) => setCategory(e.target.value)}>{categories.map((item) => <option key={item}>{item}</option>)}</select></label><label className="filter-field"><span>Niveau</span><select value={level} onChange={(e) => setLevel(e.target.value)}>{["Tous","Débutant","Intermédiaire","Avancé"].map((item) => <option key={item}>{item}</option>)}</select></label><label className="filter-field"><span>Trier par</span><select value={sort} onChange={(e) => setSort(e.target.value)}><option value="popular">Popularité</option><option value="title">Titre</option><option value="duration">Durée</option><option value="rating">Note</option></select></label><div className="view-switch"><button className={view === "grid" ? "active" : ""} onClick={() => setView("grid")} aria-label="Affichage en grille">▦</button><button className={view === "list" ? "active" : ""} onClick={() => setView("list")} aria-label="Affichage en liste">☰</button></div></div>
     <div className="results-line"><span><strong>{filtered.length}</strong> formation(s) trouvée(s)</span><button className="text-link" onClick={() => {setSearch("");setCategory("Toutes");setLevel("Tous");setSort("popular");}}>Réinitialiser les filtres</button></div>
     {filtered.length ? <div className={`course-grid ${view === "list" ? "list-view" : ""}`}>{filtered.map((course) => <CourseCard course={course} image={courseImages[course.id]} key={course.id} />)}</div> : <div className="empty-state panel"><span>🔎</span><h2>Aucune formation trouvée</h2><p>Essaie un autre mot-clé ou modifie les filtres.</p><button className="button" onClick={() => {setSearch("");setCategory("Toutes");setLevel("Tous");}}>Effacer les filtres</button></div>}
   </div></section>;

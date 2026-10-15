@@ -207,7 +207,7 @@ export default function Home() {
         </nav>
 
         <div className="ls-header-actions">
-          <button className="ls-search" type="button" aria-label="Rechercher une formation" onClick={() => navigate("/formations?focusSearch=1")}>
+          <button className="ls-search" type="button" aria-label="Rechercher une formation" onClick={() => navigate("/formations", { state: { focusSearch: true } })}>
             <Icon name="search" />
           </button>
           <Link
