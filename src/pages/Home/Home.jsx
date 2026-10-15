@@ -338,7 +338,6 @@ export default function Home() {
         <div className="container">
           <div className="section-heading section-heading-row">
             <div>
-              <span className="eyebrow">NOS COURS</span>
               <h2>Formations populaires</h2>
               <p>Une sélection pour commencer à apprendre dès aujourd'hui.</p>
             </div>

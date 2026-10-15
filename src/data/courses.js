@@ -21,9 +21,9 @@ export const courses = [
         { id: "composants", title: "Créer ton premier composant", content: "Un composant React est une fonction JavaScript qui retourne une interface en JSX. Les composants rendent le code plus lisible et réutilisable.", videoUrl: "https://youtu.be/zoVdbxOTAFs", videoEmbedUrl: "https://www.youtube-nocookie.com/embed/zoVdbxOTAFs" }
       ]},
       { id: "module-2", title: "Module 2 — Interactions", chapters: [
-        { id: "props", title: "Comprendre les props", content: "Les props transmettent des données d'un composant parent vers un composant enfant. Elles permettent de réutiliser un composant avec des contenus différents." },
-        { id: "state", title: "Gérer le state avec useState", content: "Le hook useState permet à un composant de mémoriser une valeur et de se mettre à jour lorsqu'elle change." },
-        { id: "events", title: "Gérer les événements", content: "Les événements comme onClick permettent de répondre aux actions de l'utilisateur. Combine-les avec le state pour créer des interfaces interactives." }
+        { id: "props", title: "Comprendre les props", content: "Les props transmettent des données d'un composant parent vers un composant enfant. Elles permettent de réutiliser un composant avec des contenus différents.", videoUrl: "https://youtu.be/PvndxDHVaW8", videoEmbedUrl: "https://www.youtube-nocookie.com/embed/PvndxDHVaW8" },
+        { id: "state", title: "Gérer le state avec useState", content: "Le hook useState permet à un composant de mémoriser une valeur et de se mettre à jour lorsqu'elle change.", videoUrl: "https://youtu.be/OumO16lH9uo", videoEmbedUrl: "https://www.youtube-nocookie.com/embed/OumO16lH9uo" },
+        { id: "events", title: "Gérer les événements", content: "Les événements comme onClick permettent de répondre aux actions de l'utilisateur. Combine-les avec le state pour créer des interfaces interactives.", videoUrl: "https://youtu.be/SgyVPPrKffA", videoEmbedUrl: "https://www.youtube-nocookie.com/embed/SgyVPPrKffA" }
       ]}
     ],
     quiz: [
@@ -49,11 +49,11 @@ export const courses = [
     objectives: ["Comprendre les couleurs", "Choisir une typographie adaptée", "Organiser une composition", "Créer un visuel cohérent"],
     modules: [
       { id: "module-1", title: "Module 1 — Principes visuels", chapters: [
-        { id: "couleurs", title: "Théorie des couleurs", content: "Les couleurs transmettent une ambiance et hiérarchisent les informations. Apprends à choisir une palette cohérente." },
-        { id: "typographie", title: "Typographie et lisibilité", content: "La typographie donne une personnalité à un support. Privilégie la lisibilité et limite le nombre de polices utilisées." }
+        { id: "couleurs", title: "Théorie des couleurs", content: "Les couleurs transmettent une ambiance et hiérarchisent les informations. Apprends à choisir une palette cohérente.", videoUrl: "https://youtu.be/x3CAA1Ykh-c", videoEmbedUrl: "https://www.youtube-nocookie.com/embed/x3CAA1Ykh-c" },
+        { id: "typographie", title: "Typographie et lisibilité", content: "La typographie donne une personnalité à un support. Privilégie la lisibilité et limite le nombre de polices utilisées.", videoUrl: "https://youtu.be/l2YLOqfXLdY", videoEmbedUrl: "https://www.youtube-nocookie.com/embed/l2YLOqfXLdY" }
       ]},
       { id: "module-2", title: "Module 2 — Composition", chapters: [
-        { id: "composition", title: "Équilibre et composition", content: "La hiérarchie, l'espace et l'alignement guident le regard et rendent un visuel plus facile à comprendre." }
+        { id: "composition", title: "Équilibre et composition", content: "La hiérarchie, l'espace et l'alignement guident le regard et rendent un visuel plus facile à comprendre.", videoUrl: "https://youtu.be/puO6p2Mo1NM", videoEmbedUrl: "https://www.youtube-nocookie.com/embed/puO6p2Mo1NM" }
       ]}
     ],
     quiz: [
