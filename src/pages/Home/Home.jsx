@@ -6,9 +6,22 @@ import { isDemoAuthenticated } from "../../utils/demoAuth.js";
 import courseReact from "../../assets/course-react.webp";
 import courseDesign from "../../assets/course-design.webp";
 import courseMarketing from "../../assets/course-marketing.webp";
+import courseOffice from "../../assets/course-office.webp";
 import "./Home.css";
 
 const featuredCourseImages = [courseReact, courseDesign, courseMarketing];
+const categoryImages = {
+  "Développement web": courseReact,
+  "Design graphique": courseDesign,
+  "Marketing digital": courseMarketing,
+  Bureautique: courseOffice,
+};
+const categoryColors = {
+  "Développement web": "green",
+  "Design graphique": "purple",
+  "Marketing digital": "mint",
+  Bureautique: "blue",
+};
 const benefits = [
   {
     title: "À ton rythme",
@@ -55,12 +68,15 @@ function Icon({ name, size = 22 }) {
   if (name === "grid") {
     return <svg {...common}><rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" /><rect x="3" y="14" width="7" height="7" rx="1" /><rect x="14" y="14" width="7" height="7" rx="1" /></svg>;
   }
+  if (name === "graduation") {
+    return <svg {...common}><path d="m2 10 10-5 10 5-10 5-10-5Z" /><path d="M6 12v5c3 2 9 2 12 0v-5m4-2v6" /></svg>;
+  }
   return <svg {...common}><path d="M5 12h14M13 6l6 6-6 6" /></svg>;
 }
 
 function CategoryIcon({ category }) {
   const common = {
-    className: "category-icon",
+    className: "category-symbol",
     viewBox: "0 0 48 48",
     fill: "none",
     stroke: "currentColor",
@@ -281,23 +297,39 @@ export default function Home() {
       <section className="section ls-categories" id="categories">
         <div className="container">
           <div className="section-heading">
-            <span className="eyebrow">APPRENDS CE QUI TE PASSIONNE</span>
-            <h2>Explore nos catégories</h2>
+            <span className="eyebrow ls-categories-badge">
+              <Icon name="graduation" size={19} />
+              APPRENDS CE QUI TE PASSIONNE
+            </span>
+            <h2>Explore nos <span>catégories</span></h2>
             <p>Choisis un domaine et développe de nouvelles compétences.</p>
+            <div className="ls-categories-underline" aria-hidden="true"><span /><span /></div>
           </div>
           <div className="category-grid">
-            {categories.filter((item) => item !== "Toutes").map((category, index) => (
-              <Link
-                className="category-card"
-                style={{ "--index": index }}
-                to={`/formations?category=${encodeURIComponent(category)}`}
-                key={category}
-              >
-                <CategoryIcon category={category} />
-                <h3>{category}</h3>
-                <span className="category-arrow">Explorer →</span>
-              </Link>
-            ))}
+            {categories.filter((item) => item !== "Toutes").map((category, index) => {
+              const description = courses.find((course) => course.category === category)?.shortDescription;
+
+              return (
+                <Link
+                  className={`category-card ls-category-card ${categoryColors[category]}`}
+                  style={{ "--index": index }}
+                  to={`/formations?category=${encodeURIComponent(category)}`}
+                  key={category}
+                >
+                  <div className="ls-category-content">
+                    <div className="category-icon">
+                      <CategoryIcon category={category} />
+                    </div>
+                    <h3>{category}</h3>
+                    {description && <p>{description}</p>}
+                    <span className="category-arrow">
+                      Explorer
+                      <span className="ls-category-arrow-icon"><Icon size={19} /></span>
+                    </span>
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>

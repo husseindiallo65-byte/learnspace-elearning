@@ -603,26 +603,288 @@
   line-height: 1.65;
 }
 
-.ls-categories {
-  background: #0c1333;
+.learnspace-home .ls-categories {
+  position: relative;
+  overflow: hidden;
+  padding: 90px 5% 99px;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(77, 255, 188, .13), transparent 27%),
+    radial-gradient(circle at 100% 100%, rgba(77, 255, 188, .12), transparent 25%),
+    #d7dcdf;
+  color: #102347;
 }
 
-.learnspace-home .category-card {
-  border-color: #ffffff20;
-  background: linear-gradient(180deg, #141d43, #0e1738);
+.learnspace-home .ls-categories .container {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
-.learnspace-home .category-card h3 {
+.learnspace-home .ls-categories .section-heading {
+  margin-bottom: 48px;
+}
+
+.learnspace-home .ls-categories .section-heading h2 {
+  margin: 24px 0 14px;
+  color: #000000;
+  font-size: clamp(34px, 4vw, 58px);
+  font-weight: 800;
+  letter-spacing: -1.8px;
+  line-height: 1.2;
+}
+
+.learnspace-home .ls-categories .section-heading h2 span {
+  color: #5FEB98;
+}
+
+.learnspace-home .ls-categories .section-heading > p {
+  margin: 0;
+  color: #101010;
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+.learnspace-home .ls-categories-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 13px 25px;
+  border-radius: 50px;
+  background: #e3fff5;
+  color: #5FEB98;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.ls-categories-underline {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  margin-top: 22px;
+}
+
+.ls-categories-underline span {
+  display: block;
+  height: 6px;
+  border-radius: 10px;
+}
+
+.ls-categories-underline span:first-child {
+  width: 48px;
+  background: #00d5a0;
+}
+
+.ls-categories-underline span:last-child {
+  width: 30px;
+  background: #c9fff0;
+}
+
+.learnspace-home .ls-categories .category-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-auto-rows: 1fr;
+  align-items: stretch;
+  width: 100%;
+  max-width: 1160px;
+  margin: 0 auto;
+  gap: 18px;
+}
+
+.learnspace-home .ls-category-card {
+  --category-color: #00c99a;
+
+  position: relative;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  padding: 0;
+  border: 1px solid rgba(77, 255, 188, .35);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, .95);
+  box-shadow: 0 12px 35px rgba(24, 54, 83, .06);
+  transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+}
+
+.learnspace-home .ls-category-card.green {
+  --category-color: #00c99a;
+}
+
+.learnspace-home .ls-category-card.purple {
+  --category-color: #9560f5;
+  border-color: #e5dcff;
+}
+
+.learnspace-home .ls-category-card.mint {
+  --category-color: #00d5a0;
+}
+
+.learnspace-home .ls-category-card.blue {
+  --category-color: #35b8f5;
+  border-color: #d6efff;
+}
+
+.learnspace-home .ls-category-card:hover {
+  transform: translateY(-8px);
+  border-color: var(--category-color);
+  box-shadow: 0 22px 45px rgba(24, 54, 83, .12);
+}
+
+.ls-category-content {
+  position: relative;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  flex-direction: column;
+  padding: 22px 22px 22px;
+  text-align: center;
+}
+
+.learnspace-home .ls-category-content .category-icon {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 30px;
+  margin-bottom: 12px;
+  position: relative;
+  box-sizing: content-box;
+  border: 1px solid rgba(77, 255, 188, .35);
+  border-radius: 8px;
+  background: #f2fff9;
+  color: var(--category-color);
+  transition: transform .3s ease;
+}
+
+.learnspace-home .ls-category-content .category-symbol {
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: inherit;
+  box-shadow: none;
+}
+
+.learnspace-home .ls-category-card:hover .category-icon {
+  transform: translateY(-4px) rotate(-3deg);
+}
+
+.learnspace-home .ls-category-content h3 {
+  margin: 0 0 10px;
+  color: #000000;
+  font-size: 19px;
+  font-weight: 800;
+  line-height: 1.4;
+}
+
+.learnspace-home .ls-category-content > p {
+  flex: 1;
+  min-height: 68px;
+  margin: 0 0 16px;
+  color: #000000;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.learnspace-home .ls-category-content .category-arrow {
+  display: inline-flex;
+  width: auto;
+  align-self: center;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin-top: auto;
+  padding: 10px 16px;
+  border-radius: 50px;
+  background: #e4fff5;
+  color: #5FEB98;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-decoration: none;
+  transition: background .3s ease, color .3s ease, gap .3s ease;
+}
+
+.ls-category-arrow-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform .3s ease;
+}
+
+.learnspace-home .ls-category-card:hover .category-arrow {
+  gap: 20px;
+  background: var(--category-color);
   color: #ffffff;
 }
 
-.learnspace-home .category-arrow,
+.learnspace-home .ls-category-card:hover .ls-category-arrow-icon {
+  transform: translateX(3px);
+}
+
 .learnspace-home .text-link {
   color: #5feb98;
 }
 
-.learnspace-home .category-card:hover {
-  border-color: #5feb988c;
+@media (max-width: 760px) {
+  .learnspace-home .ls-categories .category-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+  }
+
+  .learnspace-home .ls-category-content > p {
+    min-height: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .learnspace-home .ls-categories {
+    padding: 60px 18px 70px;
+  }
+
+  .learnspace-home .ls-categories .section-heading {
+    margin-bottom: 32px;
+  }
+
+  .learnspace-home .ls-categories-badge {
+    padding: 11px 15px;
+    font-size: 10px;
+    letter-spacing: .5px;
+  }
+
+  .learnspace-home .ls-categories .section-heading h2 {
+    margin-top: 20px;
+    font-size: 34px;
+    letter-spacing: -1px;
+  }
+
+  .learnspace-home .ls-categories .section-heading > p {
+    font-size: 15px;
+  }
+
+  .learnspace-home .ls-categories .category-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .learnspace-home .ls-category-content {
+    padding: 20px;
+  }
+
+  .learnspace-home .ls-category-content h3 {
+    font-size: 19px;
+  }
+
+  .learnspace-home .ls-category-content > p {
+    font-size: 15px;
+  }
 }
 
 .learnspace-home .section-muted {
@@ -720,7 +982,7 @@
   margin-bottom: 28px;
   border-radius: 12px;
   background-color: #5FEB98;
-  color: #0a0a0a;
+  color: #000000;
   font-size: 13px;
   font-weight: 800;
   letter-spacing: 1.3px;
