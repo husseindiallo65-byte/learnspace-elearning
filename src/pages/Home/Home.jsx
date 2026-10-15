@@ -125,6 +125,11 @@ export default function Home() {
   const closeMenu = () => setMenuOpen(false);
   const scrollToSection = (sectionId) => {
     closeMenu();
+    window.history.replaceState(
+      window.history.state,
+      "",
+      `${window.location.pathname}${window.location.search}`,
+    );
     document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
   };
   const goHome = () => {
