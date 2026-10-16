@@ -277,21 +277,24 @@ export default function Home() {
       </section>
 
       <section className="ls-benefits section" id="benefits">
+        <div className="why-decoration why-decoration-top" aria-hidden="true" />
+        <div className="why-decoration why-decoration-bottom" aria-hidden="true" />
         <div className="container">
-          <div className="section-heading">
-            <span className="eyebrow">POURQUOI LEARNSPACE ?</span>
-            <h2>Apprends autrement</h2>
+          <div className="section-heading why-heading">
+            <span className="eyebrow why-eyebrow">POURQUOI LEARNSPACE ?</span>
+            <h2>Apprends <span>autrement</span></h2>
             <p>Tout ce qu'il te faut pour progresser à ton rythme.</p>
           </div>
-          <div className="ls-features">
+          <div className="ls-features why-grid">
             {benefits.map((benefit) => (
-              <article className="ls-feature-card" key={benefit.title}>
-                <div className={`ls-feature-icon ${benefit.color}`}>
+              <article className="ls-feature-card why-card" key={benefit.title}>
+                <div className={`ls-feature-icon why-icon ${benefit.color}`}>
                   <BenefitIcon title={benefit.title} />
                 </div>
-                <div className="ls-feature-copy">
+                <div className="ls-feature-copy why-content">
                   <h3>{benefit.title}</h3>
                   <p>{benefit.description}</p>
+                  <div className="why-line" aria-hidden="true" />
                 </div>
               </article>
             ))}

@@ -532,75 +532,142 @@
 }
 
 .ls-benefits {
-  background: #fff;
+  position: relative;
+  overflow: hidden;
+  background: #ffffff;
   color: #111b3c;
 }
 
-.learnspace-home .ls-benefits .section-heading h2 {
-  color: #111b3c;
+.learnspace-home .ls-benefits .container {
+  position: relative;
+  z-index: 1;
+  width: min(1160px, calc(100% - 48px));
 }
 
-.learnspace-home .ls-benefits .section-heading p {
-  color: #727991;
+.learnspace-home .ls-benefits .why-heading {
+  margin-bottom: 48px;
 }
 
-.ls-features {
+.learnspace-home .ls-benefits .why-heading h2 {
+  margin: 18px 0 12px;
+  color: #000000;
+  font-size: clamp(34px, 4vw, 54px);
+  font-weight: 800;
+  letter-spacing: -1.8px;
+  line-height: 1.2;
+}
+
+.learnspace-home .ls-benefits .why-heading h2 span {
+  color: #5feb98;
+}
+
+.learnspace-home .ls-benefits .why-heading > p {
+  color: #000000;
+  font-size: 16px;
+}
+
+.why-decoration {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: rgba(95, 235, 152, .12);
+  filter: blur(2px);
+  pointer-events: none;
+}
+
+.why-decoration-top {
+  top: -180px;
+  left: -120px;
+}
+
+.why-decoration-bottom {
+  right: -150px;
+  bottom: -200px;
+}
+
+.learnspace-home .ls-benefits .why-grid {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0;
+  gap: 24px;
 }
 
-.ls-feature-card {
+.learnspace-home .ls-benefits .why-card {
   display: flex;
-  align-items: center;
-  gap: 16px;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 22px;
   min-width: 0;
-  padding: 0 20px;
-  border-right: 1px solid #e5e7ef;
+  padding: 30px;
+  border: 1px solid #5feb981a;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, .94);
+  box-shadow: 0 12px 35px rgba(24, 54, 83, 10%);
+  transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
 }
 
-.ls-feature-card:first-child {
-  padding-left: 0;
+.learnspace-home .ls-benefits .why-card:hover {
+  transform: translateY(-6px);
+  border-color: #5feb98;
+  box-shadow: 0 20px 42px rgba(24, 54, 83, .12);
 }
 
-.ls-feature-card:last-child {
-  padding-right: 0;
-  border-right: 0;
-}
-
-.ls-feature-icon {
+.learnspace-home .ls-benefits .why-icon {
   display: flex;
-  flex: 0 0 72px;
+  flex: 0 0 68px;
   align-items: center;
   justify-content: center;
-  width: 72px;
-  height: 72px;
-  border: 1px solid rgba(50, 50, 100, .08);
-  border-radius: 19px;
+  width: 68px;
+  height: 68px;
+  border: 1px solid rgba(95, 235, 152, .12);
+  border-radius: 20px;
+  background: #e3fff5;
+  color: #5feb98;
+  transition: transform .3s ease, background .3s ease;
 }
 
-.ls-feature-icon svg {
-  width: 39px;
-  height: 39px;
+.learnspace-home .ls-benefits .why-icon svg {
+  width: 36px;
+  height: 36px;
 }
 
-.ls-feature-icon.purple { background: #5feb981a; }
-.ls-feature-icon.blue { background: #5feb981a; }
-.ls-feature-icon.green { background: #5feb981a; }
+.learnspace-home .ls-benefits .why-card:hover .why-icon {
+  transform: translateY(-3px) rotate(-4deg);
+  background: #d1f9e8;
+}
 
-.ls-feature-copy h3 {
-  margin: 0 0 8px;
-  color: #111b3c;
-  font-size: 15px;
+.learnspace-home .ls-benefits .why-content {
+  width: 100%;
+}
+
+.learnspace-home .ls-benefits .why-content h3 {
+  margin: 0 0 10px;
+  color: #000000;
+  font-size: 19px;
+  font-weight: 800;
   line-height: 1.4;
-  font-weight: 700;
 }
 
-.ls-feature-copy p {
+.learnspace-home .ls-benefits .why-content p {
+  min-height: 52px;
   margin: 0;
-  color: #727991;
-  font-size: 12px;
-  line-height: 1.65;
+  color: #000000;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.why-line {
+  width: 42px;
+  height: 4px;
+  margin-top: 20px;
+  border-radius: 10px;
+  background: #5feb98;
+  transition: width .3s ease;
+}
+
+.learnspace-home .ls-benefits .why-card:hover .why-line {
+  width: 68px;
 }
 
 .learnspace-home .ls-categories {
@@ -608,8 +675,8 @@
   overflow: hidden;
   padding: 90px 5% 99px;
   background:
-    radial-gradient(circle at 0% 0%, rgba(77, 255, 188, .13), transparent 27%),
-    radial-gradient(circle at 100% 100%, rgba(77, 255, 188, .12), transparent 25%),
+    radial-gradient(circle at 0% 0%, rgba(95, 235, 152, .13), transparent 27%),
+    radial-gradient(circle at 100% 100%, rgba(95, 235, 152, .12), transparent 25%),
     #d7dcdf;
   color: #102347;
 }
@@ -675,7 +742,7 @@
 
 .ls-categories-underline span:first-child {
   width: 48px;
-  background: #00d5a0;
+  background: #5FEB98;
 }
 
 .ls-categories-underline span:last-child {
@@ -703,7 +770,7 @@
   min-width: 0;
   overflow: hidden;
   padding: 0;
-  border: 1px solid rgba(77, 255, 188, .35);
+  border: 1px solid rgba(95, 235, 152, .35);
   border-radius: 24px;
   background: rgba(255, 255, 255, .95);
   box-shadow: 0 12px 35px rgba(24, 54, 83, .06);
@@ -711,7 +778,7 @@
 }
 
 .learnspace-home .ls-category-card.green {
-  --category-color: #00c99a;
+  --category-color: #5feb98;
 }
 
 .learnspace-home .ls-category-card.purple {
@@ -720,7 +787,7 @@
 }
 
 .learnspace-home .ls-category-card.mint {
-  --category-color: #00d5a0;
+  --category-color: #5feb98;
 }
 
 .learnspace-home .ls-category-card.blue {
@@ -754,7 +821,7 @@
   margin-bottom: 12px;
   position: relative;
   box-sizing: content-box;
-  border: 1px solid rgba(77, 255, 188, .35);
+  border: 1px solid rgba(95, 235, 152, .35);
   border-radius: 8px;
   background: #f2fff9;
   color: var(--category-color);
@@ -823,6 +890,7 @@
   gap: 20px;
   background: var(--category-color);
   color: #ffffff;
+  background: color-mix(in srgb, var(--category-color) 100%, transparent);
 }
 
 .learnspace-home .ls-category-card:hover .ls-category-arrow-icon {
@@ -970,7 +1038,7 @@
   overflow: hidden;
   padding: 72px 5%;
   background:
-    radial-gradient(circle at 90% 15%, rgba(77, 255, 188, .12), transparent 30%),
+    radial-gradient(circle at 90% 15%, rgba(95, 235, 152, .12), transparent 30%),
     #f8fafc;
   color: #0b1733;
 }
