@@ -83,14 +83,14 @@ main { flex: 1; }
 .footer-inner { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 18px; }
 .footer-inner p, .footer-inner small { color: var(--muted); font-size: 12px; }
 .footer-links { display: flex; justify-content: flex-end; gap: 20px; flex-wrap: wrap; }
-.footer-links a { color: #b8c8d7; font-size: 12px; }
+.footer-links a { color: #ffffff; font-size: 12px; }
 .footer-links a:hover { color: var(--primary); }
 .footer-inner small { grid-column: 1 / -1; border-top: 1px solid var(--border); padding-top: 18px; text-align: center; }
 .back-to-top { position: fixed; right: 24px; bottom: 24px; z-index: 30; display: grid; width: 26px; height: 26px; place-items: center; border: 1px solid #5feb98; border-radius: 50%; background: #5feb98; color: #07111f; box-shadow: 0 8px 24px #0004; transition: transform .2s, background .2s, color .2s; }
 .back-to-top:hover { transform: translateY(-3px); background: #ffffff; color: #07111f; }
 .back-to-top svg { width: 11px; height: 11px; }
 .page-refresh-loader { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; background: rgba(7, 17, 31, .82); }
-.page-refresh-loader-ring { display: grid; width: 92px; height: 92px; place-items: center; border: 2px solid #5feb9880; border-top-color: #5feb98; border-radius: 50%; box-shadow: 0 0 22px #5feb9828; animation: page-refresh-spin .85s linear infinite; }
+.page-refresh-loader-ring { display: grid; width: 92px; height: 92px; place-items: center; border: 2px solid #5feb9880; border-top-color: #5feb98; border-radius: 50%; box-shadow: 0 0 22px #ffffffef; animation: page-refresh-spin .85s linear infinite; }
 .page-refresh-loader-icon { width: 52px; height: 52px; background: #5FEB98; -webkit-mask: url("./assets/learnspace-logo.png") center / contain no-repeat; mask: url("./assets/learnspace-logo.png") center / contain no-repeat; }
 @keyframes page-refresh-spin { to { transform: rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) {
@@ -434,9 +434,9 @@ main { flex: 1; }
   .lesson-actions > span { display: none; }
 }
 @media print {
-  body { background: white !important; color: #222 !important; }
-  .site-header, .site-footer, .page-heading, .certificate-actions { display: none !important; }
-  .page-section { padding: 0 !important; }
+  body { background: white; color: #222; }
+  .site-header, .site-footer, .page-heading, .certificate-actions { display: none; }
+  .page-section { padding: 0; }
   .certificate-page { width: 100%; max-width: none; }
   .certificate-paper { box-shadow: none; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
   .certificate-border { min-height: 85vh; display: flex; flex-direction: column; justify-content: center; }
