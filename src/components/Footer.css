@@ -73,15 +73,18 @@
   gap: 12px;
 }
 
-.footer-socials a {
-  display: flex;
+.footer-socials a img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
   align-items: center;
   justify-content: center;
-  width: 43px;
-  height: 43px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
-  background: rgba(7, 153, 66, 0.18);
-  color: #5feb98;
+  background: rgba(95, 235, 152, 0.17);
+  color: #168454;
   font-size: 17px;
   font-weight: 700;
   text-decoration: none;

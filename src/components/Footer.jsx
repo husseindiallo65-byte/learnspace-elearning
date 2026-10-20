@@ -6,6 +6,10 @@ import {
   Layers3,
 } from "lucide-react";
 import "./Footer.css";
+import instagramIcon from "../assets/social/instagram.png";
+import youtubeIcon from "../assets/social/youtube.png";
+import linkedinIcon from "../assets/social/linkedin.png";
+import tiktokIcon from "../assets/social/tiktok.png";
 
 function Footer() {
   return (
@@ -27,17 +31,17 @@ function Footer() {
           </p>
 
           <div className="footer-socials">
-            <a href="https://www.facebook.com/" aria-label="Facebook">
-              f
-            </a>
             <a href="https://www.instagram.com/" aria-label="Instagram">
-              ◎
+              <img src={instagramIcon} alt="Instagram" />
             </a>
             <a href="https://www.youtube.com/" aria-label="YouTube">
-              ▶
+              <img src={youtubeIcon} alt="YouTube" />
             </a>
             <a href="https://www.linkedin.com/" aria-label="LinkedIn">
-              in
+              <img src={linkedinIcon} alt="LinkedIn" />
+            </a>
+            <a href="https://www.tiktok.com/" aria-label="TikTok">
+              <img src={tiktokIcon} alt="TikTok" />
             </a>
           </div>
         </div>
@@ -58,18 +62,6 @@ function Footer() {
             <span>Profil étudiant</span>
           </Link>
         </nav>
-      </div>
-
-      <div className="footer-bottom">
-        <div className="footer-bottom-content">
-          <div className="footer-copyright">
-            <span className="footer-accent-line"></span>
-            <p>
-              © {new Date().getFullYear()} LearnSpace — Projet frontend
-              pédagogique.
-            </p>
-          </div>
-        </div>
       </div>
     </footer>
   );
