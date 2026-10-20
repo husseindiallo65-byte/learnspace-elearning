@@ -423,7 +423,7 @@ export default function Home() {
             <form onSubmit={handleContactSubmit}>
               <div className="contact-fields">
                 <div className="form-group">
-                  <label htmlFor="contact-nom"><span className="contact-label-icon" aria-hidden="true">♙</span> Nom</label>
+                   <label htmlFor="contact-nom"><span className="contact-label-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span> Nom</label>
                   <input
                     type="text"
                     id="contact-nom"
@@ -435,7 +435,7 @@ export default function Home() {
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="contact-email"><span className="contact-label-icon" aria-hidden="true">✉</span> Adresse e-mail</label>
+                   <label htmlFor="contact-email"><span className="contact-label-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></span> Adresse e-mail</label>
                   <input
                     type="email"
                     id="contact-email"
@@ -448,7 +448,7 @@ export default function Home() {
               </div>
 
               <div className="form-group message-group">
-                <label htmlFor="contact-message"><span className="contact-label-icon" aria-hidden="true">▤</span> Message</label>
+                   <label htmlFor="contact-message"><span className="contact-label-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span> Message</label>
                 <textarea
                   id="contact-message"
                   name="message"
