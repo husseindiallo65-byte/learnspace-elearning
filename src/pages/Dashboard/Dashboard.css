@@ -1,0 +1,742 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --db-dark: #15131f;
+  --db-green: #5feb98;
+  --db-text: #191820;
+  --db-muted: #92909b;
+  --db-border: #f0eef3;
+}
+
+.db-app,
+.db-app * {
+  box-sizing: border-box;
+}
+
+.db-app {
+  display: flex;
+  min-height: 100vh;
+  background: #fff;
+  color: var(--db-text);
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+}
+
+.db-sidebar {
+  width: 118px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 10px;
+  background: var(--db-dark);
+  color: white;
+}
+
+.db-logo {
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 38px;
+  text-decoration: none;
+}
+
+.db-logo svg {
+  color: var(--db-green);
+}
+
+.db-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.db-nav-item {
+  width: 100%;
+  min-height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  padding: 10px 8px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: #d5d3dc;
+  font: inherit;
+  font-size: 10px;
+  cursor: pointer;
+  text-align: left;
+  transition: background .2s, color .2s;
+}
+
+.db-nav-item:hover,
+.db-nav-item.active {
+  background: #282633;
+  color: white;
+}
+
+.db-nav-item.active {
+  box-shadow: inset 3px 0 var(--db-green);
+}
+
+.db-sidebar-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  width: 100%;
+  margin-top: auto;
+}
+
+.db-main {
+  min-width: 0;
+  flex: 1;
+  padding: 25px 24px 0;
+}
+
+.db-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
+.db-topbar h1 {
+  margin: 0;
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: -.7px;
+}
+
+.db-current-page {
+  margin: 5px 0 0;
+  color: var(--db-muted);
+  font-size: 11px;
+}
+
+.db-search {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: min(220px, 30%);
+  padding: 11px;
+  background: #f8f8fa;
+  border-radius: 9px;
+  color: #5e5c67;
+}
+
+.db-search input {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  font: inherit;
+  font-size: 11px;
+}
+
+.db-top-actions {
+  display: flex;
+  gap: 14px;
+}
+
+.db-top-actions button,
+.db-calendar-controls button,
+.db-success-heading button {
+  position: relative;
+  display: grid;
+  place-items: center;
+  border: 0;
+  background: transparent;
+  color: #292733;
+  cursor: pointer;
+}
+
+.db-top-actions i {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #f65c92;
+}
+
+.db-dashboard-grid {
+  display: grid;
+  grid-template-columns: minmax(200px, 1.1fr) minmax(150px, .75fr) minmax(170px, .85fr);
+  gap: 25px;
+  align-items: start;
+}
+
+.db-left-column,
+.db-middle-column,
+.db-right-column {
+  min-width: 0;
+}
+
+.db-courses {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.db-education-banner {
+  min-height: 85px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 17px;
+  border-radius: 13px;
+  background: var(--db-dark);
+  color: white;
+}
+
+.db-education-banner h2 {
+  margin: 0 0 6px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.db-education-banner p {
+  margin: 0;
+  color: #c8c5d0;
+  font-size: 9px;
+  line-height: 1.6;
+}
+
+.db-education-banner svg {
+  width: 72px;
+  max-width: 35%;
+  flex-shrink: 0;
+}
+
+.db-course-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 59px;
+  padding: 12px;
+  border-radius: 13px;
+  transition: transform .2s;
+}
+
+.db-course-card:hover {
+  transform: translateY(-2px);
+}
+
+.db-course-card h3 {
+  margin: 0 0 7px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.db-course-card p {
+  margin: 0;
+  font-size: 9px;
+  color: #57535d;
+}
+
+.db-course-card.peach,
+.db-task-icon.peach {
+  background: #fff0e3;
+}
+
+.db-course-card.pink,
+.db-task-icon.pink {
+  background: #f9edfb;
+}
+
+.db-course-card.green,
+.db-task-icon.green {
+  background: #f0f5e2;
+}
+
+.db-course-icon {
+  width: 35px;
+  height: 35px;
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  border-radius: 11px;
+  background: #ffffff85;
+  color: #484354;
+}
+
+.db-section-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.db-section-heading h2,
+.db-success-heading h2 {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.db-section-heading p {
+  margin: 8px 0 0;
+  color: #777480;
+  font-size: 9px;
+  font-weight: 600;
+}
+
+.db-calendar-controls {
+  display: flex;
+  gap: 5px;
+}
+
+.db-calendar-controls button {
+  width: 22px;
+  height: 22px;
+  border: 1px solid #eeedf1;
+  border-radius: 50%;
+  color: #8a8791;
+}
+
+.db-calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  margin-top: 20px;
+  gap: 7px 2px;
+}
+
+.db-day-name {
+  text-align: center;
+  color: #5e5a66;
+  font-size: 8px;
+  font-weight: 600;
+  padding-bottom: 9px;
+}
+
+.db-calendar-day {
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  background: transparent;
+  color: #302e37;
+  font-family: inherit;
+  font-size: 9px;
+  cursor: pointer;
+}
+
+.db-calendar-day:disabled {
+  cursor: default;
+}
+
+.db-calendar-day.selected {
+  background: var(--db-dark);
+  color: white;
+}
+
+.db-calendar-day.has-event:not(.selected) {
+  border-color: #e1dfe8;
+}
+
+.db-calendar-day:hover:not(:disabled) {
+  border-color: #5feb98;
+}
+
+.db-teacher-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 13px 15px;
+  background: #faf9fb;
+  border-radius: 16px;
+  text-align: center;
+}
+
+.db-teacher-photo {
+  width: 76px;
+  height: 76px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 13px;
+  padding: 5px;
+  border: 1px solid #e9e6ee;
+  border-radius: 24px;
+  background: white;
+}
+
+.db-teacher-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 18px;
+}
+
+.db-teacher-card h3 {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.db-teacher-role {
+  margin: 6px 0 15px;
+  color: #96929d;
+  font-size: 9px;
+}
+
+.db-teacher-socials {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  margin-bottom: 13px;
+}
+
+.db-teacher-socials button {
+  display: grid;
+  place-items: center;
+  width: 25px;
+  height: 25px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: #65616e;
+  cursor: pointer;
+}
+
+.db-connect-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+  width: 100%;
+  padding: 10px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--db-dark);
+  color: white;
+  font: inherit;
+  font-size: 10px;
+  cursor: pointer;
+  transition: background .2s;
+}
+
+.db-connect-button:hover {
+  background: #393545;
+}
+
+.db-tasks {
+  margin-top: 35px;
+}
+
+.db-task-count {
+  display: none;
+}
+
+.db-see-all {
+  border: 0;
+  background: transparent;
+  font: inherit;
+  font-size: 9px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.db-task-tabs {
+  display: flex;
+  gap: 5px;
+  margin: 17px 0 15px;
+}
+
+.db-task-tabs button {
+  padding: 8px 12px;
+  border: 0;
+  border-radius: 20px;
+  background: transparent;
+  color: #96929e;
+  font: inherit;
+  font-size: 9px;
+  cursor: pointer;
+}
+
+.db-task-tabs button.active {
+  background: var(--db-dark);
+  color: white;
+}
+
+.db-task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 17px;
+}
+
+.db-task-row {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+}
+
+.db-task-icon {
+  width: 37px;
+  height: 37px;
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  border-radius: 50%;
+}
+
+.db-task-info {
+  min-width: 0;
+  flex: 1;
+}
+
+.db-task-info h3 {
+  margin: 0 0 7px;
+  overflow-wrap: anywhere;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.db-task-info h3.completed {
+  color: #92909b;
+  text-decoration: line-through;
+}
+
+.db-task-info p {
+  margin: 0;
+  color: #9895a0;
+  font-size: 8px;
+  line-height: 1.6;
+}
+
+.db-task-info p span {
+  padding: 0 2px;
+}
+
+.db-task-check {
+  position: relative;
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 14px;
+  height: 14px;
+  border: 1px solid #c8c5ce;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.db-task-check:has(input:checked) {
+  background: var(--db-dark);
+  border-color: var(--db-dark);
+  color: white;
+}
+
+.db-task-check input {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.db-task-status {
+  width: 23px;
+  color: #777480;
+  font-size: 8px;
+}
+
+.db-success {
+  margin-top: 30px;
+  padding: 17px 13px 13px;
+  border-radius: 19px;
+  background: var(--db-dark);
+  color: white;
+}
+
+.db-success-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  padding: 0 3px;
+}
+
+.db-success-heading h2 {
+  font-size: 12px;
+}
+
+.db-success-heading button {
+  color: #d7d4de;
+}
+
+.db-score-card {
+  padding: 13px;
+  border-radius: 13px;
+  background: #fff0e3;
+  color: #25212a;
+}
+
+.db-score-top {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.db-score-icon,
+.db-time-icon {
+  width: 28px;
+  height: 28px;
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  border-radius: 9px;
+  background: #f2dece;
+  color: #514354;
+}
+
+.db-score-top strong {
+  font-size: 19px;
+  font-weight: 500;
+}
+
+.db-last-week {
+  margin-left: auto;
+  font-size: 8px;
+}
+
+.db-score-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.db-score-chart p {
+  flex: 0 0 40%;
+  margin: 0 0 4px;
+  color: #777078;
+  font-size: 8px;
+  line-height: 1.6;
+}
+
+.db-score-chart svg {
+  width: 60%;
+  height: 49px;
+  overflow: visible;
+}
+
+.db-time-card {
+  position: relative;
+  min-height: 115px;
+  margin-top: 10px;
+  padding: 12px;
+  overflow: hidden;
+  border-radius: 13px;
+  background: #fbf0ff;
+  color: #28232e;
+}
+
+.db-time-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.db-time-icon {
+  background: #f0dff4;
+}
+
+.db-time-title strong {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.db-time-card > p {
+  position: relative;
+  z-index: 1;
+  margin: 11px 0 0;
+  color: #77717e;
+  font-size: 8px;
+  line-height: 1.7;
+}
+
+.db-bar-chart {
+  position: absolute;
+  top: 42px;
+  right: 9px;
+  bottom: 10px;
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  width: 48%;
+}
+
+.db-bar-column {
+  display: flex;
+  flex: 1;
+  height: 100%;
+  align-items: center;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 5px;
+}
+
+.db-bar-column span {
+  display: block;
+  width: 5px;
+  max-height: 90%;
+  border-radius: 5px;
+  background: #d9d2de;
+}
+
+.db-bar-column:nth-child(2) span,
+.db-bar-column:nth-child(4) span {
+  background: #272330;
+}
+
+.db-bar-column small {
+  color: #77717e;
+  font-size: 7px;
+}
+
+.db-footer {
+  margin-top: 40px;
+  padding: 18px 0;
+  border-top: 1px solid var(--db-border);
+  color: #9996a0;
+  font-size: 10px;
+}
+
+@media (max-width: 1100px) {
+  .db-main { padding-right: 18px; padding-left: 18px; }
+  .db-dashboard-grid { grid-template-columns: minmax(190px, 1.2fr) minmax(150px, .9fr); gap: 25px; }
+  .db-right-column { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1.5fr; align-items: start; gap: 20px; }
+  .db-success { margin-top: 0; }
+}
+
+@media (max-width: 700px) {
+  .db-sidebar { width: 62px; padding: 20px 7px; }
+  .db-logo { margin-bottom: 30px; }
+  .db-nav-item { justify-content: center; padding: 11px 0; }
+  .db-nav-item span { display: none; }
+  .db-main { padding: 20px 14px 0; }
+  .db-topbar { flex-wrap: wrap; gap: 15px; }
+  .db-topbar h1 { font-size: 19px; }
+  .db-search { order: 3; width: 100%; }
+  .db-dashboard-grid { grid-template-columns: 1fr; gap: 30px; }
+  .db-right-column { grid-column: auto; grid-template-columns: 1fr; }
+  .db-teacher-card { max-width: none; }
+  .db-calendar-grid { gap: 8px 3px; }
+  .db-calendar-day { max-width: 42px; justify-self: center; width: 100%; }
+  .db-tasks { margin-top: 30px; }
+  .db-task-count { display: block; }
+  .db-success { margin-top: 0; }
+  .db-footer { margin-top: 30px; }
+}
