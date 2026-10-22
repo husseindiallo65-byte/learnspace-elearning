@@ -1,31 +1,208 @@
-import { Link } from "react-router-dom";
-import CourseCard from "../../components/CourseCard.jsx";
-import ProgressBar from "../../components/ProgressBar.jsx";
-import { courses, getAllChapters } from "../../data/courses.js";
-import { getProgress, getQuizResults, getProfile, getCourseProgress } from "../../utils/storage.js";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { getProfile } from "../../utils/storage.js";
+import {
+  BookOpen, LayoutDashboard, GraduationCap, BookMarked,
+  Settings, Star, Bell, CircleHelp, LogOut, ChevronDown,
+  ChevronLeft, ChevronRight, FileText, Mic,
+  Brain, Monitor, Download, ArrowRight, Menu,
+  X, Flame, Target, CheckCircle2
+} from "lucide-react";
+import "./Dashboard.css";
+
+const menuItems = [
+  { label: "Tableau de bord", icon: LayoutDashboard },
+  { label: "Centre d'étude", icon: BookOpen },
+  { label: "Tests blancs", icon: Monitor },
+  { label: "Vocabulaire", icon: BookMarked },
+  { label: "Paramètres", icon: Settings },
+  { label: "VIP", icon: Star },
+  { label: "Notifications", icon: Bell },
+  { label: "Aide (Q&R)", icon: CircleHelp },
+  { label: "Contact", icon: FileText },
+  { label: "Se déconnecter", icon: LogOut },
+];
+
+const resources = [
+  { title: "Vocabulaire", subtitle: "90% du vocabulaire d'examen", icon: FileText },
+  { title: "Expression orale", subtitle: "Améliore ton oral en 14 jours", icon: Mic },
+  { title: "Analyse IA", subtitle: "Précision en 14 jours", icon: Brain },
+  { title: "Tests blancs", subtitle: "Tests types PTE", icon: Monitor },
+];
+
+const lessons = [
+  { title: "Guide PTE", image: "https://i.ibb.co/JFKJ90MR/male-programmer-types-code-computer-running-script.jpg" },
+  { title: "Expression orale", image: "https://i.ibb.co/m5wLr8ND/istockphoto-2223628632-1024x1024.jpg" },
+  { title: "Expression écrite", image: "https://i.ibb.co/sp8PxMrg/company-office-worker-having-documentation-clipboard-coffee-cup-looking-project-management-charts-yo.webp" },
+  { title: "Compréhension écrite", image: "https://i.ibb.co/SDrb4WBn/creative-manager-assisting-male-editor.webp" },
+  { title: "Compréhension orale", image: "https://i.ibb.co/Lzz2ccKy/african-american-girl-comparing-course-notes-with-data-from-library-collection.webp" },
+  { title: "Modèles", image: "https://i.ibb.co/1YDRWqhq/african-american-man-working-computer-write-code-programming.jpg" },
+];
 
 export default function Dashboard() {
-  const progressData = getProgress();
-  const quizResults = getQuizResults();
   const profile = getProfile();
-  const started = courses.filter((course) => (progressData[course.id] || []).length > 0);
-  const completed = courses.filter((course) => getCourseProgress(course.id, course) === 100);
-  const overall = courses.length ? Math.round(courses.reduce((sum, course) => sum + getCourseProgress(course.id, course), 0) / courses.length) : 0;
-  const recent = [...started].sort((a,b) => (progressData[b.id] || []).length - (progressData[a.id] || []).length).slice(0,3);
+  const navigate = useNavigate();
+  const [activeMenu, setActiveMenu] = useState("Tableau de bord");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [banner, setBanner] = useState(0);
 
-  return <section className="page-section"><div className="container"><div className="page-heading dashboard-heading"><div><span className="eyebrow">
-    TON ESPACE PERSONNEL</span><h1>Bonjour, {profile.firstName} 👋</h1><p>Voici un aperçu de ton parcours d'apprentissage.</p></div>
-    <Link className="button button-fill-left button-primary-hover" to="/formations"><span>Trouver une formation →</span></Link></div><div className="stats-grid">
-    <div className="stat-card"><span className="stat-icon">📚</span><span>Formations commencées</span><strong>{started.length}</strong></div><div className="stat-card">
-    <span className="stat-icon">🏆</span><span>Formations terminées</span><strong>{completed.length}</strong></div><div className="stat-card"><span className="stat-icon">📈</span><span>
-    Progression globale</span><strong>{overall}%</strong></div><div className="stat-card"><span className="stat-icon">📝</span><span>Quiz réalisés</span><strong>{quizResults.length}</strong>
-    </div></div><div className="dashboard-columns"><section className="panel content-panel"><div className="panel-heading"><div><span className="eyebrow">CONTINUE TON PARCOURS</span><h2>
-    Formations récentes</h2></div><Link className="text-link" to="/formations">Tout voir →</Link></div>{recent.length ? <div className="recent-list">{recent.map((course) => <div className="recent-course" key={course.id}>
-    <span className={`recent-icon art-${course.color}`}>{course.icon}</span><div className="recent-info"><Link to={`/formations/${course.id}`}>{course.title}</Link><ProgressBar value={getCourseProgress(course.id, course)} label="Progression" />
-    </div><Link className="text-link" to={`/formations/${course.id}`}>Continuer →</Link></div>)}</div> : <div className="empty-inline"><p>Tu n'as pas encore commencé de formation.</p><Link className="button button-fill-left button-primary-hover" to="/formations">
-    <span>Découvrir les cours</span></Link></div>}</section><section className="panel content-panel"><div className="panel-heading"><div><span className="eyebrow">TES RÉSULTATS</span><h2>Derniers quiz</h2></div></div>{quizResults.length ? <div className="quiz-history">
-      {quizResults.slice(0,5).map((result,index) => <div className="history-row" key={`${result.courseId}-${result.date}-${index}`}><div><strong>{result.courseTitle}</strong><span>{new Date(result.date).toLocaleDateString("fr-FR")}</span></div><span className={`score-chip 
-      ${result.score >= 70 ? "good" : ""}`}>{result.score}%</span></div>)}</div> : <p className="muted-text">Tes résultats apparaîtront ici après ton premier quiz.</p>}</section></div><section className="panel content-panel certificate-summary"><div><span className="eyebrow">
-        TES RÉUSSITES</span><h2>Certificats obtenus</h2><p>Termine tous les chapitres d'une formation pour débloquer son certificat simulé.</p></div>{completed.length ? <div className="certificate-links">{completed.map((course) => <Link className="button button-ghost" to={`/certificats/${course.id}`} 
-        key={course.id}>🏅 {course.title}</Link>)}</div> : <span className="pill">Aucun certificat pour le moment</span>}</section></div></section>;
+  const banners = [
+    {
+      title: "Tests blancs PTE Master",
+      subtitle: "Entraîne-toi intelligemment. Atteins ton objectif.",
+      button: "En savoir plus",
+      image: "https://i.ibb.co/RkN8n0mT/portrait-happy-server-farm-team-looks-data-analysis-graphs.jpg",
+    },
+    {
+      title: "Ton succès commence ici",
+      subtitle: "Pratique tous les jours et améliore ton score.",
+      button: "Commencer",
+      image: "https://i.ibb.co/RkN8n0mT/portrait-happy-server-farm-team-looks-data-analysis-graphs.jpg",
+    },
+  ];
+
+  const currentBanner = banners[banner];
+  const nextBanner = () => setBanner((banner + 1) % banners.length);
+  const previousBanner = () => setBanner((banner - 1 + banners.length) % banners.length);
+
+  return (
+    <div className="pte-app">
+      <button className="mobile-menu" onClick={() => setSidebarOpen(!sidebarOpen)} aria-label="Ouvrir le menu">
+        {sidebarOpen ? <X /> : <Menu />}
+      </button>
+      {sidebarOpen && <button className="sidebar-overlay" onClick={() => setSidebarOpen(false)} aria-label="Fermer le menu" />}
+
+      <aside className={`sidebar ${sidebarOpen ? "sidebar-open" : ""}`}>
+        <a href="#home" className="pte-logo">
+          <span className="logo-symbol"><GraduationCap size={30} /></span>
+          <span>Learn<span className="logo-light">Space</span></span>
+        </a>
+
+        <div className="sidebar-menu">
+          {menuItems.map(({ label, icon: Icon }) => (
+            <button key={label} className={`sidebar-link ${activeMenu === label ? "active" : ""}`} onClick={() => { if (label === "Se déconnecter") { localStorage.removeItem("learnspace_profile"); localStorage.removeItem("learnspace_auth"); sessionStorage.clear(); navigate("/auth"); return; } setActiveMenu(label); setSidebarOpen(false); }}>
+              <Icon size={16} />
+              <span>{label}</span>
+            </button>
+          ))}
+        </div>
+
+        <div className="sidebar-bottom">
+          <div className="sidebar-tip">
+            <Flame size={18} />
+            <span>Apprends tous les jours !</span>
+          </div>
+          <button className="collapse-button" aria-label="Réduire le menu"><ChevronLeft size={18} /></button>
+        </div>
+      </aside>
+
+      <main className="main-content" id="home">
+        <header className="topbar">
+          <button className="mobile-logo"><GraduationCap size={23} /> LearnSpace</button>
+          <nav className="top-navigation">
+            <button className="top-nav-item">Pratique PTE <ChevronDown size={13} /></button>
+            <button className="top-nav-item">Prévisions</button>
+            <button className="top-nav-item">Cours</button>
+            <button className="top-nav-item">Communauté</button>
+            <button className="top-nav-item">Application</button>
+          </nav>
+          <div className="topbar-actions">
+            <button className="notification-button" aria-label="Notifications"><Bell size={17} /><span /></button>
+            <button className="vip-button">Passer en VIP <Star size={14} /></button>
+            <img className="avatar" src="https://i.ibb.co/yBfLSf2J/Certificat-de-r-ussite-en-marketing-digital.png" alt="Profil étudiant" />
+          </div>
+        </header>
+
+        <section className="hero-banner">
+          <img key={currentBanner.image} className="hero-image" src={currentBanner.image} alt="Étudiants en formation" />
+          <div className="hero-shade" />
+          <button className="banner-arrow banner-prev" onClick={previousBanner} aria-label="Bannière précédente"><ChevronLeft size={25} /></button>
+          <div className="hero-card">
+            <span className="hero-label">BIENVENUE SUR LEARNSPACE</span>
+            <h1>{currentBanner.title}</h1>
+            <p>{currentBanner.subtitle}</p>
+            <button className="primary-button">{currentBanner.button} <ArrowRight size={15} /></button>
+          </div>
+          <button className="banner-arrow banner-next" onClick={nextBanner} aria-label="Bannière suivante"><ChevronRight size={25} /></button>
+        </section>
+
+        <section className="statistics-grid">
+          <article className="stat-card study-card">
+            <div className="card-heading">
+              <div>
+                <h2>Statistiques d'étude</h2>
+                <p>Date d'examen : 2026-12-28</p>
+              </div>
+              <span className="date-pill">21 jours restants ›</span>
+            </div>
+            <div className="stats-values">
+              <div><strong>0</strong><span>Aujourd'hui</span></div>
+              <div><strong>1</strong><span>Total pratiqué</span></div>
+              <div><strong>1</strong><span>Jours de préparation</span></div>
+            </div>
+          </article>
+          <article className="stat-card prediction-card">
+            <div className="card-heading">
+              <div>
+                <h2>Prévision hebdomadaire</h2>
+                <p>Semaine : 0801 - 0808</p>
+              </div>
+              <button className="download-button">Télécharger <Download size={14} /></button>
+            </div>
+            <div className="stats-values prediction-values">
+              <div><strong>67%</strong><span>À répéter</span></div>
+              <div><strong>69</strong><span>Nouveau</span></div>
+              <div><strong>1514</strong><span>Prévision</span></div>
+              <div><strong>88</strong><span>Mise à jour</span></div>
+            </div>
+          </article>
+        </section>
+
+        <section className="resource-grid">
+          {resources.map(({ title, subtitle, icon: Icon }) => (
+            <button className="resource-card" key={title} onClick={() => setActiveMenu(title)}>
+              <span className="resource-icon"><Icon size={19} /></span>
+              <span className="resource-text"><strong>{title}</strong><small>{subtitle}</small></span>
+              <ChevronRight className="resource-arrow" size={17} />
+            </button>
+          ))}
+        </section>
+
+        <section className="lesson-grid">
+          {lessons.map((lesson) => (
+            <button className="lesson-card" key={lesson.title} onClick={() => setActiveMenu(lesson.title)}>
+              <img src={lesson.image} alt="" loading="lazy" />
+              <span className="lesson-overlay" />
+              <strong>{lesson.title}</strong>
+              <ChevronRight size={14} />
+            </button>
+          ))}
+        </section>
+
+        <section className="bottom-cards">
+          <article className="join-card exam-card">
+            <div className="join-icon"><Target size={24} /></div>
+            <div className="join-description">
+              <h2>Centre d'examen PTE</h2>
+              <p>Derniers souvenirs d'examen</p>
+            </div>
+            <button onClick={() => setActiveMenu("Centre d'examen")}>Rejoindre <ArrowRight size={15} /></button>
+          </article>
+          <article className="join-card group-card">
+            <div className="join-icon"><CheckCircle2 size={24} /></div>
+            <div className="join-description">
+              <h2>Rejoindre notre groupe</h2>
+              <p>Apprends et échange avec nous</p>
+            </div>
+            <button onClick={() => setActiveMenu("Groupe")}>Rejoindre <ArrowRight size={15} /></button>
+          </article>
+        </section>
+
+        <footer className="dashboard-footer">
+          <span>LearnSpace © 2026</span>
+          <span>Apprendre aujourd'hui. Réussir demain.</span>
+        </footer>
+      </main>
+    </div>
+  );
 }

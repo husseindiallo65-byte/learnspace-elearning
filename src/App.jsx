@@ -25,6 +25,7 @@ export default function App() {
   const location = useLocation();
   const { pathname } = location;
   const [isRefreshing, setIsRefreshing] = useState(true);
+  const hideHeader = pathname === "/dashboard";
 
   useEffect(() => {
     setIsRefreshing(true);
@@ -70,7 +71,7 @@ export default function App() {
 
   return (
     <div className="app-shell">
-      {pathname !== "/" && <Header />}
+      {!hideHeader && <Header />}
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -85,8 +86,8 @@ export default function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
-      <Footer />
-      <BackToTop />
+      {!hideHeader && <Footer />}
+      {!hideHeader && <BackToTop />}
       {isRefreshing && (
         <div className="page-refresh-loader" role="status" aria-label="Chargement de la page">
           <span className="page-refresh-loader-ring">
