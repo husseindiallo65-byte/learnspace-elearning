@@ -57,7 +57,7 @@ function Footer() {
             <span>Tableau de bord</span>
           </Link>
 
-          <Link to="/profile" className="footer-nav-link">
+          <Link to="/profil" className="footer-nav-link">
             <UserRound size={30} />
             <span>Profil étudiant</span>
           </Link>

@@ -78,6 +78,9 @@
   height: 20px;
   object-fit: contain;
 }
+
+.footer-socials a {
+  display: flex;
   align-items: center;
   justify-content: center;
   width: 36px;

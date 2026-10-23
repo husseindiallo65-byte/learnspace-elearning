@@ -80,7 +80,7 @@ export default function Dashboard() {
 
         <div className="sidebar-menu">
           {menuItems.map(({ label, icon: Icon }) => (
-            <button key={label} className={`sidebar-link ${activeMenu === label ? "active" : ""}`} onClick={() => { if (label === "Se déconnecter") { localStorage.removeItem("learnspace_profile"); localStorage.removeItem("learnspace_auth"); sessionStorage.clear(); navigate("/auth"); return; } setActiveMenu(label); setSidebarOpen(false); }}>
+            <button key={label} className={`sidebar-link ${activeMenu === label ? "active" : ""}`} onClick={() => { if (label === "Se déconnecter") { localStorage.removeItem("learnspace-demo-session"); navigate("/connexion"); return; } setActiveMenu(label); setSidebarOpen(false); }}>
               <Icon size={16} />
               <span>{label}</span>
             </button>

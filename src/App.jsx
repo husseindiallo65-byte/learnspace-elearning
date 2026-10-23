@@ -25,7 +25,7 @@ export default function App() {
   const location = useLocation();
   const { pathname } = location;
   const [isRefreshing, setIsRefreshing] = useState(true);
-  const hideHeader = pathname === "/dashboard";
+  const hideHeader = pathname === "/dashboard" || pathname === "/";
 
   useEffect(() => {
     setIsRefreshing(true);
