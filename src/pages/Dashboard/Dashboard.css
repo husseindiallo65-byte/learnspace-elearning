@@ -42,6 +42,18 @@ button:focus-visible, a:focus-visible {
   background: linear-gradient(165deg, #080e2b, #080e2b);
   border-radius: 0;
   overflow: hidden;
+  animation: slideInLeft 0.4s ease;
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .pte-logo {
@@ -74,7 +86,14 @@ button:focus-visible, a:focus-visible {
   background: transparent;
   font-size: 13px;
   text-align: left;
-  transition: 0.2s ease;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  cursor: pointer;
+}
+
+.sidebar-link:hover {
+  background: rgba(95, 235, 152, 0.15);
+  color: #5feb98;
+  transform: translateX(4px);
 }
 
 .sidebar-link:hover {
@@ -123,6 +142,19 @@ button:focus-visible, a:focus-visible {
   flex: 1;
   min-width: 0;
   padding: 24px 28px;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.main-content.fade-in {
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .topbar {
@@ -212,6 +244,18 @@ button:focus-visible, a:focus-visible {
   border-radius: 16px;
   overflow: hidden;
   background: #17455a;
+  animation: scaleIn 0.5s ease 0.1s both;
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .hero-image, .hero-shade {
@@ -301,7 +345,13 @@ button:focus-visible, a:focus-visible {
   background: #ffffff;
   box-shadow: 0 4px 14px #123e5320;
   transform: translateY(-50%);
-  transition: 0.2s;
+  transition: transform 0.2s ease, background 0.2s ease;
+  cursor: pointer;
+}
+
+.banner-arrow:hover {
+  background: #5feb98;
+  transform: translateY(-50%) scale(1.1);
 }
 
 .banner-arrow:hover { background: #5feb98; transform: translateY(-50%) scale(1.06); }
@@ -319,7 +369,11 @@ button:focus-visible, a:focus-visible {
   min-width: 0;
   padding: 19px 18px 16px;
   border-radius: 17px;
+  animation: fadeInUp 0.5s ease both;
 }
+
+.statistics-grid > .stat-card:nth-child(1) { animation-delay: 0.15s; }
+.statistics-grid > .stat-card:nth-child(2) { animation-delay: 0.25s; }
 
 .study-card { background: #fff0f3; }
 .prediction-card { background: #fffcf9; }
@@ -409,13 +463,19 @@ button:focus-visible, a:focus-visible {
   border-radius: 13px;
   background: #5feb98;
   text-align: left;
-  transition: 0.2s ease;
+  transition: transform 0.2s ease, background 0.2s ease;
+  animation: fadeInUp 0.4s ease both;
 }
+
+.resource-grid .resource-card:nth-child(1) { animation-delay: 0.3s; }
+.resource-grid .resource-card:nth-child(2) { animation-delay: 0.35s; }
+.resource-grid .resource-card:nth-child(3) { animation-delay: 0.4s; }
+.resource-grid .resource-card:nth-child(4) { animation-delay: 0.45s; }
 
 .resource-card:hover {
   border-color: #5feb98;
-  background: #000000;
-  transform: translateY(-2px);
+  background: #4dd88a;
+  transform: translateY(-3px);
 }
 
 .resource-icon {
@@ -458,12 +518,35 @@ button:focus-visible, a:focus-visible {
   padding: 11px 9px;
   border: 0;
   border-radius: 13px;
-  color: white;
-  background: #4e7185;
   overflow: hidden;
+  cursor: pointer;
   text-align: left;
-  isolation: isolate;
+  animation: fadeInUp 0.4s ease both;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
+.lesson-grid .lesson-card:nth-child(1) { animation-delay: 0.5s; }
+.lesson-grid .lesson-card:nth-child(2) { animation-delay: 0.52s; }
+.lesson-grid .lesson-card:nth-child(3) { animation-delay: 0.54s; }
+.lesson-grid .lesson-card:nth-child(4) { animation-delay: 0.56s; }
+.lesson-grid .lesson-card:nth-child(5) { animation-delay: 0.58s; }
+.lesson-grid .lesson-card:nth-child(6) { animation-delay: 0.6s; }
+
+.lesson-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+.lesson-card img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.lesson-card:hover img { transform: scale(1.05); }
 
 .lesson-card img, .lesson-overlay {
   position: absolute;
@@ -475,12 +558,22 @@ button:focus-visible, a:focus-visible {
 
 .lesson-card img { object-fit: cover; transition: transform 0.35s; }
 .lesson-overlay {
-  z-index: -1;
-  background: linear-gradient(180deg, rgba(10, 34, 47, 0.48), rgba(10, 34, 47, 0.05) 30%, rgba(10, 34, 47, 0.64));
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.3) 50%, rgba(0, 0, 0, 0.7) 100%);
 }
 
 .lesson-card:hover img { transform: scale(1.08); }
-.lesson-card strong { font-size: 11px; font-weight: 600; }
+.lesson-card strong { 
+  font-size: 11px; 
+  font-weight: 600; 
+  color: #ffffff; 
+  position: relative; 
+  z-index: 3; 
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9), 0 1px 3px rgba(0, 0, 0, 0.7);
+  padding: 4px 0;
+}
 .lesson-card > svg { flex-shrink: 0; }
 
 .bottom-cards {
@@ -493,9 +586,19 @@ button:focus-visible, a:focus-visible {
   display: flex;
   align-items: center;
   gap: 12px;
-  min-width: 0;
-  padding: 17px;
+  padding: 16px 18px;
   border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.05);
+  animation: fadeInUp 0.5s ease both;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.bottom-cards .join-card:nth-child(1) { animation-delay: 0.65s; }
+.bottom-cards .join-card:nth-child(2) { animation-delay: 0.7s; }
+
+.join-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 25px 70px rgba(15, 23, 42, 0.08);
 }
 
 .exam-card { background: #bbffce; }
@@ -545,6 +648,7 @@ button:focus-visible, a:focus-visible {
 
 .settings-header {
   margin-bottom: 32px;
+  animation: fadeInUp 0.4s ease;
 }
 
 .settings-header h1 {
@@ -573,11 +677,18 @@ button:focus-visible, a:focus-visible {
   padding: 24px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   border: 1px solid #e5e7eb;
-  transition: box-shadow 0.2s ease;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  animation: fadeInUp 0.4s ease both;
 }
 
+.settings-grid .settings-card:nth-child(1) { animation-delay: 0.1s; }
+.settings-grid .settings-card:nth-child(2) { animation-delay: 0.15s; }
+.settings-grid .settings-card:nth-child(3) { animation-delay: 0.2s; }
+.settings-grid .settings-card:nth-child(4) { animation-delay: 0.25s; }
+
 .settings-card:hover {
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
 }
 
 .settings-card-header {
@@ -792,12 +903,73 @@ button:focus-visible, a:focus-visible {
   .resource-arrow { width: 14px; }
   .lesson-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
   .lesson-card { height: 110px; }
-  .bottom-cards { grid-template-columns: 1fr; gap: 10px; }
-  .join-card { padding: 14px 12px; gap: 9px; }
-  .join-description h2 { font-size: 13px; }
-  .join-description p { font-size: 9px; }
-  .join-card > button { padding: 9px 11px; }
-  .dashboard-footer { flex-direction: column; gap: 7px; }
+}
+
+.dashboard-socials {
+  margin-top: 32px;
+  animation: fadeInUp 0.5s ease 0.75s both;
+}
+
+.dashboard-socials-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 32px;
+  background: linear-gradient(90deg, #f9fafb 0%, #ffffff 100%);
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.dashboard-socials-content h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 4px 0;
+}
+
+.dashboard-socials-content p {
+  color: #6b7280;
+  font-size: 13px;
+  margin: 0;
+}
+
+.dashboard-socials-links {
+  display: flex;
+  gap: 12px;
+}
+
+.dashboard-socials-links a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  transition: all 0.2s ease;
+}
+
+.dashboard-socials-links a:hover {
+  background: #5feb98;
+  border-color: #5feb98;
+  transform: translateY(-2px);
+}
+
+.dashboard-socials-links img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+@media (max-width: 640px) {
+  .dashboard-socials-content {
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+    padding: 20px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

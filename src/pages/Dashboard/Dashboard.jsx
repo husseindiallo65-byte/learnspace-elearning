@@ -1,7 +1,11 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getProfile } from "../../utils/storage.js";
 import { logoutDemoAccount } from "../../utils/demoAuth.js";
+import instagramIcon from "../../assets/social/instagram.png";
+import youtubeIcon from "../../assets/social/youtube.png";
+import linkedinIcon from "../../assets/social/linkedin.png";
+import tiktokIcon from "../../assets/social/tiktok.png";
 import {
   BookOpen, LayoutDashboard, GraduationCap, BookMarked,
   Settings, Star, Bell, CircleHelp, LogOut, ChevronDown,
@@ -36,8 +40,8 @@ const resources = [
 ];
 
 const lessons = [
-  { title: "Guide PTE", image: courseReactImg },
-  { title: "Expression orale", image: courseDesignImg },
+  { title: "Guide PTE", image: "https://i.ibb.co/ymLkZPnD/banni-re.jpg" },
+  { title: "Expression orale", image: "https://i.ibb.co/ksWrbbLs/banni-re2.jpg" },
   { title: "Expression écrite", image: courseMarketingImg },
   { title: "Compréhension écrite", image: courseOfficeImg },
   { title: "Compréhension orale", image: courseReactImg },
@@ -50,6 +54,11 @@ export default function Dashboard() {
   const [activeMenu, setActiveMenu] = useState("Tableau de bord");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [banner, setBanner] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
 
   const banners = [
     {
@@ -101,7 +110,7 @@ export default function Dashboard() {
         </div>
       </aside>
 
-      <main className="main-content" id="home">
+      <main className={`main-content ${isVisible ? 'fade-in' : ''}`} id="home">
         <header className="topbar">
           <button className="mobile-logo"><GraduationCap size={23} /> LearnSpace</button>
           <nav className="top-navigation">
@@ -351,6 +360,21 @@ export default function Dashboard() {
             </div>
             <button onClick={() => { navigate("/"); setTimeout(() => { const el = document.getElementById("contact"); if (el) el.scrollIntoView({ behavior: "smooth", block: "start" }); }, 150); }}>Rejoindre <ArrowRight size={15} /></button>
           </article>
+        </section>
+
+        <section className="dashboard-socials">
+          <div className="dashboard-socials-content">
+            <div>
+              <h2>Suivez-nous</h2>
+              <p>Restez connecté avec LearnSpace</p>
+            </div>
+            <div className="dashboard-socials-links">
+              <a href="https://www.instagram.com/" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><img src={instagramIcon} alt="Instagram" /></a>
+              <a href="https://www.youtube.com/" aria-label="YouTube" target="_blank" rel="noopener noreferrer"><img src={youtubeIcon} alt="YouTube" /></a>
+              <a href="https://www.linkedin.com/" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer"><img src={linkedinIcon} alt="LinkedIn" /></a>
+              <a href="https://www.tiktok.com/" aria-label="TikTok" target="_blank" rel="noopener noreferrer"><img src={tiktokIcon} alt="TikTok" /></a>
+            </div>
+          </div>
         </section>
 
         <footer className="dashboard-footer">
