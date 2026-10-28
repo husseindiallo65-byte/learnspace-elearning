@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import CourseCard from "../../components/CourseCard.jsx";
 import { courses, categories } from "../../data/courses.js";
 import { isDemoAuthenticated } from "../../utils/demoAuth.js";
+import { getProfile } from "../../utils/storage.js";
 import courseReact from "../../assets/course-react.webp";
 import courseDesign from "../../assets/course-design.webp";
 import courseMarketing from "../../assets/course-marketing.webp";
@@ -118,7 +119,7 @@ function BenefitIcon({ title }) {
   return <svg {...common}><path d="M8 39V26m11 13V18m11 21V29m11 10V10M6 40h36" /><path d="m8 20 11-8 11 9 11-12" /></svg>;
 }
 
-export default function Home() {
+  export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [contactNotice, setContactNotice] = useState("");
   const [statCounts, setStatCounts] = useState({ courses: 1, online: 1 });
@@ -137,6 +138,7 @@ export default function Home() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
   const authenticated = isDemoAuthenticated();
+  const profile = getProfile();
   const navigate = useNavigate();
 
   const handleContactSubmit = (event) => {
@@ -216,21 +218,25 @@ export default function Home() {
             aria-label={authenticated ? "Mon profil" : "S’inscrire ou se connecter"}
             title={authenticated ? "Mon profil" : "S’inscrire ou se connecter"}
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <circle cx="12" cy="8" r="5" />
-              <path d="M20 21a8 8 0 0 0-16 0" />
-            </svg>
+            {authenticated && profile.photo ? (
+              <img src={profile.photo} alt="Profil" style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} />
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <circle cx="12" cy="8" r="5" />
+                <path d="M20 21a8 8 0 0 0-16 0" />
+              </svg>
+            )}
           </Link>
         </div>
       </header>

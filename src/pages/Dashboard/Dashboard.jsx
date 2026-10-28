@@ -9,6 +9,10 @@ import {
   Brain, Monitor, Download, ArrowRight, Menu,
   X, Flame, Target, CheckCircle2, User, Globe, Moon, Shield, Mail
 } from "lucide-react";
+import courseReactImg from "../../assets/course-react.webp";
+import courseDesignImg from "../../assets/course-design.webp";
+import courseMarketingImg from "../../assets/course-marketing.webp";
+import courseOfficeImg from "../../assets/course-office.webp";
 import "./Dashboard.css";
 
 const menuItems = [
@@ -32,12 +36,12 @@ const resources = [
 ];
 
 const lessons = [
-  { title: "Guide PTE", image: "https://i.ibb.co/JFKJ90MR/male-programmer-types-code-computer-running-script.jpg" },
-  { title: "Expression orale", image: "https://i.ibb.co/m5wLr8ND/istockphoto-2223628632-1024x1024.jpg" },
-  { title: "Expression écrite", image: "https://i.ibb.co/sp8PxMrg/company-office-worker-having-documentation-clipboard-coffee-cup-looking-project-management-charts-yo.webp" },
-  { title: "Compréhension écrite", image: "https://i.ibb.co/SDrb4WBn/creative-manager-assisting-male-editor.webp" },
-  { title: "Compréhension orale", image: "https://i.ibb.co/Lzz2ccKy/african-american-girl-comparing-course-notes-with-data-from-library-collection.webp" },
-  { title: "Modèles", image: "https://i.ibb.co/1YDRWqhq/african-american-man-working-computer-write-code-programming.jpg" },
+  { title: "Guide PTE", image: courseReactImg },
+  { title: "Expression orale", image: courseDesignImg },
+  { title: "Expression écrite", image: courseMarketingImg },
+  { title: "Compréhension écrite", image: courseOfficeImg },
+  { title: "Compréhension orale", image: courseReactImg },
+  { title: "Modèles", image: courseDesignImg },
 ];
 
 export default function Dashboard() {
@@ -52,13 +56,13 @@ export default function Dashboard() {
       title: "Tests blancs PTE Master",
       subtitle: "Entraîne-toi intelligemment. Atteins ton objectif.",
       button: "En savoir plus",
-      image: "https://i.ibb.co/RkN8n0mT/portrait-happy-server-farm-team-looks-data-analysis-graphs.jpg",
+      image: courseMarketingImg,
     },
     {
       title: "Ton succès commence ici",
       subtitle: "Pratique tous les jours et améliore ton score.",
       button: "Commencer",
-      image: "https://i.ibb.co/RkN8n0mT/portrait-happy-server-farm-team-looks-data-analysis-graphs.jpg",
+      image: courseReactImg,
     },
   ];
 
@@ -110,7 +114,7 @@ export default function Dashboard() {
           <div className="topbar-actions">
             <button className="notification-button" aria-label="Notifications"><Bell size={17} /><span /></button>
             <button className="vip-button">Passer en VIP <Star size={14} /></button>
-            <img className="avatar" src="https://i.ibb.co/yBfLSf2J/Certificat-de-r-ussite-en-marketing-digital.png" alt="Profil étudiant" />
+            <img className="avatar" src={profile.photo || "https://i.ibb.co/yBfLSf2J/Certificat-de-r-ussite-en-marketing-digital.png"} alt="Profil étudiant" onClick={() => navigate("/profil")} style={{ cursor: 'pointer' }} />
           </div>
         </header>
 
