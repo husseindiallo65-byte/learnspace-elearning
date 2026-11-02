@@ -213,10 +213,10 @@ function BenefitIcon({ title }) {
             <Icon name="search" />
           </button>
           <Link
-            to={authenticated ? "/profil" : "/inscription"}
+            to="/dashboard"
             className="user-button"
-            aria-label={authenticated ? "Mon profil" : "S’inscrire ou se connecter"}
-            title={authenticated ? "Mon profil" : "S’inscrire ou se connecter"}
+            aria-label="Accéder au tableau de bord"
+            title="Accéder au tableau de bord"
           >
             {authenticated && profile.photo ? (
               <img src={profile.photo} alt="Profil" style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} />

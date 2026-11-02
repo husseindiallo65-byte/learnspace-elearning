@@ -152,7 +152,7 @@ export default function Auth({ mode }) {
 
           <aside className="auth-image-panel">
             <img
-              src="https://i.ibb.co/fYZcmTMv/pexels-vlada-karpovich-4939640.jpg"
+              src="https://i.ibb.co/7JMkPDk9/banni-re3.jpg"
               alt="Image d’illustration de l’espace d’inscription LearnSpace"
             />
             <div className="auth-image-overlay">

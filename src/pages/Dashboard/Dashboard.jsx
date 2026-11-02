@@ -1,6 +1,6 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { getProfile } from "../../utils/storage.js";
+import { getProfile, saveProfile } from "../../utils/storage.js";
 import { logoutDemoAccount } from "../../utils/demoAuth.js";
 import instagramIcon from "../../assets/social/instagram.png";
 import youtubeIcon from "../../assets/social/youtube.png";
@@ -11,7 +11,7 @@ import {
   Settings, Star, Bell, CircleHelp, LogOut, ChevronDown,
   ChevronLeft, ChevronRight, FileText, Mic,
   Brain, Monitor, Download, ArrowRight, Menu,
-  X, Flame, Target, CheckCircle2, User, Globe, Moon, Shield, Mail
+  X, Flame, Target, CheckCircle2, User, UserRound, Globe, Moon, Shield, Mail
 } from "lucide-react";
 import courseReactImg from "../../assets/course-react.webp";
 import courseDesignImg from "../../assets/course-design.webp";
@@ -49,12 +49,28 @@ const lessons = [
 ];
 
 export default function Dashboard() {
-  const profile = getProfile();
+  const [profile, setProfile] = useState(() => getProfile());
   const navigate = useNavigate();
   const [activeMenu, setActiveMenu] = useState("Tableau de bord");
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [practiceOpen, setPracticeOpen] = useState(false);
+  const [accountMenuOpen, setAccountMenuOpen] = useState(false);
   const [banner, setBanner] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
+
+  const handleProfilePhotoChange = (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const updatedProfile = { ...profile, photo: reader.result };
+      setProfile(updatedProfile);
+      saveProfile(updatedProfile);
+    };
+    reader.readAsDataURL(file);
+    event.currentTarget.value = "";
+  };
 
   useEffect(() => {
     setIsVisible(true);
@@ -111,19 +127,85 @@ export default function Dashboard() {
       </aside>
 
       <main className={`main-content ${isVisible ? 'fade-in' : ''}`} id="home">
-        <header className="topbar">
-          <button className="mobile-logo"><GraduationCap size={23} /> LearnSpace</button>
-          <nav className="top-navigation">
-            <button className="top-nav-item">Pratique PTE <ChevronDown size={13} /></button>
-            <button className="top-nav-item">Prévisions</button>
-            <button className="top-nav-item">Cours</button>
-            <button className="top-nav-item">Communauté</button>
-            <button className="top-nav-item">Application</button>
-          </nav>
-          <div className="topbar-actions">
-            <button className="notification-button" aria-label="Notifications"><Bell size={17} /><span /></button>
-            <button className="vip-button">Passer en VIP <Star size={14} /></button>
-            <img className="avatar" src={profile.photo || "https://i.ibb.co/yBfLSf2J/Certificat-de-r-ussite-en-marketing-digital.png"} alt="Profil étudiant" onClick={() => navigate("/profil")} style={{ cursor: 'pointer' }} />
+        <header className="pte-navbar">
+          <div className="navbar-container">
+            <Link to="/" className="navbar-mobile-logo" aria-label="Retour à l'accueil LearnSpace">
+              <GraduationCap size={25} />
+              <span>Learn<span>Space</span></span>
+            </Link>
+
+            <nav className="navbar-links" aria-label="Navigation du tableau de bord">
+              <div className="navbar-dropdown">
+                <button
+                  className="navbar-link"
+                  type="button"
+                  aria-expanded={practiceOpen}
+                  onClick={() => setPracticeOpen((open) => !open)}
+                >
+                  Pratique PTE <ChevronDown size={15} />
+                </button>
+                {practiceOpen && (
+                  <div className="navbar-dropdown-menu">
+                    {["Tests blancs", "Expression orale", "Expression écrite", "Compréhension écrite", "Compréhension orale"].map((title) => (
+                      <Link key={title} to="/formations" onClick={() => setPracticeOpen(false)}>
+                        {title}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+              <button className="navbar-link" type="button" onClick={() => document.getElementById("predictions")?.scrollIntoView({ behavior: "smooth" })}>Prévisions</button>
+              <Link to="/formations" className="navbar-link">Cours</Link>
+              <button className="navbar-link" type="button" onClick={() => document.getElementById("socials")?.scrollIntoView({ behavior: "smooth" })}>Communauté</button>
+              <Link to="/" className="navbar-link">Application</Link>
+            </nav>
+
+            <div className="navbar-actions">
+              <button className="navbar-notification" type="button" aria-label="Notifications">
+                <Bell size={19} />
+                <span className="notification-dot" />
+              </button>
+              <button className="navbar-vip" type="button" onClick={() => setActiveMenu("VIP")}>
+                Passer en VIP <Star size={17} />
+              </button>
+              <div className="navbar-profile-wrapper">
+                <label className="navbar-profile" title="Changer la photo de profil">
+                  {profile.photo ? (
+                    <img src={profile.photo} alt="" />
+                  ) : (
+                    <UserRound size={20} aria-hidden="true" />
+                  )}
+                  <input
+                    className="navbar-photo-input"
+                    type="file"
+                    accept="image/*"
+                    aria-label="Sélectionner une nouvelle photo de profil"
+                    onChange={handleProfilePhotoChange}
+                  />
+                </label>
+              </div>
+              <div className="navbar-account-wrapper">
+                <button
+                  className="navbar-mobile-toggle"
+                  type="button"
+                  aria-label={accountMenuOpen ? "Fermer le menu du compte" : "Ouvrir le menu du compte"}
+                  aria-expanded={accountMenuOpen}
+                  onClick={() => setAccountMenuOpen((open) => !open)}
+                >
+                  {accountMenuOpen ? <X size={22} /> : <Menu size={22} />}
+                </button>
+                {accountMenuOpen && (
+                  <div className="navbar-account-menu">
+                    <Link to="/profil" onClick={() => setAccountMenuOpen(false)}>
+                      <UserRound size={16} /> Profil
+                    </Link>
+                    <button type="button" onClick={() => { logoutDemoAccount(); navigate("/connexion"); }}>
+                      <LogOut size={16} /> Déconnexion
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         </header>
 
@@ -305,7 +387,7 @@ export default function Dashboard() {
               <div><strong>1</strong><span>Jours de préparation</span></div>
             </div>
           </article>
-          <article className="stat-card prediction-card">
+          <article className="stat-card prediction-card" id="predictions">
             <div className="card-heading">
               <div>
                 <h2>Prévision hebdomadaire</h2>
@@ -362,7 +444,7 @@ export default function Dashboard() {
           </article>
         </section>
 
-        <section className="dashboard-socials">
+        <section className="dashboard-socials" id="socials">
           <div className="dashboard-socials-content">
             <div>
               <h2>Suivez-nous</h2>
