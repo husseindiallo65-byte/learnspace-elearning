@@ -2,6 +2,7 @@ const PROGRESS_KEY = "learnspace-progress";
 const PROFILE_KEY = "learnspace-profile";
 const QUIZ_KEY = "learnspace-quiz-results";
 const FAVORITES_KEY = "learnspace-favorites";
+const STUDY_PLAN_KEY = "learnspace-study-plan";
 
 const defaultProfile = {
   firstName: "Étudiant",
@@ -53,6 +54,19 @@ export const getFavorites = () => {
   return Array.isArray(favorites) ? favorites : [];
 };
 export const saveFavorites = (value) => write(FAVORITES_KEY, value);
+
+export function getStudyPlan(date) {
+  const plans = read(STUDY_PLAN_KEY, {});
+  return plans && typeof plans === "object" && !Array.isArray(plans) && Array.isArray(plans[date])
+    ? plans[date]
+    : [];
+}
+
+export function saveStudyPlan(date, completedTasks) {
+  const plans = read(STUDY_PLAN_KEY, {});
+  const storedPlans = plans && typeof plans === "object" && !Array.isArray(plans) ? plans : {};
+  write(STUDY_PLAN_KEY, { ...storedPlans, [date]: completedTasks });
+}
 
 export function getCourseProgress(courseId, course) {
   const progress = getProgress()[courseId] || [];
