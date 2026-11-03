@@ -1208,6 +1208,8 @@ button:focus-visible, a:focus-visible {
   box-shadow: 0 12px 35px rgba(20, 65, 50, 0.12);
 }
 
+.navbar-account-nav { display: none; }
+
 .navbar-dropdown-menu a,
 .navbar-account-menu a,
 .navbar-account-menu button {
@@ -1275,8 +1277,6 @@ button:focus-visible, a:focus-visible {
 }
 
 .navbar-vip {
-  position: relative;
-  isolation: isolate;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1285,35 +1285,17 @@ button:focus-visible, a:focus-visible {
   border: 1px solid transparent;
   border-radius: 50px;
   color: #fff;
-  background: #5feb98;
+  background: #080e2b;
   box-shadow: 0 6px 18px rgba(95, 235, 152, 0.3);
   font-size: 12px;
   font-weight: 700;
   text-decoration: none;
   white-space: nowrap;
-  transition: all 0.25s ease;
+  transition: background 0.2s ease;
   cursor: pointer;
 }
 
-.navbar-vip::before {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  border-radius: inherit;
-  background: #000;
-  content: "";
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.3s ease;
-}
-
-.navbar-vip:hover {
-  background: transparent;
-  box-shadow: 0 9px 25px rgba(0, 0, 0, 0.2);
-  transform: translateY(-2px);
-}
-
-.navbar-vip:hover::before { transform: scaleX(1); }
+.navbar-vip:hover { background: #5feb98; }
 
 .navbar-vip svg { fill: rgba(255, 255, 255, 0.15); }
 
@@ -1361,6 +1343,10 @@ button:focus-visible, a:focus-visible {
   background: rgba(95, 235, 152, 0.14);
 }
 
+@media (min-width: 1101px) and (max-width: 1600px) {
+  .navbar-mobile-toggle { display: grid; }
+}
+
 @media (max-width: 1100px) {
   .navbar-container {
     gap: 10px;
@@ -1382,6 +1368,13 @@ button:focus-visible, a:focus-visible {
     border-bottom: 1px solid rgba(95, 235, 152, 0.28);
     background: #fff;
     box-shadow: 0 12px 25px rgba(20, 65, 50, 0.08);
+  }
+  .navbar-account-nav {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #edf2f1;
   }
   .navbar-link { justify-content: flex-start; padding: 12px; font-size: 13px; }
   .navbar-dropdown-menu { position: static; margin: 4px 0 4px 10px; box-shadow: none; }
@@ -2709,4 +2702,220 @@ button:focus-visible, a:focus-visible {
   .dashboard-vip-section { padding: 22px 4px 40px; }
   .dashboard-vip-benefits { grid-template-columns: 1fr; gap: 16px; }
   .dashboard-vip-contact { width: 100%; }
+}
+
+@media (max-width: 1100px) {
+  .main-content {
+    min-width: 0;
+    padding: 62px 22px 36px;
+  }
+
+  .pte-navbar { margin-bottom: 10px; }
+
+  .navbar-container {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 8px;
+    min-height: 56px;
+    padding: 6px 12px;
+  }
+
+  .navbar-context { min-width: 0; }
+  .navbar-actions {
+    flex: 0 0 auto;
+    justify-content: flex-end;
+    gap: 6px;
+  }
+  .navbar-notification { margin-right: 6px; }
+  .navbar-links { display: none; }
+  .navbar-mobile-toggle {
+    display: grid;
+    flex: 0 0 36px;
+    width: 36px;
+    height: 36px;
+  }
+  .navbar-profile { width: 38px; height: 38px; }
+  .navbar-vip { gap: 6px; padding: 8px 11px; font-size: 10px; }
+  .statistics-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .resource-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .lesson-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .study-center-grid { grid-template-columns: minmax(0, 1fr); }
+  .dashboard-contact-grid { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); }
+  .dashboard-socials-content { gap: 18px; padding: 22px; }
+}
+
+@media (min-width: 901px) and (max-width: 1100px) {
+  .navbar-container { display: flex; }
+
+  .navbar-links {
+    position: static;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .navbar-account-nav { display: none; }
+  .navbar-link { padding: 8px 7px; font-size: 11px; }
+  .navbar-dropdown-menu { position: absolute; margin: 0; }
+}
+
+@media (max-width: 760px) {
+  .pte-app { display: block; }
+
+  .main-content { padding: 68px 16px 32px; }
+
+  .mobile-menu {
+    top: 12px;
+    left: 12px;
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+  }
+
+  .sidebar {
+    width: min(290px, 86vw);
+    height: 100dvh;
+    min-height: 0;
+    max-height: none;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .sidebar-bottom { padding-bottom: env(safe-area-inset-bottom); }
+
+  .pte-navbar { position: relative; }
+
+  .navbar-container {
+    grid-template-columns: minmax(0, 1fr) auto;
+    min-height: 52px;
+    padding: 5px 10px;
+  }
+
+  .navbar-context { gap: 8px; }
+  .navbar-context-copy strong { font-size: 12px; }
+  .navbar-context-copy small { max-width: 150px; font-size: 10px; }
+  .navbar-actions { gap: 6px; }
+  .navbar-mobile-toggle { flex-basis: 34px; width: 34px; height: 34px; }
+  .navbar-profile { width: 34px; height: 34px; }
+
+  .statistics-grid { grid-template-columns: minmax(0, 1fr); }
+  .dashboard-contact-grid { grid-template-columns: minmax(0, 1fr); }
+  .bottom-cards { grid-template-columns: minmax(0, 1fr); }
+  .dashboard-socials-content {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-content { padding: 58px 10px 24px; }
+  .mobile-menu { top: 10px; left: 10px; width: 38px; height: 38px; }
+
+  .navbar-container { gap: 5px; min-height: 48px; padding: 4px 7px; }
+  .navbar-context { gap: 6px; }
+  .navbar-context-icon { width: 30px; height: 30px; }
+  .navbar-context-copy strong { font-size: 11px; }
+  .navbar-context-copy small { max-width: 105px; font-size: 9px; }
+  .navbar-actions { gap: 5px; }
+  .navbar-notification { display: none; }
+  .navbar-vip { gap: 4px; padding: 6px 7px; font-size: 9px; }
+  .navbar-vip svg { width: 13px; }
+  .navbar-profile,
+  .navbar-mobile-toggle { flex-basis: 30px; width: 30px; height: 30px; }
+
+  .hero-banner { height: 205px; }
+  .hero-card { left: 9%; width: 82%; padding: 14px 12px; }
+  .hero-card h1 { font-size: 16px; }
+  .hero-card p { font-size: 10px; }
+  .hero-label { font-size: 8px; }
+  .primary-button { gap: 6px; padding: 8px 12px; font-size: 10px; }
+  .banner-arrow { width: 30px; height: 30px; }
+
+  .statistics-grid { gap: 10px; }
+  .stat-card { padding: 14px 11px; }
+  .card-heading { gap: 6px; }
+  .card-heading h2 { font-size: 14px; }
+  .card-heading p { font-size: 9px; }
+  .date-pill,
+  .download-button { gap: 4px; padding: 7px 8px; font-size: 9px; }
+  .stats-values > div { padding: 0 6px; }
+  .stats-values strong { font-size: 14px; }
+  .stats-values span { font-size: 8px; }
+  .prediction-values { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 0; }
+  .prediction-values > div:nth-child(3) { border-left: 0; padding-left: 0; }
+  .resource-grid { gap: 7px; }
+  .resource-card { gap: 6px; padding: 8px 6px; }
+  .resource-icon { width: 28px; height: 28px; }
+  .resource-icon svg { width: 16px; }
+  .resource-text strong { font-size: 9px; }
+  .resource-text small { font-size: 8px; }
+  .resource-arrow { width: 12px; }
+  .lesson-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .lesson-card { height: 105px; }
+  .lesson-card strong { font-size: 10px; }
+
+  .study-center,
+  .vocabulary-section,
+  .dashboard-contact-section,
+  .dashboard-notifications,
+  .level-test-section,
+  .dashboard-vip-section,
+  .settings-section { padding-right: 2px; padding-left: 2px; }
+
+  .study-center-header h1,
+  .dashboard-contact-header h1,
+  .dashboard-notifications-header h1,
+  .dashboard-vip-header h1,
+  .settings-header h1 { font-size: 24px; }
+
+  .study-plan-heading { gap: 9px; }
+  .study-plan-heading h2,
+  .study-section-heading h2 { font-size: 16px; }
+  .study-task { gap: 9px; padding: 11px 9px; }
+  .study-task-copy strong { font-size: 11px; }
+  .study-task-copy small { font-size: 10px; }
+  .study-course-card { gap: 10px; padding: 12px; }
+  .study-course-meta { flex-wrap: wrap; gap: 4px 8px; }
+  .study-section-heading { align-items: flex-start; gap: 10px; }
+  .study-section-heading > a { flex: 0 0 auto; font-size: 10px; }
+
+  .level-test-card,
+  .study-plan-card,
+  .study-courses,
+  .vocabulary-card-panel,
+  .vocabulary-quiz-panel { padding: 16px 12px; }
+
+  .notification-item { gap: 9px; padding: 12px; }
+  .notification-item-heading { align-items: flex-start; flex-direction: column; }
+  .notification-item-badge { white-space: normal; }
+  .notification-quiz-list li { flex-wrap: wrap; }
+
+  .dashboard-socials-content { padding: 17px 12px; }
+  .dashboard-socials-links { flex-wrap: wrap; justify-content: center; }
+  .dashboard-footer { flex-wrap: wrap; gap: 8px; text-align: center; }
+  .settings-card { padding: 16px; }
+  .settings-info-item { overflow-wrap: anywhere; }
+}
+
+@media (max-width: 360px) {
+  .main-content { padding-right: 7px; padding-left: 7px; }
+  .navbar-context-copy small { max-width: 62px; }
+  .navbar-vip { gap: 3px; padding: 6px; font-size: 8px; }
+  .navbar-vip svg { width: 11px; }
+  .navbar-profile,
+  .navbar-mobile-toggle { flex-basis: 28px; width: 28px; height: 28px; }
+  .card-heading { flex-direction: column; }
+  .date-pill,
+  .download-button { align-self: flex-start; }
+  .resource-card { align-items: flex-start; }
+  .resource-arrow { display: none; }
+  .lesson-card { padding: 9px 7px; }
 }

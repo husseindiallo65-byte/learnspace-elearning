@@ -25,11 +25,11 @@ const menuItems = [
   { label: "Centre d'étude", icon: BookOpen },
   { label: "Tests blancs", icon: Monitor },
   { label: "Vocabulaire", icon: BookMarked },
-  { label: "Paramètres", icon: Settings },
   { label: "VIP", icon: Star },
   { label: "Notifications", icon: Bell },
-  { label: "Aide (Q&R)", icon: CircleHelp },
   { label: "Contact", icon: FileText },
+  { label: "Aide (Q&R)", icon: CircleHelp },
+  { label: "Paramètres", icon: Settings },
   { label: "Se déconnecter", icon: LogOut },
 ];
 
@@ -328,9 +328,7 @@ export default function Dashboard() {
                   </div>
                 )}
               </div>
-              <button className="navbar-link" type="button" onClick={() => document.getElementById("predictions")?.scrollIntoView({ behavior: "smooth" })}>Prévisions</button>
               <Link to="/formations" className="navbar-link">Cours</Link>
-              <button className="navbar-link" type="button" onClick={() => document.getElementById("socials")?.scrollIntoView({ behavior: "smooth" })}>Communauté</button>
               <Link to="/" className="navbar-link">Application</Link>
             </nav>
 
@@ -379,6 +377,19 @@ export default function Dashboard() {
                 </button>
                 {accountMenuOpen && (
                   <div className="navbar-account-menu">
+                    <nav className="navbar-account-nav" aria-label="Navigation du tableau de bord">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setActiveMenu("Tests blancs");
+                          setAccountMenuOpen(false);
+                        }}
+                      >
+                        Pratique PTE
+                      </button>
+                      <Link to="/formations" onClick={() => setAccountMenuOpen(false)}>Cours</Link>
+                      <Link to="/" onClick={() => setAccountMenuOpen(false)}>Application</Link>
+                    </nav>
                     <Link to="/profil" onClick={() => setAccountMenuOpen(false)}>
                       <UserRound size={16} /> Profil
                     </Link>
