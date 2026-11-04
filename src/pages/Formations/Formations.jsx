@@ -6,14 +6,16 @@ import courseReact from "../../assets/course-react.webp";
 import courseDesign from "../../assets/course-design.webp";
 import courseMarketing from "../../assets/course-marketing.webp";
 import courseOffice from "../../assets/course-office.webp";
+import courseHtmlCss from "../../assets/course-html-css.svg";
+import courseJavascript from "../../assets/course-javascript.svg";
 
 const courseImages = {
   "react-debutant": courseReact,
   "design-graphique": courseDesign,
   "marketing-digital": courseMarketing,
   bureautique: courseOffice,
-  "html-css": "https://i.ibb.co/Mr3t029/male-programmer-types-code-computer-running-script.jpg",
-  "javascript-debutant": "https://i.ibb.co/hJx1bm9z/sofware-developer-thinking-while-touching-beard-while-typing-laptop-sitting-desk-with-multiple-scree.jpg"
+  "html-css": courseHtmlCss,
+  "javascript-debutant": courseJavascript
 };
 
 export default function Formations() {

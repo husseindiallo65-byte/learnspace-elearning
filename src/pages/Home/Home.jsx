@@ -287,13 +287,15 @@ function BenefitIcon({ title }) {
         <div className="why-decoration why-decoration-bottom" aria-hidden="true" />
         <div className="container">
           <div className="section-heading why-heading">
-            <span className="eyebrow why-eyebrow">POURQUOI LEARNSPACE ?</span>
+            <span className="eyebrow why-eyebrow"><span className="why-eyebrow-dot" aria-hidden="true" /> POURQUOI LEARNSPACE ?</span>
             <h2>Apprends <span>autrement</span></h2>
             <p>Tout ce qu'il te faut pour progresser à ton rythme.</p>
+            <span className="why-heading-accent" aria-hidden="true"><span /></span>
           </div>
           <div className="ls-features why-grid">
-            {benefits.map((benefit) => (
+            {benefits.map((benefit, index) => (
               <article className="ls-feature-card why-card" key={benefit.title}>
+                <span className="why-card-number" aria-hidden="true">0{index + 1}</span>
                 <div className={`ls-feature-icon why-icon ${benefit.color}`}>
                   <BenefitIcon title={benefit.title} />
                 </div>

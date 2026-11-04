@@ -82,6 +82,122 @@ const levelTestQuestions = [
   },
 ];
 
+const speakingExercises = [
+  {
+    title: "Read Aloud",
+    duration: "30 à 40 secondes",
+    instruction: "Lis le passage à voix haute, clairement et sans t’arrêter entre les groupes de mots.",
+    prompt: "Many students choose to study online because digital courses offer flexibility and access to a wide range of learning resources.",
+  },
+  {
+    title: "Repeat Sentence",
+    duration: "10 secondes",
+    instruction: "Lis la phrase une fois, puis répète-la à voix haute en gardant les mêmes mots et le même ordre.",
+    prompt: "The library will remain open until eight o’clock during the examination period.",
+  },
+  {
+    title: "Describe Image",
+    duration: "25 à 40 secondes",
+    instruction: "Présente le sujet, décris les principales informations, puis termine par une conclusion.",
+    prompt: "Imagine un graphique qui compare le nombre d’étudiants inscrits à trois cours en 2022, 2023 et 2024. Le cours de langues progresse chaque année, tandis que les deux autres restent stables.",
+  },
+  {
+    title: "Retell Lecture",
+    duration: "40 secondes",
+    instruction: "Lis le court exposé, puis reformule à voix haute les idées principales avec tes propres mots.",
+    prompt: "Les espaces verts en ville améliorent la qualité de l’air et offrent aux habitants des lieux pour se détendre. Ils peuvent aussi réduire la chaleur pendant l’été. Pour être utiles à toute la communauté, ils doivent être faciles d’accès et bien entretenus.",
+  },
+  {
+    title: "Answer Short Question",
+    duration: "10 secondes",
+    instruction: "Réponds à la question à voix haute avec une réponse courte et précise.",
+    prompt: "What do we call a person who writes books?",
+  },
+];
+
+const writingExercises = [
+  {
+    title: "Summarize Written Text",
+    duration: "10 minutes",
+    wordLimit: { min: 5, max: 75 },
+    instruction: "Résume le passage en une seule phrase, en reprenant uniquement ses idées principales.",
+    prompt: "Public transport can reduce traffic congestion and air pollution in cities. Reliable buses and trains also make it easier for people to reach work, school, and essential services. However, transport systems need regular investment to remain safe, accessible, and punctual.",
+  },
+  {
+    title: "Write Essay",
+    duration: "20 minutes",
+    wordLimit: { min: 200, max: 300 },
+    instruction: "Rédige un texte structuré avec une introduction, des arguments illustrés par des exemples et une conclusion.",
+    prompt: "Some people believe that online learning is more effective than studying in a classroom. To what extent do you agree or disagree?",
+  },
+];
+
+const readingExercises = [
+  {
+    title: "Urban Gardens",
+    duration: "3 questions",
+    passage: "Community gardens are becoming increasingly popular in many cities. They provide residents with a place to grow fresh food and learn about sustainable agriculture. These gardens can also bring neighbours together, although they require volunteers to maintain them throughout the year.",
+    questions: [
+      { question: "What is one benefit of community gardens mentioned in the passage?", options: ["They provide fresh food.", "They reduce public transport costs.", "They create new roads."], answer: 0 },
+      { question: "How can these gardens help a neighbourhood?", options: ["By bringing neighbours together.", "By replacing local schools.", "By providing office space."], answer: 0 },
+      { question: "What do the gardens need throughout the year?", options: ["More parking spaces.", "Volunteers to maintain them.", "A larger supermarket."], answer: 1 },
+    ],
+  },
+  {
+    title: "Learning a Language",
+    duration: "3 questions",
+    passage: "Learning a new language takes regular practice. Short daily study sessions can help learners remember vocabulary more effectively than studying for many hours only once a week. Listening to podcasts and speaking with others also gives students the chance to use new expressions in context.",
+    questions: [
+      { question: "According to the passage, what can help learners remember vocabulary?", options: ["Short daily study sessions.", "Studying only once a month.", "Avoiding new expressions."], answer: 0 },
+      { question: "What is one way to use new expressions in context?", options: ["Listening to podcasts and speaking with others.", "Reading only word lists.", "Translating every sentence."], answer: 0 },
+      { question: "How often does the passage recommend practising?", options: ["Regularly, in short sessions.", "Only before an exam.", "For many hours once a week."], answer: 0 },
+    ],
+  },
+  {
+    title: "Public Transport",
+    duration: "3 questions",
+    passage: "A city transport survey found that commuters who used the new express bus saved an average of fifteen minutes on their journey. The service runs every ten minutes during rush hour. Some passengers requested more weekend services, but the transport authority said it would review demand before making changes.",
+    questions: [
+      { question: "How much time did express-bus commuters save on average?", options: ["Ten minutes.", "Fifteen minutes.", "Thirty minutes."], answer: 1 },
+      { question: "How often does the bus run during rush hour?", options: ["Every ten minutes.", "Every fifteen minutes.", "Once an hour."], answer: 0 },
+      { question: "What will the transport authority do before making changes?", options: ["Review demand.", "Cancel the service.", "Increase ticket prices."], answer: 0 },
+    ],
+  },
+];
+
+const listeningExercises = [
+  {
+    title: "A Library Announcement",
+    duration: "3 questions",
+    transcript: "Attention students. The main library will close at six p.m. this Friday for essential maintenance. The study rooms on the second floor will remain open until eight p.m. Please return borrowed books to the front desk before leaving.",
+    questions: [
+      { question: "Why will the main library close early on Friday?", options: ["For essential maintenance.", "Because of a public holiday.", "For a student meeting."], answer: 0 },
+      { question: "Which area will stay open until eight p.m.?", options: ["The café.", "The study rooms on the second floor.", "The front desk."], answer: 1 },
+      { question: "Where should students return borrowed books?", options: ["At the front desk.", "In the study rooms.", "At the main entrance."], answer: 0 },
+    ],
+  },
+  {
+    title: "Booking a Course",
+    duration: "3 questions",
+    transcript: "Hello, I would like to enrol in the evening photography course. I saw that classes begin on the twelfth of May and take place every Tuesday. Could you tell me whether the course fee includes the camera equipment?",
+    questions: [
+      { question: "Which course does the speaker want to join?", options: ["A morning art course.", "An evening photography course.", "A weekend writing course."], answer: 1 },
+      { question: "When do the classes begin?", options: ["On the twelfth of May.", "On the twentieth of May.", "On the second of June."], answer: 0 },
+      { question: "What does the speaker want to know about the fee?", options: ["Whether it includes camera equipment.", "Whether it can be paid in cash.", "Whether it covers travel."], answer: 0 },
+    ],
+  },
+  {
+    title: "Weather Report",
+    duration: "3 questions",
+    transcript: "Tomorrow will begin with clear skies and cool temperatures. Rain is expected in the west after midday and may continue into the evening. People travelling by car should allow extra time, as roads could become slippery during the afternoon.",
+    questions: [
+      { question: "What will the weather be like in the morning?", options: ["Clear and cool.", "Windy and warm.", "Rainy throughout the region."], answer: 0 },
+      { question: "When is rain expected in the west?", options: ["Before sunrise.", "After midday.", "Late at night only."], answer: 1 },
+      { question: "What should drivers do?", options: ["Allow extra time.", "Avoid travelling in the morning.", "Use public parks."], answer: 0 },
+    ],
+  },
+];
+
 const studyTasks = [
   { id: "lesson", label: "Suivre un chapitre de formation", detail: "Avance à ton rythme dans une leçon." },
   { id: "practice", label: "Faire un exercice ou un quiz", detail: "Vérifie tes connaissances après ta leçon." },
@@ -123,6 +239,19 @@ export default function Dashboard() {
   const [accountMenuOpen, setAccountMenuOpen] = useState(false);
   const [levelTestAnswers, setLevelTestAnswers] = useState({});
   const [levelTestResult, setLevelTestResult] = useState(null);
+  const [selectedSpeakingExercise, setSelectedSpeakingExercise] = useState(0);
+  const [completedSpeakingExercises, setCompletedSpeakingExercises] = useState([]);
+  const [selectedWritingExercise, setSelectedWritingExercise] = useState(0);
+  const [writingResponse, setWritingResponse] = useState("");
+  const [writingFeedback, setWritingFeedback] = useState("");
+  const [selectedReadingExercise, setSelectedReadingExercise] = useState(0);
+  const [readingAnswers, setReadingAnswers] = useState({});
+  const [readingResult, setReadingResult] = useState(null);
+  const [selectedListeningExercise, setSelectedListeningExercise] = useState(0);
+  const [listeningAnswers, setListeningAnswers] = useState({});
+  const [listeningResult, setListeningResult] = useState(null);
+  const [isListeningAudioPlaying, setIsListeningAudioPlaying] = useState(false);
+  const [listeningAudioNotice, setListeningAudioNotice] = useState("");
   const [dashboardContactNotice, setDashboardContactNotice] = useState("");
   const [vocabularyCategory, setVocabularyCategory] = useState("Tout");
   const [vocabularyIndex, setVocabularyIndex] = useState(0);
@@ -153,6 +282,13 @@ export default function Dashboard() {
   useEffect(() => {
     setIsVisible(true);
   }, []);
+
+  useEffect(() => {
+    if (activeMenu !== "Compréhension orale" && isListeningAudioPlaying) {
+      window.speechSynthesis.cancel();
+      setIsListeningAudioPlaying(false);
+    }
+  }, [activeMenu, isListeningAudioPlaying]);
 
   const banners = [
     {
@@ -187,6 +323,51 @@ export default function Dashboard() {
   const restartLevelTest = () => {
     setLevelTestAnswers({});
     setLevelTestResult(null);
+  };
+
+  const checkWritingResponse = () => {
+    const exercise = writingExercises[selectedWritingExercise];
+    const wordCount = writingResponse.trim() ? writingResponse.trim().split(/\s+/).length : 0;
+    if (wordCount < exercise.wordLimit.min) {
+      setWritingFeedback(`Ton texte contient ${wordCount} mot(s). Ajoute du contenu pour atteindre au moins ${exercise.wordLimit.min} mots.`);
+    } else if (wordCount > exercise.wordLimit.max) {
+      setWritingFeedback(`Ton texte contient ${wordCount} mots. Réduis-le à ${exercise.wordLimit.max} mots maximum.`);
+    } else {
+      setWritingFeedback(`La longueur est conforme : ${wordCount} mot(s). Relis ton texte pour vérifier la grammaire et la clarté.`);
+    }
+  };
+
+  const submitComprehensionQuiz = (event, questions, answers, setResult) => {
+    event.preventDefault();
+    const correct = questions.reduce(
+      (total, question, index) => total + (Number(answers[index]) === question.answer ? 1 : 0),
+      0,
+    );
+    setResult({ correct, total: questions.length });
+  };
+
+  const playListeningExercise = () => {
+    if (!("speechSynthesis" in window)) {
+      setListeningAudioNotice("La lecture audio n’est pas disponible dans ce navigateur.");
+      return;
+    }
+
+    if (isListeningAudioPlaying) {
+      window.speechSynthesis.cancel();
+      setIsListeningAudioPlaying(false);
+      return;
+    }
+
+    const utterance = new SpeechSynthesisUtterance(listeningExercises[selectedListeningExercise].transcript);
+    utterance.lang = "en-US";
+    utterance.onend = () => setIsListeningAudioPlaying(false);
+    utterance.onerror = () => {
+      setIsListeningAudioPlaying(false);
+      setListeningAudioNotice("La lecture audio a échoué. Réessaie ou vérifie les paramètres audio de ton navigateur.");
+    };
+    setListeningAudioNotice("");
+    setIsListeningAudioPlaying(true);
+    window.speechSynthesis.speak(utterance);
   };
 
   const toggleStudyTask = (taskId) => {
@@ -320,10 +501,10 @@ export default function Dashboard() {
                 </button>
                 {practiceOpen && (
                   <div className="navbar-dropdown-menu">
-                    {["Tests blancs", "Expression orale", "Expression écrite", "Compréhension écrite", "Compréhension orale"].map((title) => (
-                      <Link key={title} to="/formations" onClick={() => setPracticeOpen(false)}>
+                    {["Expression orale", "Expression écrite", "Compréhension écrite", "Compréhension orale"].map((title) => (
+                      <button key={title} type="button" onClick={() => { setActiveMenu(title); setPracticeOpen(false); window.scrollTo({ top: 0, behavior: "smooth" }); }}>
                         {title}
-                      </Link>
+                      </button>
                     ))}
                   </div>
                 )}
@@ -854,6 +1035,283 @@ export default function Dashboard() {
                     </fieldset>
                   ))}
                   <button className="level-test-submit" type="submit">Voir mon résultat <ArrowRight size={17} /></button>
+                </form>
+              )}
+            </article>
+          </section>
+        ) : activeMenu === "Expression orale" ? (
+          <section className="pte-practice-section">
+            <header className="settings-header">
+              <span className="level-test-eyebrow"><Mic size={16} /> ENTRAÎNEMENT PTE</span>
+              <h1>Expression orale</h1>
+              <p>Entraîne-toi aux différents exercices oraux du PTE et travaille la fluidité, la prononciation et la prise de notes.</p>
+            </header>
+
+            <div className="practice-exercise-grid">
+              {speakingExercises.map((exercise, index) => (
+                <button
+                  className={`practice-exercise-card ${selectedSpeakingExercise === index ? "selected" : ""} ${completedSpeakingExercises.includes(index) ? "completed" : ""}`}
+                  key={exercise.title}
+                  type="button"
+                  aria-pressed={selectedSpeakingExercise === index}
+                  onClick={() => setSelectedSpeakingExercise(index)}
+                >
+                  <span className="practice-exercise-number">{String(index + 1).padStart(2, "0")}</span>
+                  <strong>{exercise.title}</strong>
+                  <small>{exercise.duration}</small>
+                  {completedSpeakingExercises.includes(index) && <CheckCircle2 size={17} aria-label="Exercice travaillé" />}
+                </button>
+              ))}
+            </div>
+
+            <article className="practice-prompt-card">
+              <div className="practice-prompt-heading">
+                <div>
+                  <span className="study-section-eyebrow">EXERCICE {String(selectedSpeakingExercise + 1).padStart(2, "0")}</span>
+                  <h2>{speakingExercises[selectedSpeakingExercise].title}</h2>
+                </div>
+                <span className="practice-duration"><Clock3 size={15} />{speakingExercises[selectedSpeakingExercise].duration}</span>
+              </div>
+              <p>{speakingExercises[selectedSpeakingExercise].instruction}</p>
+              <blockquote>{speakingExercises[selectedSpeakingExercise].prompt}</blockquote>
+              <div className="practice-prompt-actions">
+                <span>Lis la consigne, prépare ta réponse, puis entraîne-toi à voix haute.</span>
+                <button
+                  className="level-test-submit"
+                  type="button"
+                  onClick={() => setCompletedSpeakingExercises((completed) => (
+                    completed.includes(selectedSpeakingExercise)
+                      ? completed.filter((index) => index !== selectedSpeakingExercise)
+                      : [...completed, selectedSpeakingExercise]
+                  ))}
+                >
+                  <CheckCircle2 size={16} />
+                  {completedSpeakingExercises.includes(selectedSpeakingExercise) ? "Marqué comme travaillé" : "Marquer comme travaillé"}
+                </button>
+              </div>
+            </article>
+          </section>
+        ) : activeMenu === "Expression écrite" ? (
+          <section className="pte-practice-section">
+            <header className="settings-header">
+              <span className="level-test-eyebrow"><FileText size={16} /> ENTRAÎNEMENT PTE</span>
+              <h1>Expression écrite</h1>
+              <p>Travaille la synthèse et la rédaction en respectant les consignes et le nombre de mots attendu.</p>
+            </header>
+
+            <div className="practice-exercise-grid writing-exercise-grid">
+              {writingExercises.map((exercise, index) => (
+                <button
+                  className={`practice-exercise-card ${selectedWritingExercise === index ? "selected" : ""}`}
+                  key={exercise.title}
+                  type="button"
+                  aria-pressed={selectedWritingExercise === index}
+                  onClick={() => {
+                    setSelectedWritingExercise(index);
+                    setWritingResponse("");
+                    setWritingFeedback("");
+                  }}
+                >
+                  <span className="practice-exercise-number">{String(index + 1).padStart(2, "0")}</span>
+                  <strong>{exercise.title}</strong>
+                  <small>{exercise.wordLimit.min}–{exercise.wordLimit.max} mots · {exercise.duration}</small>
+                </button>
+              ))}
+            </div>
+
+            <article className="practice-prompt-card writing-prompt-card">
+              <div className="practice-prompt-heading">
+                <div>
+                  <span className="study-section-eyebrow">SUJET D’ENTRAÎNEMENT</span>
+                  <h2>{writingExercises[selectedWritingExercise].title}</h2>
+                </div>
+                <span className="practice-duration"><Clock3 size={15} />{writingExercises[selectedWritingExercise].duration}</span>
+              </div>
+              <p>{writingExercises[selectedWritingExercise].instruction}</p>
+              <blockquote>{writingExercises[selectedWritingExercise].prompt}</blockquote>
+              <label className="writing-response-label" htmlFor="pte-writing-response">Ta réponse</label>
+              <textarea
+                id="pte-writing-response"
+                className="writing-response"
+                value={writingResponse}
+                onChange={(event) => {
+                  setWritingResponse(event.target.value);
+                  setWritingFeedback("");
+                }}
+                placeholder="Écris ta réponse ici…"
+              />
+              <div className="writing-response-footer">
+                <span>{writingResponse.trim() ? writingResponse.trim().split(/\s+/).length : 0} / {writingExercises[selectedWritingExercise].wordLimit.min}–{writingExercises[selectedWritingExercise].wordLimit.max} mots</span>
+                <button className="level-test-submit" type="button" onClick={checkWritingResponse}>
+                  <ClipboardCheck size={16} /> Vérifier la longueur
+                </button>
+              </div>
+              {writingFeedback && <p className="writing-feedback" role="status">{writingFeedback}</p>}
+            </article>
+          </section>
+        ) : activeMenu === "Compréhension écrite" ? (
+          <section className="pte-practice-section">
+            <header className="settings-header">
+              <span className="level-test-eyebrow"><BookOpen size={16} /> ENTRAÎNEMENT PTE</span>
+              <h1>Compréhension écrite</h1>
+              <p>Lis chaque texte attentivement, repère les informations importantes et réponds aux questions.</p>
+            </header>
+
+            <div className="practice-exercise-grid writing-exercise-grid">
+              {readingExercises.map((exercise, index) => (
+                <button
+                  className={`practice-exercise-card ${selectedReadingExercise === index ? "selected" : ""}`}
+                  key={exercise.title}
+                  type="button"
+                  aria-pressed={selectedReadingExercise === index}
+                  onClick={() => {
+                    setSelectedReadingExercise(index);
+                    setReadingAnswers({});
+                    setReadingResult(null);
+                  }}
+                >
+                  <span className="practice-exercise-number">{String(index + 1).padStart(2, "0")}</span>
+                  <strong>{exercise.title}</strong>
+                  <small>{exercise.duration} · Lecture et questions</small>
+                </button>
+              ))}
+            </div>
+
+            <article className="practice-prompt-card">
+              <div className="practice-prompt-heading">
+                <div>
+                  <span className="study-section-eyebrow">TEXTE {String(selectedReadingExercise + 1).padStart(2, "0")}</span>
+                  <h2>{readingExercises[selectedReadingExercise].title}</h2>
+                </div>
+                <span className="practice-duration"><BookOpen size={15} />{readingExercises[selectedReadingExercise].duration}</span>
+              </div>
+              <blockquote>{readingExercises[selectedReadingExercise].passage}</blockquote>
+
+              {readingResult ? (
+                <div className="comprehension-result" role="status">
+                  <div>
+                    <strong>Résultat : {readingResult.correct}/{readingResult.total}</strong>
+                    <span>{readingResult.correct === readingResult.total ? "Excellent, toutes les réponses sont correctes !" : "Relis le texte et réessaie pour améliorer ton score."}</span>
+                  </div>
+                  <button className="level-test-submit" type="button" onClick={() => { setReadingAnswers({}); setReadingResult(null); }}>
+                    <RotateCcw size={16} /> Réessayer
+                  </button>
+                </div>
+              ) : (
+                <form className="comprehension-quiz" onSubmit={(event) => submitComprehensionQuiz(event, readingExercises[selectedReadingExercise].questions, readingAnswers, setReadingResult)}>
+                  {readingExercises[selectedReadingExercise].questions.map((item, index) => (
+                    <fieldset className="level-test-question" key={item.question}>
+                      <legend><span>{String(index + 1).padStart(2, "0")}</span>{item.question}</legend>
+                      <div className="level-test-options">
+                        {item.options.map((option, optionIndex) => (
+                          <label className="level-test-option" key={option}>
+                            <input
+                              type="radio"
+                              name={`reading-question-${selectedReadingExercise}-${index}`}
+                              value={optionIndex}
+                              checked={String(readingAnswers[index]) === String(optionIndex)}
+                              onChange={() => setReadingAnswers((answers) => ({ ...answers, [index]: optionIndex }))}
+                              required
+                            />
+                            <span>{option}</span>
+                          </label>
+                        ))}
+                      </div>
+                    </fieldset>
+                  ))}
+                  <button className="level-test-submit" type="submit">Corriger mes réponses <ArrowRight size={17} /></button>
+                </form>
+              )}
+            </article>
+          </section>
+        ) : activeMenu === "Compréhension orale" ? (
+          <section className="pte-practice-section">
+            <header className="settings-header">
+              <span className="level-test-eyebrow"><Brain size={16} /> ENTRAÎNEMENT PTE</span>
+              <h1>Compréhension orale</h1>
+              <p>Écoute chaque extrait en anglais, prends en compte les détails et réponds aux questions sans lire la transcription.</p>
+            </header>
+
+            <div className="practice-exercise-grid writing-exercise-grid">
+              {listeningExercises.map((exercise, index) => (
+                <button
+                  className={`practice-exercise-card ${selectedListeningExercise === index ? "selected" : ""}`}
+                  key={exercise.title}
+                  type="button"
+                  aria-pressed={selectedListeningExercise === index}
+                  onClick={() => {
+                    if (isListeningAudioPlaying) window.speechSynthesis.cancel();
+                    setIsListeningAudioPlaying(false);
+                    setListeningAudioNotice("");
+                    setSelectedListeningExercise(index);
+                    setListeningAnswers({});
+                    setListeningResult(null);
+                  }}
+                >
+                  <span className="practice-exercise-number">{String(index + 1).padStart(2, "0")}</span>
+                  <strong>{exercise.title}</strong>
+                  <small>{exercise.duration} · Écoute et questions</small>
+                </button>
+              ))}
+            </div>
+
+            <article className="practice-prompt-card">
+              <div className="practice-prompt-heading">
+                <div>
+                  <span className="study-section-eyebrow">AUDIO {String(selectedListeningExercise + 1).padStart(2, "0")}</span>
+                  <h2>{listeningExercises[selectedListeningExercise].title}</h2>
+                </div>
+                <span className="practice-duration"><Clock3 size={15} />{listeningExercises[selectedListeningExercise].duration}</span>
+              </div>
+              <p>Écoute l’extrait en anglais avant de répondre. Tu peux le réécouter autant de fois que nécessaire.</p>
+              <div className="listening-audio-player">
+                <button className="level-test-submit" type="button" onClick={playListeningExercise}>
+                  {isListeningAudioPlaying ? <RotateCcw size={16} /> : <Brain size={16} />}
+                  {isListeningAudioPlaying ? "Arrêter l’audio" : "Écouter l’extrait"}
+                </button>
+                <span>Audio en anglais · Voix de synthèse du navigateur</span>
+              </div>
+              {listeningAudioNotice && <p className="writing-feedback" role="status">{listeningAudioNotice}</p>}
+
+              {listeningResult ? (
+                <>
+                  <div className="comprehension-result" role="status">
+                    <div>
+                      <strong>Résultat : {listeningResult.correct}/{listeningResult.total}</strong>
+                      <span>{listeningResult.correct === listeningResult.total ? "Excellent, toutes les réponses sont correctes !" : "Réécoute l’extrait et réessaie pour améliorer ton score."}</span>
+                    </div>
+                    <button className="level-test-submit" type="button" onClick={() => { setListeningAnswers({}); setListeningResult(null); }}>
+                      <RotateCcw size={16} /> Réessayer
+                    </button>
+                  </div>
+                  <details className="listening-transcript">
+                    <summary>Afficher la transcription</summary>
+                    <p>{listeningExercises[selectedListeningExercise].transcript}</p>
+                  </details>
+                </>
+              ) : (
+                <form className="comprehension-quiz" onSubmit={(event) => submitComprehensionQuiz(event, listeningExercises[selectedListeningExercise].questions, listeningAnswers, setListeningResult)}>
+                  {listeningExercises[selectedListeningExercise].questions.map((item, index) => (
+                    <fieldset className="level-test-question" key={item.question}>
+                      <legend><span>{String(index + 1).padStart(2, "0")}</span>{item.question}</legend>
+                      <div className="level-test-options">
+                        {item.options.map((option, optionIndex) => (
+                          <label className="level-test-option" key={option}>
+                            <input
+                              type="radio"
+                              name={`listening-question-${selectedListeningExercise}-${index}`}
+                              value={optionIndex}
+                              checked={String(listeningAnswers[index]) === String(optionIndex)}
+                              onChange={() => setListeningAnswers((answers) => ({ ...answers, [index]: optionIndex }))}
+                              required
+                            />
+                            <span>{option}</span>
+                          </label>
+                        ))}
+                      </div>
+                    </fieldset>
+                  ))}
+                  <button className="level-test-submit" type="submit">Corriger mes réponses <ArrowRight size={17} /></button>
                 </form>
               )}
             </article>

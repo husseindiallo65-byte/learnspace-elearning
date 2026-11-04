@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 480" fill="none">
+  <defs>
+    <linearGradient id="background" x1="72" y1="16" x2="759" y2="464" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#182946"/>
+      <stop offset="1" stop-color="#0B1428"/>
+    </linearGradient>
+    <linearGradient id="editor" x1="229" y1="89" x2="702" y2="411" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1D304B"/>
+      <stop offset="1" stop-color="#101D32"/>
+    </linearGradient>
+    <linearGradient id="js" x1="86" y1="228" x2="254" y2="396" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFE56A"/>
+      <stop offset="1" stop-color="#F5B91D"/>
+    </linearGradient>
+    <filter id="shadow" x="204" y="64" width="546" height="390" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="16"/>
+    </filter>
+  </defs>
+  <path fill="url(#background)" d="M0 0h800v480H0z"/>
+  <circle cx="711" cy="92" r="162" fill="#F5C943" fill-opacity=".08"/>
+  <circle cx="87" cy="455" r="173" fill="#5FEB98" fill-opacity=".07"/>
+  <path d="M0 385c133-65 265-66 400 0s267 66 400 0v95H0v-95Z" fill="#F5C943" fill-opacity=".035"/>
+  <g filter="url(#shadow)" opacity=".42">
+    <rect x="231" y="96" width="475" height="324" rx="20" fill="#000"/>
+  </g>
+  <rect x="222" y="81" width="475" height="324" rx="20" fill="url(#editor)" stroke="#FFFFFF" stroke-opacity=".14"/>
+  <path d="M222 101a20 20 0 0 1 20-20h435a20 20 0 0 1 20 20v36H222v-36Z" fill="#FFFFFF" fill-opacity=".045"/>
+  <circle cx="249" cy="108" r="5" fill="#FF716A"/>
+  <circle cx="267" cy="108" r="5" fill="#F8C85C"/>
+  <circle cx="285" cy="108" r="5" fill="#5FEB98"/>
+  <rect x="319" y="98" width="127" height="21" rx="7" fill="#0B1729"/>
+  <rect x="333" y="105" width="8" height="8" rx="2" fill="#F6D54A"/>
+  <path d="M347 105h39v2h-39zm0 4h29v2h-29z" fill="#B4C0D0"/>
+  <rect x="239" y="155" width="441" height="229" rx="12" fill="#0C1728"/>
+  <rect x="257" y="173" width="60" height="19" rx="6" fill="#F5C943" fill-opacity=".14"/>
+  <text x="271" y="186" fill="#FFE06A" font-family="Arial,sans-serif" font-size="10" font-weight="700">SCRIPT.JS</text>
+  <path d="M265 217h10m-10 23h10m-10 23h10m-10 23h10m-10 23h10m-10 23h10m-10 23h10" stroke="#687F9B" stroke-linecap="round" stroke-width="4"/>
+  <path d="M286 217h54m-40 23h86m-73 23h108m-94 23h68m-53 23h117m-103 23h76m-62 23h106" stroke="#7BCFA2" stroke-linecap="round" stroke-width="4"/>
+  <path d="M286 217h16m-16 23h16m-16 23h16m-16 23h16m-16 23h16m-16 23h16m-16 23h16" stroke="#F6D54A" stroke-linecap="round" stroke-width="4"/>
+  <path d="M355 217h40m-4 23h24m-10 23h20m-28 23h31m-17 23h40m-24 23h20" stroke="#A8B9D2" stroke-linecap="round" stroke-width="4"/>
+  <rect x="493" y="169" width="165" height="196" rx="10" fill="#13243A" stroke="#FFFFFF" stroke-opacity=".08"/>
+  <rect x="508" y="184" width="135" height="63" rx="8" fill="#F5C943" fill-opacity=".1"/>
+  <text x="523" y="207" fill="#F7D451" font-family="Arial,sans-serif" font-size="11" font-weight="700">let progress =</text>
+  <text x="523" y="228" fill="#FFFFFF" font-family="Arial,sans-serif" font-size="17" font-weight="700">100%</text>
+  <rect x="508" y="259" width="135" height="88" rx="8" fill="#0D1A2C"/>
+  <text x="521" y="280" fill="#8EA2BA" font-family="Arial,sans-serif" font-size="9" font-weight="700">COURSE STATUS</text>
+  <rect x="521" y="292" width="107" height="7" rx="3.5" fill="#FFFFFF" fill-opacity=".1"/>
+  <rect x="521" y="292" width="81" height="7" rx="3.5" fill="#5FEB98"/>
+  <circle cx="527" cy="322" r="5" fill="#5FEB98"/>
+  <text x="539" y="325" fill="#C4D0DF" font-family="Arial,sans-serif" font-size="9">Concepts maîtrisés</text>
+  <g transform="rotate(-9 160 296)">
+    <rect x="81" y="217" width="158" height="158" rx="29" fill="url(#js)"/>
+    <path d="M177 326c0 12-7 18-19 18-10 0-17-5-21-13l11-7c3 5 5 8 10 8 4 0 6-2 6-7v-42h13v43Zm17 3c4 6 9 9 16 9 6 0 9-2 9-6 0-5-4-6-10-9l-5-2c-10-4-17-9-17-21 0-11 8-19 22-19 10 0 17 3 22 12l-11 7c-2-4-6-7-11-7s-8 3-8 6c0 4 3 6 9 8l5 2c12 5 19 10 19 22 0 13-10 20-24 20-13 0-22-6-27-15l11-6Z" fill="#17243A"/>
+  </g>
+  <rect x="549" y="44" width="144" height="34" rx="17" fill="#5FEB98"/>
+  <circle cx="568" cy="61" r="5" fill="#123B2A"/>
+  <text x="582" y="65" fill="#123B2A" font-family="Arial,sans-serif" font-size="11" font-weight="700">INTERACTIVITÉ</text>
+</svg>
