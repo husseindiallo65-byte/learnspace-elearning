@@ -2,20 +2,17 @@ import { useMemo, useState } from "react";
 import { useLocation, useSearchParams } from "react-router-dom";
 import CourseCard from "../../components/CourseCard.jsx";
 import { courses, categories } from "../../data/courses.js";
-import courseReact from "../../assets/course-react.webp";
 import courseDesign from "../../assets/course-design.webp";
 import courseMarketing from "../../assets/course-marketing.webp";
 import courseOffice from "../../assets/course-office.webp";
-import courseHtmlCss from "../../assets/course-html-css.svg";
-import courseJavascript from "../../assets/course-javascript.svg";
 
 const courseImages = {
-  "react-debutant": courseReact,
+  "react-debutant": "https://i.ibb.co/G6s9vjt/programer-sitting-desk-with-multiple-screens-running-code-talking-with-colleague-about-artificial-in.jpg",
   "design-graphique": courseDesign,
   "marketing-digital": courseMarketing,
   bureautique: courseOffice,
-  "html-css": courseHtmlCss,
-  "javascript-debutant": courseJavascript
+  "html-css": "https://i.ibb.co/XZdxVW2V/html-programming-advanced-technology-web-concept.jpg",
+  "javascript-debutant": "https://i.ibb.co/CGhVdv0/teleworker-using-laptop-coding-software-developing.jpg"
 };
 
 export default function Formations() {

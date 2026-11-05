@@ -509,8 +509,7 @@ export default function Dashboard() {
                   </div>
                 )}
               </div>
-              <Link to="/formations" className="navbar-link">Cours</Link>
-              <Link to="/" className="navbar-link">Application</Link>
+              <button type="button" className="navbar-link" onClick={() => { setActiveMenu("Cours"); setPracticeOpen(false); window.scrollTo({ top: 0, behavior: "smooth" }); }}>Cours</button>
             </nav>
 
             <div className="navbar-actions">
@@ -568,8 +567,7 @@ export default function Dashboard() {
                       >
                         Pratique PTE
                       </button>
-                      <Link to="/formations" onClick={() => setAccountMenuOpen(false)}>Cours</Link>
-                      <Link to="/" onClick={() => setAccountMenuOpen(false)}>Application</Link>
+                      <button type="button" onClick={() => { setActiveMenu("Cours"); setAccountMenuOpen(false); window.scrollTo({ top: 0, behavior: "smooth" }); }}>Cours</button>
                     </nav>
                     <Link to="/profil" onClick={() => setAccountMenuOpen(false)}>
                       <UserRound size={16} /> Profil
@@ -733,6 +731,63 @@ export default function Dashboard() {
                   </div>
                 </article>
               )}
+            </div>
+
+            <footer className="dashboard-footer">
+              <span>LearnSpace © 2026</span>
+              <span>Apprendre aujourd'hui. Réussir demain.</span>
+            </footer>
+          </section>
+        ) : activeMenu === "Cours" ? (
+          <section className="dashboard-courses-section">
+            <header className="study-center-header">
+              <span className="study-center-eyebrow"><BookOpen size={16} /> TON PROGRAMME DE FORMATION</span>
+              <h1>Mes cours</h1>
+              <p>Consulte les programmes et retrouve les chapitres de chaque formation.</p>
+            </header>
+
+            <div className="dashboard-courses-list">
+              {courses.map((course) => {
+                const progress = getCourseProgress(course.id, course);
+                const chapter = getCourseResumeChapter(course);
+                const CourseIcon = studyCourseIcons[course.category] || BookOpen;
+                return (
+                  <article className="dashboard-program-card" key={course.id}>
+                    <div className="dashboard-program-heading">
+                      <span className={`study-course-icon art-${course.color}`} aria-hidden="true">
+                        <CourseIcon size={21} strokeWidth={1.8} />
+                      </span>
+                      <div className="dashboard-program-title">
+                        <span className="study-section-eyebrow">{course.category} · {course.level}</span>
+                        <h2>{course.title}</h2>
+                        <p>{course.shortDescription}</p>
+                      </div>
+                      <span className="dashboard-program-progress">{progress}% complété</span>
+                    </div>
+                    <div className="study-course-track" aria-label={`Progression : ${progress}%`}>
+                      <span style={{ width: `${progress}%` }} />
+                    </div>
+                    <details className="dashboard-program-details">
+                      <summary>Voir le programme ({getAllChapters(course).length} chapitres)</summary>
+                      {course.modules.map((module) => (
+                        <section className="dashboard-program-module" key={module.id}>
+                          <h3>{module.title}</h3>
+                          <ol>
+                            {module.chapters.map((item) => (
+                              <li key={item.id}>
+                                <Link to={`/formations/${course.id}/cours/${item.id}`}>{item.title}</Link>
+                              </li>
+                            ))}
+                          </ol>
+                        </section>
+                      ))}
+                    </details>
+                    <Link className="study-course-action" to={`/formations/${course.id}/cours/${chapter.id}`}>
+                      {progress > 0 && progress < 100 ? "Reprendre la formation" : progress === 100 ? "Revoir la formation" : "Commencer la formation"} <ArrowRight size={14} />
+                    </Link>
+                  </article>
+                );
+              })}
             </div>
 
             <footer className="dashboard-footer">
