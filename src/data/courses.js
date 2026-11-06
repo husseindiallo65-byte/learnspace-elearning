@@ -29,7 +29,8 @@ export const courses = [
     quiz: [
       { question: "Quel hook React permet de gérer un état local ?", options: ["useEffect", "useState", "useRouter", "useFetch"], answer: 1 },
       { question: "Quel langage décrit la structure d'une interface React ?", options: ["SQL", "Bash", "JSX", "PHP uniquement"], answer: 2 },
-      { question: "Les props servent principalement à…", options: ["Transmettre des données", "Créer une base de données", "Démarrer Vite", "Remplacer CSS"], answer: 0 }
+      { question: "Les props servent principalement à…", options: ["Transmettre des données", "Créer une base de données", "Démarrer Vite", "Remplacer CSS"], answer: 0 },
+      { question: "Which options can define a React component?", options: ["A function that returns JSX", "A class extending React.Component", "A CSS selector", "A SQL query"], answer: [0, 1], multiple: true }
     ]
   },
   {

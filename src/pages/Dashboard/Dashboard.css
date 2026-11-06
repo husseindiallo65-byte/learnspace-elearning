@@ -28,15 +28,16 @@ button:focus-visible, a:focus-visible {
 .pte-app { display: flex; gap: 0; width: 100%; min-height: 100vh; margin: 0; padding: 0; background: #fff; border-radius: 0; }
 
 .sidebar {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
   display: flex;
   flex: 0 0 220px;
   flex-direction: column;
-  align-self: flex-start;
-  height: 100vh;
-  min-height: 650px;
-  max-height: 100vh;
+  width: 220px;
+  height: 100dvh;
+  min-height: 0;
+  max-height: 100dvh;
   padding: 18px 13px;
   color: #d5e6ed;
   background: linear-gradient(165deg, #080e2b, #080e2b);
@@ -71,7 +72,7 @@ button:focus-visible, a:focus-visible {
 .logo-symbol { display: flex; color: #ffffff; }
 .logo-light { font-weight: 500; }
 
-.sidebar-menu { display: flex; flex-direction: column; gap: 4px; }
+.sidebar-menu { display: flex; flex: 1; flex-direction: column; gap: 4px; min-height: 0; }
 
 .sidebar-link {
   display: flex;
@@ -111,7 +112,8 @@ button:focus-visible, a:focus-visible {
 .sidebar-bottom {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 6px;
+  padding-top: 16px;
   margin-top: auto;
 }
 
@@ -141,6 +143,7 @@ button:focus-visible, a:focus-visible {
 .main-content {
   flex: 1;
   min-width: 0;
+  margin-left: 220px;
   padding: 24px 28px;
   opacity: 0;
   transform: translateY(20px);
@@ -837,7 +840,8 @@ button:focus-visible, a:focus-visible {
 
 @media (max-width: 1100px) {
   .pte-app { gap: 12px; padding: 12px; }
-  .sidebar { flex-basis: 190px; padding: 16px 10px; }
+  .sidebar { flex-basis: 190px; width: 190px; padding: 16px 10px; }
+  .main-content { margin-left: 190px; }
   .pte-logo { font-size: 20px; }
   .top-navigation { gap: 3px; }
   .top-nav-item { padding: 8px 4px; font-size: 10px; }
@@ -990,12 +994,15 @@ button:focus-visible, a:focus-visible {
 
 @media (max-width: 920px) {
   .pte-app { flex-direction: column; }
+  .main-content { margin-left: 0; }
   .sidebar {
     position: fixed;
     top: 0;
     left: 0;
     z-index: 40;
+    width: min(290px, 86vw);
     height: 100vh;
+    max-height: none;
     transform: translateX(-100%);
     transition: transform 0.3s ease;
     border-radius: 0 16px 16px 0;
@@ -2161,6 +2168,29 @@ button:focus-visible, a:focus-visible {
 }
 
 .dashboard-courses-list { display: grid; gap: 16px; }
+
+.dashboard-quiz-section {
+  width: min(100%, 1120px);
+  margin: 0 auto;
+  padding: 28px 20px 60px;
+}
+
+.dashboard-quiz-section .quiz-panel {
+  border-color: #e6eee9;
+  color: #263445;
+  background: #fff;
+  box-shadow: 0 12px 35px rgba(20, 65, 50, 0.05);
+}
+
+.dashboard-quiz-section .quiz-question { border-color: #e6eee9; }
+.dashboard-quiz-section .quiz-question legend { color: #263445; }
+.dashboard-quiz-section .quiz-answer-hint { color: #667085; }
+.dashboard-quiz-section .quiz-option { border-color: #e6eee9; color: #475467; }
+.dashboard-quiz-section .quiz-result p { color: #667085; }
+.dashboard-quiz-section .quiz-result-breakdown p { background: #f3f6f5; }
+.dashboard-quiz-section .quiz-result-breakdown .quiz-result-correct { color: #278455; }
+.dashboard-quiz-section .quiz-result-breakdown .quiz-result-incorrect { color: #dc2626; }
+.dashboard-quiz-section .quiz-empty { color: #667085; }
 
 .dashboard-program-card {
   padding: 20px;

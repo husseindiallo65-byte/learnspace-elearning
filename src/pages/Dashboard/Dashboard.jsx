@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { getCourseProgress, getProfile, getProgress, getQuizResults, getStudyPlan, saveProfile, saveStudyPlan } from "../../utils/storage.js";
 import { courses, getAllChapters } from "../../data/courses.js";
+import Quiz from "../../components/Quiz.jsx";
 import { logoutDemoAccount } from "../../utils/demoAuth.js";
 import instagramIcon from "../../assets/social/instagram.png";
 import youtubeIcon from "../../assets/social/youtube.png";
@@ -28,6 +29,7 @@ const menuItems = [
   { label: "VIP", icon: Star },
   { label: "Notifications", icon: Bell },
   { label: "Contact", icon: FileText },
+  { label: "Quiz", icon: ClipboardCheck },
   { label: "Aide (Q&R)", icon: CircleHelp },
   { label: "Paramètres", icon: Settings },
   { label: "Se déconnecter", icon: LogOut },
@@ -463,7 +465,7 @@ export default function Dashboard() {
 
         <div className="sidebar-menu">
           {menuItems.map(({ label, icon: Icon }) => (
-            <button key={label} className={`sidebar-link ${activeMenu === label ? "active" : ""}`} onClick={() => { if (label === "Se déconnecter") { logoutDemoAccount(); navigate("/connexion"); return; } setActiveMenu(label); setSidebarOpen(false); if (label === "Paramètres" || label === "Aide (Q&R)" || label === "Contact") window.scrollTo({ top: 0, behavior: "smooth" }); }}>
+            <button key={label} className={`sidebar-link ${activeMenu === label ? "active" : ""}`} onClick={() => { if (label === "Se déconnecter") { logoutDemoAccount(); navigate("/connexion"); return; } setActiveMenu(label); setSidebarOpen(false); if (label === "Paramètres" || label === "Aide (Q&R)" || label === "Contact" || label === "Quiz") window.scrollTo({ top: 0, behavior: "smooth" }); }}>
               <Icon size={16} />
               <span>{label}</span>
             </button>
@@ -830,6 +832,21 @@ export default function Dashboard() {
                 <button className="dashboard-contact-submit" type="submit">Préparer le courriel <ArrowRight size={16} /></button>
               </form>
             </div>
+          </section>
+        ) : activeMenu === "Quiz" ? (
+          <section className="dashboard-quiz-section">
+            <header className="study-center-header">
+              <span className="study-center-eyebrow"><ClipboardCheck size={16} /> PROJET REACT</span>
+              <h1>Plateforme e-learning</h1>
+              <p>Réponds aux questions à choix unique ou multiple, valide tes réponses et consulte ton score.</p>
+            </header>
+
+            {courses[0] && <Quiz course={courses[0]} />}
+
+            <footer className="dashboard-footer">
+              <span>LearnSpace © 2026</span>
+              <span>Apprendre aujourd'hui. Réussir demain.</span>
+            </footer>
           </section>
         ) : activeMenu === "Vocabulaire" ? (
           <section className="vocabulary-section">
