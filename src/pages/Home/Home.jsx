@@ -22,6 +22,9 @@ const categoryColors = {
   "Design graphique": "purple",
   "Marketing digital": "mint",
   Bureautique: "blue",
+  "Entrepreneuriat & Business": "green",
+  "Relation client": "mint",
+  "Développement personnel": "purple",
 };
 const benefits = [
   {
@@ -95,6 +98,15 @@ function CategoryIcon({ category }) {
   }
   if (category === "Marketing digital") {
     return <svg {...common}><path d="M8 21h8l21-9v24l-21-9H8z" /><path d="M16 27v5l4 8h8l-5-11m15-16 3-4m-2 15h5m-6 10 4 4" /></svg>;
+  }
+  if (category === "Entrepreneuriat & Business") {
+    return <svg {...common}><rect x="5" y="14" width="38" height="27" rx="4" /><path d="M17 14V9a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3v5M5 24h38m-23-1v4h8v-4" /></svg>;
+  }
+  if (category === "Relation client") {
+    return <svg {...common}><path d="M8 26v-5a16 16 0 0 1 32 0v5" /><rect x="5" y="23" width="8" height="14" rx="4" /><rect x="35" y="23" width="8" height="14" rx="4" /><path d="M39 37a8 8 0 0 1-8 6h-5" /><rect x="21" y="40" width="7" height="4" rx="2" /></svg>;
+  }
+  if (category === "Développement personnel") {
+    return <svg {...common}><path d="M24 42V23m0 8c-8 0-13-5-13-13 8 0 13 5 13 13Zm0-7c0-9 5-15 14-15 0 9-5 15-14 15Z" /><path d="M24 42H13m11 0h11" /></svg>;
   }
   return <svg {...common}><rect x="7" y="12" width="34" height="27" rx="3" /><path d="M17 12V8h14v4m-24 9h34m-22 0v18m10-18v18" /></svg>;
 }

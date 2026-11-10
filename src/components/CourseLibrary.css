@@ -1,0 +1,108 @@
+.course-library {
+  width: min(100%, 1120px);
+  margin: 0 auto;
+  min-height: 100vh;
+  padding: 40px;
+  color: #172033;
+  background: #f8fafc;
+}
+
+.library-header { margin-bottom: 30px; }
+
+.library-badge {
+  display: inline-flex;
+  color: #16a34a;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.library-header h1 {
+  margin: 12px 0;
+  color: #172033;
+  font-size: 32px;
+}
+
+.library-header p {
+  margin: 0;
+  color: #64748b;
+}
+
+.library-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.pdf-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+  padding: 25px;
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.04);
+}
+
+.pdf-icon {
+  position: relative;
+  display: grid;
+  width: 48px;
+  height: 54px;
+  margin-bottom: 16px;
+  place-items: center;
+  border-radius: 10px;
+  color: #d14343;
+  background: #fff0ef;
+}
+
+.pdf-icon span {
+  position: absolute;
+  bottom: 8px;
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.pdf-icon svg { margin-top: -12px; }
+.pdf-content { min-width: 0; }
+
+.pdf-category {
+  color: #16a34a;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.pdf-content h2 { margin: 12px 0; color: #172033; font-size: 18px; }
+.pdf-content p { margin: 0; color: #64748b; font-size: 14px; line-height: 1.6; }
+.pdf-size { display: block; margin-top: 12px; color: #849087; font-size: 11px; }
+
+.pdf-download {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 44px;
+  padding: 12px 18px;
+  margin-top: 15px;
+  border: 0;
+  border-radius: 10px;
+  color: #123324;
+  background: #5feb98;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.pdf-download:disabled {
+  color: #708078;
+  background: #edf2ef;
+  cursor: not-allowed;
+}
+
+@media (max-width: 650px) {
+  .course-library { padding: 28px 12px 40px; }
+  .library-header h1 { font-size: 28px; }
+  .pdf-card { padding: 20px; }
+  .pdf-download { width: 100%; white-space: normal; }
+}

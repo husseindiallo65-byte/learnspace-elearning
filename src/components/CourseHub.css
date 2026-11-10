@@ -1,0 +1,91 @@
+.course-hub {
+  width: min(100%, 1320px);
+  margin: 0 auto;
+  padding: 32px 20px 60px;
+  color: #172033;
+}
+
+.course-hub-header { margin-bottom: 24px; }
+
+.course-hub-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #16834a;
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.06em;
+}
+
+.course-hub-header h1 { margin: 12px 0 8px; font-size: clamp(25px, 4vw, 32px); }
+.course-hub-header p { margin: 0; color: #64748b; font-size: 14px; line-height: 1.65; }
+
+.course-format-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.course-format-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  color: #172033;
+  background: #fff;
+  text-align: left;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.035);
+  transition: border-color 0.2s, background 0.2s, transform 0.2s;
+}
+
+.course-format-card:hover { border-color: #9debbd; transform: translateY(-2px); }
+.course-format-icon {
+  display: grid;
+  width: 46px;
+  height: 46px;
+  place-items: center;
+  flex: 0 0 auto;
+  border-radius: 12px;
+  color: #157c43;
+  background: #e4f9ed;
+}
+
+.course-format-copy { display: grid; gap: 5px; min-width: 0; }
+.course-format-copy strong { font-size: 14px; }
+.course-format-copy small { color: #64748b; font-size: 11px; line-height: 1.5; }
+.course-format-arrow { margin-left: auto; color: #18894b; font-size: 20px; }
+
+.course-hub-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 13px;
+  border: 1px solid #e2e8f0;
+  border-radius: 9px;
+  color: #236a46;
+  background: #fff;
+  font-size: 12px;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.course-hub-back:hover { border-color: #9debbd; background: #f1fcf5; }
+
+.course-hub-inner-page > .dashboard-video-section,
+.course-hub-inner-page > .course-library {
+  width: 100%;
+  padding: 20px 0 0;
+}
+
+.course-hub-inner-page > .dashboard-video-section > .study-center-header { display: none; }
+.course-hub-inner-page > .course-library > .library-header { display: none; }
+
+@media (max-width: 650px) {
+  .course-hub { padding: 24px 8px 40px; }
+  .course-format-options { grid-template-columns: 1fr; gap: 10px; }
+  .course-format-card { padding: 15px; }
+}

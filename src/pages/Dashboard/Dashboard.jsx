@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import { getCourseProgress, getProfile, getProgress, getQuizResults, getStudyPlan, saveProfile, saveStudyPlan } from "../../utils/storage.js";
 import { courses, getAllChapters } from "../../data/courses.js";
 import Quiz from "../../components/Quiz.jsx";
+import CourseLibrary from "../../components/CourseLibrary.jsx";
+import CourseHub from "../../components/CourseHub.jsx";
 import { logoutDemoAccount } from "../../utils/demoAuth.js";
 import instagramIcon from "../../assets/social/instagram.png";
 import youtubeIcon from "../../assets/social/youtube.png";
@@ -12,8 +14,8 @@ import {
   BookOpen, LayoutDashboard, GraduationCap, BookMarked,
   Settings, Star, Bell, CircleHelp, LogOut, ChevronDown,
   ChevronLeft, ChevronRight, FileText, Mic,
-  Brain, Monitor, Download, ArrowRight, Menu, ClipboardCheck,
-  X, Flame, Target, CheckCircle2, User, UserRound, Globe, Moon, Shield, Mail, Award, RotateCcw, Clock3
+  Brain, Monitor, Download, ArrowRight, Menu, ClipboardCheck, Briefcase,
+  X, Flame, Target, CheckCircle2, User, UserRound, Globe, Moon, Shield, Mail, Award, RotateCcw, Clock3, Headset, Sprout
 } from "lucide-react";
 import courseReactImg from "../../assets/course-react.webp";
 import courseDesignImg from "../../assets/course-design.webp";
@@ -24,9 +26,7 @@ import "./Dashboard.css";
 const menuItems = [
   { label: "Tableau de bord", icon: LayoutDashboard },
   { label: "Centre d'étude", icon: BookOpen },
-  { label: "Tests blancs", icon: Monitor },
-  { label: "Vocabulaire", icon: BookMarked },
-  { label: "VIP", icon: Star },
+  { label: "Cours", icon: GraduationCap },
   { label: "Notifications", icon: Bell },
   { label: "Contact", icon: FileText },
   { label: "Quiz", icon: ClipboardCheck },
@@ -224,6 +224,9 @@ const studyCourseIcons = {
   "Design graphique": Target,
   "Marketing digital": Globe,
   Bureautique: Monitor,
+  "Entrepreneuriat & Business": Briefcase,
+  "Relation client": Headset,
+  "Développement personnel": Sprout,
 };
 
 function getLocalDateKey() {
@@ -741,62 +744,7 @@ export default function Dashboard() {
             </footer>
           </section>
         ) : activeMenu === "Cours" ? (
-          <section className="dashboard-courses-section">
-            <header className="study-center-header">
-              <span className="study-center-eyebrow"><BookOpen size={16} /> TON PROGRAMME DE FORMATION</span>
-              <h1>Mes cours</h1>
-              <p>Consulte les programmes et retrouve les chapitres de chaque formation.</p>
-            </header>
-
-            <div className="dashboard-courses-list">
-              {courses.map((course) => {
-                const progress = getCourseProgress(course.id, course);
-                const chapter = getCourseResumeChapter(course);
-                const CourseIcon = studyCourseIcons[course.category] || BookOpen;
-                return (
-                  <article className="dashboard-program-card" key={course.id}>
-                    <div className="dashboard-program-heading">
-                      <span className={`study-course-icon art-${course.color}`} aria-hidden="true">
-                        <CourseIcon size={21} strokeWidth={1.8} />
-                      </span>
-                      <div className="dashboard-program-title">
-                        <span className="study-section-eyebrow">{course.category} · {course.level}</span>
-                        <h2>{course.title}</h2>
-                        <p>{course.shortDescription}</p>
-                      </div>
-                      <span className="dashboard-program-progress">{progress}% complété</span>
-                    </div>
-                    <div className="study-course-track" aria-label={`Progression : ${progress}%`}>
-                      <span style={{ width: `${progress}%` }} />
-                    </div>
-                    <details className="dashboard-program-details">
-                      <summary>Voir le programme ({getAllChapters(course).length} chapitres)</summary>
-                      {course.modules.map((module) => (
-                        <section className="dashboard-program-module" key={module.id}>
-                          <h3>{module.title}</h3>
-                          <ol>
-                            {module.chapters.map((item) => (
-                              <li key={item.id}>
-                                <Link to={`/formations/${course.id}/cours/${item.id}`}>{item.title}</Link>
-                              </li>
-                            ))}
-                          </ol>
-                        </section>
-                      ))}
-                    </details>
-                    <Link className="study-course-action" to={`/formations/${course.id}/cours/${chapter.id}`}>
-                      {progress > 0 && progress < 100 ? "Reprendre la formation" : progress === 100 ? "Revoir la formation" : "Commencer la formation"} <ArrowRight size={14} />
-                    </Link>
-                  </article>
-                );
-              })}
-            </div>
-
-            <footer className="dashboard-footer">
-              <span>LearnSpace © 2026</span>
-              <span>Apprendre aujourd'hui. Réussir demain.</span>
-            </footer>
-          </section>
+          <CourseHub />
         ) : activeMenu === "Contact" ? (
           <section className="dashboard-contact-section">
             <header className="dashboard-contact-header">
