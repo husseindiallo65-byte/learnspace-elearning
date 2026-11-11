@@ -8,6 +8,7 @@ import Auth from "./pages/Auth/Auth.jsx";
 import Formations from "./pages/Formations/Formations.jsx";
 import FormationDetail from "./pages/FormationDetail/FormationDetail.jsx";
 import Course from "./pages/Course/Course.jsx";
+import CoursePlayer from "./pages/Course/CoursePlayer.jsx";
 import Dashboard from "./pages/Dashboard/Dashboard.jsx";
 import Profile from "./pages/Profile/Profile.jsx";
 import Certificate from "./pages/Certificate/Certificate.jsx";
@@ -25,7 +26,7 @@ export default function App() {
   const location = useLocation();
   const { pathname } = location;
   const [isRefreshing, setIsRefreshing] = useState(true);
-  const hideHeader = pathname === "/dashboard" || pathname === "/";
+  const hideHeader = pathname === "/dashboard" || pathname === "/" || pathname.startsWith("/course/");
 
   useEffect(() => {
     setIsRefreshing(true);
@@ -79,6 +80,7 @@ export default function App() {
           <Route path="/connexion" element={<Auth mode="login" />} />
           <Route path="/formations" element={<Formations />} />
           <Route path="/formations/:id" element={<ProtectedRoute><FormationDetail /></ProtectedRoute>} />
+          <Route path="/course/:id" element={<ProtectedRoute><CoursePlayer /></ProtectedRoute>} />
           <Route path="/formations/:id/cours/:chapterId" element={<ProtectedRoute><Course /></ProtectedRoute>} />
           <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
           <Route path="/profil" element={<ProtectedRoute><Profile /></ProtectedRoute>} />

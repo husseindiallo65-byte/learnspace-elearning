@@ -3,6 +3,9 @@ const PROFILE_KEY = "learnspace-profile";
 const QUIZ_KEY = "learnspace-quiz-results";
 const FAVORITES_KEY = "learnspace-favorites";
 const STUDY_PLAN_KEY = "learnspace-study-plan";
+const LAST_CHAPTER_KEY = "learnspace-last-chapter";
+const VISITED_CHAPTERS_KEY = "learnspace-visited-chapters";
+const RESOURCE_DOWNLOADS_KEY = "learnspace-resource-downloads";
 
 const defaultProfile = {
   firstName: "Étudiant",
@@ -35,6 +38,62 @@ export const getProgress = () => {
 };
 
 export const saveProgress = (value) => write(PROGRESS_KEY, value);
+export function getLastChapter(courseId) {
+  const chapters = read(LAST_CHAPTER_KEY, {});
+  return chapters && typeof chapters === "object" && !Array.isArray(chapters)
+    ? chapters[courseId] || null
+    : null;
+}
+
+export function saveLastChapter(courseId, chapterId) {
+  const chapters = read(LAST_CHAPTER_KEY, {});
+  const storedChapters = chapters && typeof chapters === "object" && !Array.isArray(chapters) ? chapters : {};
+  write(LAST_CHAPTER_KEY, { ...storedChapters, [courseId]: chapterId });
+
+  const visits = read(VISITED_CHAPTERS_KEY, {});
+  const storedVisits = visits && typeof visits === "object" && !Array.isArray(visits) ? visits : {};
+  const courseVisits = Array.isArray(storedVisits[courseId]) ? storedVisits[courseId] : [];
+  if (!courseVisits.includes(chapterId)) {
+    write(VISITED_CHAPTERS_KEY, { ...storedVisits, [courseId]: [...courseVisits, chapterId] });
+  }
+}
+
+export function getVisitedChapters(courseId) {
+  const visits = read(VISITED_CHAPTERS_KEY, {});
+  return visits && typeof visits === "object" && !Array.isArray(visits) && Array.isArray(visits[courseId])
+    ? visits[courseId]
+    : [];
+}
+
+export function getResourceDownloads() {
+  const downloads = read(RESOURCE_DOWNLOADS_KEY, []);
+  return Array.isArray(downloads) ? downloads : [];
+}
+
+export function saveResourceDownload({ courseId, moduleId, resourceId }) {
+  const downloads = getResourceDownloads();
+  downloads.unshift({
+    courseId,
+    moduleId,
+    resourceId,
+    date: new Date().toISOString(),
+  });
+  write(RESOURCE_DOWNLOADS_KEY, downloads.slice(0, 100));
+}
+
+export function getResumeChapter(course) {
+  const chapters = course.modules.flatMap((module) => module.chapters);
+  if (!chapters.length) return null;
+
+  const storedProgress = getProgress()[course.id];
+  const completed = Array.isArray(storedProgress) ? storedProgress : [];
+  const lastChapterId = getLastChapter(course.id);
+  const lastChapter = chapters.find((chapter) => chapter.id === lastChapterId);
+  if (lastChapter && !completed.includes(lastChapter.id)) return lastChapter;
+
+  return chapters.find((chapter) => !completed.includes(chapter.id)) || lastChapter || chapters[0];
+}
+
 export const getProfile = () => {
   const profile = read(PROFILE_KEY, defaultProfile);
   if (!profile || typeof profile !== "object") {
@@ -69,7 +128,11 @@ export function saveStudyPlan(date, completedTasks) {
 }
 
 export function getCourseProgress(courseId, course) {
-  const progress = getProgress()[courseId] || [];
-  const total = course.modules.reduce((sum, module) => sum + module.chapters.length, 0);
-  return total ? Math.round((progress.length / total) * 100) : 0;
+  const chapters = course.modules.flatMap((module) => module.chapters);
+  if (!chapters.length) return 0;
+
+  const storedProgress = getProgress()[courseId];
+  const completed = new Set(Array.isArray(storedProgress) ? storedProgress : []);
+  const completedCount = chapters.filter((chapter) => completed.has(chapter.id)).length;
+  return Math.round((completedCount / chapters.length) * 100);
 }

@@ -190,6 +190,7 @@ export const courses = [
     rating: "4.8",
     color: "green",
     icon: "📈",
+    image: "https://i.ibb.co/DPkCZsJ9/businessman-standing-desk-table.jpg",
     shortDescription: "Transforme une idée en projet d’entreprise viable.",
     description: "Découvre les bases de l’entrepreneuriat, construis une proposition de valeur et apprends à organiser le lancement de ton activité.",
     instructor: "Aminata Ndiaye",
@@ -232,6 +233,7 @@ export const courses = [
     rating: "4.8",
     color: "blue",
     icon: "🎧",
+    image: "https://i.ibb.co/23SzYbDm/medium-shot-bored-people-working.jpg",
     shortDescription: "Développe les compétences essentielles des métiers de la relation client.",
     description: "Découvre le fonctionnement d’un centre d’appel, apprends à communiquer avec les clients et entraîne-toi à gérer les demandes et les situations difficiles avec professionnalisme.",
     instructor: "Fatou Sarr",
@@ -274,6 +276,7 @@ export const courses = [
     rating: "4.8",
     color: "purple",
     icon: "🌱",
+    image: "https://i.ibb.co/DPBYJfYf/people-office-work-day.jpg",
     shortDescription: "Renforce ta confiance, ton organisation et tes compétences de leadership.",
     description: "Apprends à mieux te connaître, à définir des objectifs réalistes et à développer les qualités nécessaires pour guider un projet et collaborer efficacement.",
     instructor: "Moussa Fall",
@@ -306,6 +309,28 @@ export const courses = [
     ]
   }
 ];
+
+courses.forEach((course) => {
+  const moduleCount = course.modules.length;
+  const questions = Array.isArray(course.quiz) ? course.quiz : [];
+
+  course.modules = course.modules.map((module, index) => {
+    const start = Math.floor((questions.length * index) / moduleCount);
+    const end = Math.floor((questions.length * (index + 1)) / moduleCount);
+    return {
+      ...module,
+      order: index + 1,
+      resources: Array.isArray(module.resources) ? module.resources : [],
+      quiz: {
+        id: `${course.id}-${module.id}-quiz`,
+        title: `Quiz — ${module.title}`,
+        passingScore: 70,
+        required: false,
+        questions: questions.slice(start, end),
+      },
+    };
+  });
+});
 
 export const categories = ["Toutes", "Développement web", "Design graphique", "Marketing digital", "Bureautique", "Entrepreneuriat & Business", "Relation client", "Développement personnel"];
 

@@ -1,9 +1,8 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { getCourseProgress, getProfile, getProgress, getQuizResults, getStudyPlan, saveProfile, saveStudyPlan } from "../../utils/storage.js";
 import { courses, getAllChapters } from "../../data/courses.js";
 import Quiz from "../../components/Quiz.jsx";
-import CourseLibrary from "../../components/CourseLibrary.jsx";
 import CourseHub from "../../components/CourseHub.jsx";
 import { logoutDemoAccount } from "../../utils/demoAuth.js";
 import instagramIcon from "../../assets/social/instagram.png";
@@ -237,8 +236,11 @@ function getLocalDateKey() {
 
 export default function Dashboard() {
   const [profile, setProfile] = useState(() => getProfile());
+  const location = useLocation();
   const navigate = useNavigate();
-  const [activeMenu, setActiveMenu] = useState("Tableau de bord");
+  const [activeMenu, setActiveMenu] = useState(
+    () => location.state?.dashboardSection === "Cours" ? "Cours" : "Tableau de bord",
+  );
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [practiceOpen, setPracticeOpen] = useState(false);
   const [accountMenuOpen, setAccountMenuOpen] = useState(false);
@@ -690,7 +692,7 @@ export default function Dashboard() {
                           <span className="notification-item-badge">{progress}%</span>
                         </div>
                         <p><strong>{course.title}</strong> — tu peux reprendre avec « {chapter.title} ».</p>
-                        <Link className="notification-item-link" to={`/formations/${course.id}/cours/${chapter.id}`}>
+                        <Link className="notification-item-link" to={`/course/${course.id}?chapter=${chapter.id}`}>
                           Reprendre le cours <ArrowRight size={14} />
                         </Link>
                       </div>
@@ -974,7 +976,7 @@ export default function Dashboard() {
                     const progress = getCourseProgress(course.id, course);
                     const chapter = getCourseResumeChapter(course);
                     const CourseIcon = studyCourseIcons[course.category] || BookOpen;
-                    const chapterUrl = `/formations/${course.id}/cours/${chapter.id}`;
+                    const chapterUrl = `/course/${course.id}?chapter=${chapter.id}`;
                     return (
                       <article className="study-course-card" key={course.id}>
                         <div className={`study-course-icon art-${course.color}`} aria-hidden="true">
