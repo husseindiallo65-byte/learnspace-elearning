@@ -14,6 +14,9 @@ import {
 } from "lucide-react";
 import { getAllChapters, getCourse } from "../../data/courses.js";
 import { getDemoRole } from "../../utils/demoAuth.js";
+import { getCertificateSettings } from "../../utils/adminSettings.js";
+import { getCertificateEligibility } from "../../utils/certificateEligibility.js";
+import { issueCertificate } from "../../utils/certificateTemplates.js";
 import {
   getCourseProgress,
   getLastChapter,
@@ -54,12 +57,13 @@ function getInstructorInitials(instructor) {
 
 export default function CoursePlayer() {
   const { id } = useParams();
-  const course = getCourse(id);
+  const course = useMemo(() => getCourse(id), [id]);
   const isStudent = getDemoRole() === "STUDENT";
   const [searchParams, setSearchParams] = useSearchParams();
   const [completedByCourse, setCompletedByCourse] = useState(() => isStudent ? getProgress() : {});
   const [shareMessage, setShareMessage] = useState("");
   const [shareError, setShareError] = useState("");
+  const [certificateIssueError, setCertificateIssueError] = useState("");
   const chapters = useMemo(() => course ? getAllChapters(course) : [], [course]);
   const resumeChapter = course && isStudent ? getResumeChapter(course) : null;
   const requestedChapter = searchParams.get("chapter");
@@ -86,6 +90,10 @@ export default function CoursePlayer() {
   const availableLessonCount = course
     ? chapters.filter((chapter) => completedChapters.includes(chapter.id)).length
     : 0;
+  const certificateSettings = getCertificateSettings();
+  const certificateEligibility = course && isStudent
+    ? getCertificateEligibility(course, certificateSettings)
+    : null;
 
   useEffect(() => {
     if (isStudent && course && activeChapter) saveLastChapter(course.id, activeChapter.id);
@@ -102,6 +110,16 @@ export default function CoursePlayer() {
       });
     }
   }, [course, isStudent]);
+
+  useEffect(() => {
+    if (!isStudent || !course || !certificateSettings.enabled || !certificateEligibility?.eligible) return;
+    try {
+      issueCertificate(course, certificateEligibility);
+      setCertificateIssueError("");
+    } catch (error) {
+      setCertificateIssueError(error instanceof Error ? error.message : "Le certificat n’a pas pu être généré.");
+    }
+  }, [course, isStudent, certificateSettings.enabled, certificateEligibility?.eligible]);
 
   if (!isStudent) {
     return (
@@ -280,6 +298,12 @@ export default function CoursePlayer() {
               <span><strong>{completedModuleCount}/{course.modules.length}</strong> modules terminés</span>
               <span><strong>{availableLessonCount}/{chapters.length}</strong> leçons terminées</span>
             </div>
+            {certificateEligibility?.eligible && (
+              <Link className="course-player-certificate-link" to={`/certificats/${course.id}`}>
+                Voir mon certificat de réussite
+              </Link>
+            )}
+            {certificateIssueError && <p className="course-player-certificate-error" role="alert">{certificateIssueError}</p>}
           </section>
 
           <section className="course-player-modules-card">

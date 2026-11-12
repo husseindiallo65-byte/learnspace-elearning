@@ -13,6 +13,7 @@ import Dashboard from "./pages/Dashboard/Dashboard.jsx";
 import AdminDashboard from "./pages/Admin/AdminDashboard.jsx";
 import Profile from "./pages/Profile/Profile.jsx";
 import Certificate from "./pages/Certificate/Certificate.jsx";
+import CertificateVerification from "./pages/Certificate/CertificateVerification.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import { getDemoRole } from "./utils/demoAuth.js";
 import { getSiteSettings } from "./utils/adminSettings.js";
@@ -100,6 +101,7 @@ export default function App() {
           <Route path="/profil" element={<ProtectedRoute role="STUDENT"><Profile /></ProtectedRoute>} />
           <Route path="/profile" element={<ProtectedRoute role="STUDENT"><Profile /></ProtectedRoute>} />
           <Route path="/certificats/:id" element={<ProtectedRoute role="STUDENT"><Certificate /></ProtectedRoute>} />
+          <Route path="/verify-certificate/:certificateId" element={<CertificateVerification />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>

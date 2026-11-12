@@ -2,14 +2,13 @@ import { useEffect, useMemo, useState } from "react";
 import { getCategories } from "../../data/courses.js";
 import { deleteDemoStudentAccount, getDemoAccount, updateDemoStudentAccount } from "../../utils/demoAuth.js";
 import {
-  getCertificateSettings,
   getCustomCategories,
   getSiteSettings,
-  saveCertificateSettings,
   saveCustomCategories,
   saveSiteSettings,
 } from "../../utils/adminSettings.js";
 import { getEnrollments, getProgress, getQuizResults, getResourceDownloads, removeEnrollment } from "../../utils/storage.js";
+import CertificateStudio from "./CertificateStudio.jsx";
 
 function parseJson(value, label) {
   try {
@@ -28,12 +27,11 @@ function isValidQuestion(question) {
 function AdminTools({ section, courses, onSaveCourses }) {
   const [selectedCourseId, setSelectedCourseId] = useState(courses[0]?.id || "");
   const selectedCourse = courses.find((course) => course.id === selectedCourseId);
-  const [modulesJson, setModulesJson] = useState("");
+  const [modulesDraft, setModulesDraft] = useState([]);
   const [quizzesJson, setQuizzesJson] = useState("");
   const [categoryDraft, setCategoryDraft] = useState("");
   const [customCategories, setCustomCategories] = useState(getCustomCategories);
   const [siteSettings, setSiteSettings] = useState(getSiteSettings);
-  const [certificateSettings, setCertificateSettings] = useState(getCertificateSettings);
   const [studentAccount, setStudentAccount] = useState(getDemoAccount);
   const [userForm, setUserForm] = useState(() => {
     const account = getDemoAccount();
@@ -44,7 +42,7 @@ function AdminTools({ section, courses, onSaveCourses }) {
 
   useEffect(() => {
     if (!selectedCourse) return;
-    setModulesJson(JSON.stringify(selectedCourse.modules || [], null, 2));
+    setModulesDraft(structuredClone(selectedCourse.modules || []));
     setQuizzesJson(JSON.stringify({
       courseQuiz: selectedCourse.quiz || [],
       moduleQuizzes: (selectedCourse.modules || []).map((module) => ({ moduleId: module.id, quiz: module.quiz || null })),
@@ -75,23 +73,65 @@ function AdminTools({ section, courses, onSaveCourses }) {
   function saveModules(event) {
     event.preventDefault();
     showSave(() => {
-      const modules = parseJson(modulesJson, "Les modules");
-      if (!Array.isArray(modules) || modules.some((module) =>
-        !module.id
+      if (!modulesDraft.length || modulesDraft.some((module) =>
+        !module.id?.trim()
+        || !module.title?.trim()
         || !Array.isArray(module.chapters)
-        || module.chapters.some((chapter) => !chapter.id || !chapter.title)
+        || !module.chapters.length
+        || module.chapters.some((chapter) => !chapter.id?.trim() || !chapter.title?.trim())
       )) {
-        throw new Error("Chaque module doit avoir un identifiant et des chapitres avec identifiant et titre.");
+        throw new Error("Chaque formation doit contenir au moins un module nommé, avec au moins une leçon nommée.");
       }
-      const normalizedModules = modules.map((module) => ({
+      const normalizedModules = modulesDraft.map((module) => ({
         ...module,
         resources: Array.isArray(module.resources) ? module.resources : [],
       }));
       if (new Set(normalizedModules.map((module) => module.id)).size !== normalizedModules.length) {
         throw new Error("Les identifiants des modules doivent être uniques.");
       }
+      const chapterIds = normalizedModules.flatMap((module) => module.chapters.map((chapter) => chapter.id));
+      if (new Set(chapterIds).size !== chapterIds.length) {
+        throw new Error("Les identifiants des leçons doivent être uniques.");
+      }
       onSaveCourses(courses.map((course) => course.id === selectedCourseId ? { ...course, modules: normalizedModules, modulesCount: normalizedModules.length } : course));
     });
+  }
+
+  function updateModule(moduleId, patch) {
+    setModulesDraft((current) => current.map((module) => module.id === moduleId ? { ...module, ...patch } : module));
+  }
+
+  function updateChapter(moduleId, chapterId, patch) {
+    setModulesDraft((current) => current.map((module) => module.id === moduleId
+      ? { ...module, chapters: module.chapters.map((chapter) => chapter.id === chapterId ? { ...chapter, ...patch } : chapter) }
+      : module));
+  }
+
+  function addModule() {
+    const id = `module-${Date.now()}`;
+    setModulesDraft((current) => [...current, {
+      id,
+      title: `Module ${current.length + 1}`,
+      chapters: [{ id: `${id}-lesson-1`, title: "", content: "", videoUrl: "", videoEmbedUrl: "" }],
+      resources: [],
+    }]);
+  }
+
+  function addChapter(moduleId) {
+    const id = `lesson-${Date.now()}`;
+    setModulesDraft((current) => current.map((module) => module.id === moduleId
+      ? { ...module, chapters: [...module.chapters, { id, title: "", content: "", videoUrl: "", videoEmbedUrl: "" }] }
+      : module));
+  }
+
+  function removeModule(moduleId) {
+    setModulesDraft((current) => current.filter((module) => module.id !== moduleId));
+  }
+
+  function removeChapter(moduleId, chapterId) {
+    setModulesDraft((current) => current.map((module) => module.id === moduleId
+      ? { ...module, chapters: module.chapters.filter((chapter) => chapter.id !== chapterId) }
+      : module));
   }
 
   function saveQuizzes(event) {
@@ -169,7 +209,7 @@ function AdminTools({ section, courses, onSaveCourses }) {
   const heading = {
     users: ["Gestion des utilisateurs", "Compte étudiant local de démonstration."],
     categories: ["Catégories", "Ajoute ou retire les catégories proposées dans le catalogue."],
-    modules: ["Modules et chapitres", "Configure les modules et le contenu de chaque chapitre."],
+    modules: ["Modules et chapitres", "Organise les contenus de formation en modules et leçons pédagogiques."],
     quizzes: ["Quiz et évaluations", "Configure les questions, réponses et seuils des quiz."],
     certificates: ["Certificats", "Configure l’activation et le texte du certificat étudiant."],
     settings: ["Paramètres du site", "Personnalise l’identité et les coordonnées de LearnSpace."],
@@ -217,77 +257,53 @@ function AdminTools({ section, courses, onSaveCourses }) {
           <label className="admin-course-select">Formation<select value={selectedCourseId} onChange={(event) => setSelectedCourseId(event.target.value)}>{courses.map((course) => <option value={course.id} key={course.id}>{course.title}</option>)}</select></label>
           {selectedCourse ? (
             <form className="admin-tool-form" onSubmit={section === "modules" ? saveModules : saveQuizzes}>
-              <label>{section === "modules" ? "Modules et chapitres (JSON)" : "Quiz de formation et par module (JSON)"}
-                <textarea className="admin-json-editor" value={section === "modules" ? modulesJson : quizzesJson} onChange={(event) => section === "modules" ? setModulesJson(event.target.value) : setQuizzesJson(event.target.value)} rows={22} spellCheck="false" />
-              </label>
-              <p className="admin-tool-muted">{section === "modules" ? "Conserve les identifiants de modules et de chapitres pour préserver les liens et la progression." : "Format requis : { \"courseQuiz\": [], \"moduleQuizzes\": [{ \"moduleId\": \"…\", \"quiz\": { \"title\": \"…\", \"passingScore\": 70, \"required\": false, \"questions\": [] } }] }. Une question utilise question, options et answer (index ou liste d’index)."}
-              </p>
+              {section === "modules" ? (
+                <>
+                  <p className="admin-tool-muted">Construis le parcours de la formation en modules et leçons. Les identifiants existants sont conservés pour préserver la progression des étudiants.</p>
+                  <div className="admin-module-list">
+                    {modulesDraft.map((module, moduleIndex) => (
+                      <section className="admin-module-card" key={module.id}>
+                        <div className="admin-module-heading">
+                          <span className="admin-module-number">Module {moduleIndex + 1}</span>
+                          <button className="admin-danger-button" type="button" onClick={() => removeModule(module.id)}>Supprimer le module</button>
+                        </div>
+                        <label>Titre du module<input value={module.title || ""} onChange={(event) => updateModule(module.id, { title: event.target.value })} maxLength={120} required /></label>
+                        <label>Présentation du module<textarea rows={2} value={module.description || ""} onChange={(event) => updateModule(module.id, { description: event.target.value })} maxLength={500} placeholder="Présente les notions et compétences abordées dans ce module." /></label>
+                        <div className="admin-chapter-list">
+                          {module.chapters.map((chapter, chapterIndex) => (
+                            <fieldset className="admin-chapter-card" key={chapter.id}>
+                              <legend>Leçon {chapterIndex + 1}</legend>
+                              <div className="admin-chapter-fields">
+                                <label>Titre de la leçon<input value={chapter.title || ""} onChange={(event) => updateChapter(module.id, chapter.id, { title: event.target.value })} maxLength={140} required /></label>
+                                <label>Contenu pédagogique<textarea rows={4} value={chapter.content || ""} onChange={(event) => updateChapter(module.id, chapter.id, { content: event.target.value })} placeholder="Explique la notion, les étapes à suivre ou les points essentiels à retenir." /></label>
+                                <label>URL de la vidéo (facultatif)<input type="url" value={chapter.videoUrl || ""} onChange={(event) => updateChapter(module.id, chapter.id, { videoUrl: event.target.value })} placeholder="https://…" /></label>
+                                <label>URL d’intégration de la vidéo (facultatif)<input type="url" value={chapter.videoEmbedUrl || ""} onChange={(event) => updateChapter(module.id, chapter.id, { videoEmbedUrl: event.target.value })} placeholder="https://…/embed/…" /></label>
+                              </div>
+                              <button className="admin-danger-button" type="button" onClick={() => removeChapter(module.id, chapter.id)}>Supprimer la leçon</button>
+                            </fieldset>
+                          ))}
+                        </div>
+                        <button className="admin-add-content-button" type="button" onClick={() => addChapter(module.id)}>+ Ajouter une leçon</button>
+                      </section>
+                    ))}
+                  </div>
+                  <button className="admin-add-content-button" type="button" onClick={addModule}>+ Ajouter un module</button>
+                </>
+              ) : (
+                <>
+                  <label>Quiz de formation et par module (JSON)
+                    <textarea className="admin-json-editor" value={quizzesJson} onChange={(event) => setQuizzesJson(event.target.value)} rows={22} spellCheck="false" />
+                  </label>
+                  <p className="admin-tool-muted">Format requis : {"{ \"courseQuiz\": [], \"moduleQuizzes\": [{ \"moduleId\": \"…\", \"quiz\": { \"title\": \"…\", \"passingScore\": 70, \"required\": false, \"questions\": [] } }] }"}. Une question utilise question, options et answer (index ou liste d’index).</p>
+                </>
+              )}
               <button className="admin-save-button" type="submit">Enregistrer {section === "modules" ? "les modules" : "les quiz"}</button>
             </form>
           ) : <p className="admin-tool-muted">Crée une formation pour configurer ses contenus.</p>}
         </article>
       )}
 
-      {section === "certificates" && (
-        <>
-          <article className="admin-tool-card">
-            <form className="admin-tool-form" onSubmit={(event) => {
-              event.preventDefault();
-              showSave(() => saveCertificateSettings(certificateSettings));
-            }}>
-              <label className="admin-checkbox"><input type="checkbox" checked={certificateSettings.enabled} onChange={(event) => setCertificateSettings({ ...certificateSettings, enabled: event.target.checked })} /> Autoriser la consultation des certificats étudiants</label>
-              <div className="admin-form-row">
-                <label>Titre du certificat<input value={certificateSettings.title} maxLength={80} onChange={(event) => setCertificateSettings({ ...certificateSettings, title: event.target.value })} required /></label>
-                <label>Texte supérieur (kicker)<input value={certificateSettings.kicker} maxLength={100} onChange={(event) => setCertificateSettings({ ...certificateSettings, kicker: event.target.value })} required /></label>
-              </div>
-              <label>Texte de réussite<textarea rows={3} maxLength={500} value={certificateSettings.description} onChange={(event) => setCertificateSettings({ ...certificateSettings, description: event.target.value })} required /></label>
-              <div className="admin-form-row">
-                <label>Organisme émetteur<input value={certificateSettings.issuer} maxLength={80} onChange={(event) => setCertificateSettings({ ...certificateSettings, issuer: event.target.value })} required /></label>
-                <label>Nom du programme / sous-titre<input value={certificateSettings.issuerTitle} maxLength={100} onChange={(event) => setCertificateSettings({ ...certificateSettings, issuerTitle: event.target.value })} required /></label>
-              </div>
-              <div className="admin-form-row">
-                <label>Nom du signataire<input value={certificateSettings.signatureName} maxLength={80} onChange={(event) => setCertificateSettings({ ...certificateSettings, signatureName: event.target.value })} placeholder="Optionnel" /></label>
-                <label>Fonction du signataire<input value={certificateSettings.signatureTitle} maxLength={100} onChange={(event) => setCertificateSettings({ ...certificateSettings, signatureTitle: event.target.value })} /></label>
-              </div>
-              <div className="admin-form-row">
-                <label>Couleur du certificat<input type="color" value={certificateSettings.accentColor} onChange={(event) => setCertificateSettings({ ...certificateSettings, accentColor: event.target.value })} /></label>
-                <label>URL du logo (optionnel)<input type="url" value={certificateSettings.logoUrl} onChange={(event) => setCertificateSettings({ ...certificateSettings, logoUrl: event.target.value })} placeholder="https://..." /></label>
-              </div>
-              <fieldset className="admin-certificate-rules">
-                <legend>Conditions de délivrance</legend>
-                <label className="admin-checkbox"><input type="checkbox" checked={certificateSettings.requireAllChapters} onChange={(event) => setCertificateSettings({ ...certificateSettings, requireAllChapters: event.target.checked })} /> Exiger que tous les chapitres soient terminés</label>
-                <label className="admin-checkbox"><input type="checkbox" checked={certificateSettings.requireQuizPass} onChange={(event) => setCertificateSettings({ ...certificateSettings, requireQuizPass: event.target.checked })} /> Exiger la réussite des quiz configurés</label>
-                <label>Score minimal de réussite (%)<input type="number" min="0" max="100" step="1" required value={certificateSettings.minimumQuizScore} disabled={!certificateSettings.requireQuizPass} onChange={(event) => setCertificateSettings({ ...certificateSettings, minimumQuizScore: Number(event.target.value) })} /></label>
-                <p className="admin-tool-muted">Si l’option quiz est activée, l’étudiant doit réussir chaque quiz disponible. Le seuil appliqué est le plus élevé entre celui configuré ici et celui du quiz.</p>
-              </fieldset>
-              <button className="admin-save-button" type="submit">Enregistrer la configuration</button>
-            </form>
-            <p className="admin-tool-muted">Ces réglages sont appliqués à la page de certificat. Les certificats restent simulés localement, sans numéro vérifiable ni signature cryptographique.</p>
-          </article>
-          <article className="admin-tool-card">
-            <h3>Aperçu du certificat</h3>
-            <div className="admin-certificate-preview">
-              <div className="certificate-paper" style={{ "--certificate-accent": certificateSettings.accentColor }}>
-                <div className="certificate-border">
-                  {certificateSettings.logoUrl ? <img className="admin-certificate-logo" src={certificateSettings.logoUrl} alt="Aperçu du logo" /> : <div className="certificate-mark">LS</div>}
-                  <span className="certificate-kicker">{certificateSettings.issuer} · {certificateSettings.kicker}</span>
-                  <h2>{certificateSettings.title || "Titre du certificat"}</h2>
-                  <p className="certificate-intro">Ce certificat est décerné à</p>
-                  <div className="certificate-name">Prénom Nom</div>
-                  <p className="certificate-intro">pour avoir terminé avec succès la formation</p>
-                  <h3>Nom de la formation</h3>
-                  <p className="certificate-description">{certificateSettings.description}</p>
-                  <div className="certificate-footer">
-                    <span>{certificateSettings.issuer}<br />{certificateSettings.issuerTitle}</span>
-                    <span className="certificate-seal">✓</span>
-                  </div>
-                  {certificateSettings.signatureName && <div className="admin-certificate-signature">{certificateSettings.signatureName}<small>{certificateSettings.signatureTitle}</small></div>}
-                </div>
-              </div>
-            </div>
-          </article>
-        </>
-      )}
+      {section === "certificates" && <CertificateStudio courses={courses} />}
 
       {section === "settings" && (
         <article className="admin-tool-card">

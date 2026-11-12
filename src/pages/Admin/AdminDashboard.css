@@ -163,6 +163,21 @@
 .admin-certificate-signature { display: grid; justify-items: end; gap: 3px; max-width: 500px; margin: 12px auto 0; color: #253345; }
 .admin-certificate-signature small { color: #7d8790; font-size: 9px; }
 .admin-json-editor { min-height: 340px; font-family: Consolas, monospace !important; font-size: 10px !important; tab-size: 2; }
+.admin-module-list,
+.admin-chapter-list { display: grid; gap: 14px; }
+.admin-module-card { display: grid; gap: 12px; padding: 16px; border: 1px solid #dfe9e3; border-radius: 11px; background: #f8fbf9; }
+.admin-module-heading { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.admin-module-number { color: #176b3f; font-size: 12px; font-weight: 800; }
+.admin-module-card > label,
+.admin-chapter-fields > label { display: grid; gap: 6px; color: #475569; font-size: 10px; font-weight: 700; }
+.admin-module-card input,
+.admin-module-card textarea { width: 100%; min-width: 0; padding: 10px; border: 1px solid #dfe7e2; border-radius: 7px; outline-color: #5feb98; color: #263445; background: #fff; font: inherit; font-size: 11px; font-weight: 400; }
+.admin-module-card textarea { resize: vertical; line-height: 1.55; }
+.admin-chapter-card { display: grid; gap: 12px; min-width: 0; padding: 14px; border: 1px solid #e4ebe7; border-radius: 9px; background: #fff; }
+.admin-chapter-card legend { padding: 0 6px; color: #475569; font-size: 10px; font-weight: 750; }
+.admin-chapter-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.admin-add-content-button { justify-self: start; min-height: 36px; padding: 0 12px; border: 1px solid #bce7c9; border-radius: 8px; color: #176b3f; background: #f3fbf5; font: inherit; font-size: 10px; font-weight: 750; cursor: pointer; }
+.admin-add-content-button:hover { background: #e7f7ec; }
 .admin-course-select { max-width: 440px; }
 .admin-inline-form { display: flex; align-items: end; gap: 10px; }
 .admin-inline-form > label { flex: 1; }
@@ -261,6 +276,8 @@
   .admin-tool-card { padding: 13px; }
   .admin-inline-form { align-items: stretch; flex-direction: column; }
   .admin-inline-form .admin-save-button { width: 100%; }
+  .admin-chapter-fields { grid-template-columns: 1fr; }
+  .admin-module-heading { align-items: flex-start; flex-direction: column; }
   .admin-report-stats { grid-template-columns: 1fr; }
   .admin-json-editor { min-height: 250px; }
   .admin-overview-card { align-items: flex-start; flex-wrap: wrap; }

@@ -118,6 +118,9 @@
 .course-player-progress-card .progress-value { background: #5feb98; }
 .course-player-progress-stats { display: flex; justify-content: space-between; gap: 10px; margin-top: 11px; color: #78858f; font-size: 9px; }
 .course-player-progress-stats strong { color: #344054; }
+.course-player-certificate-link { display: inline-flex; margin-top: 12px; color: #176b3f; font-size: 10px; font-weight: 750; text-decoration: none; }
+.course-player-certificate-link:hover { text-decoration: underline; }
+.course-player-certificate-error { margin: 8px 0 0; color: #a22b25; font-size: 9px; line-height: 1.5; }
 
 .course-player-modules-card > header { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px; border-bottom: 1px solid #e9efeb; }
 .course-player-modules-card > header h2 { margin: 5px 0 0; color: #172033; font-size: 15px; }

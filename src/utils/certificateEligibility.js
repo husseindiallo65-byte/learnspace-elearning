@@ -27,7 +27,7 @@ export function getCertificateEligibility(course, settings) {
     const requiredScore = Math.max(settings.minimumQuizScore, quiz.passingScore);
     return { ...quiz, bestScore, requiredScore, passed: bestScore >= requiredScore };
   });
-  const allQuizzesPassed = quizStatus.length > 0 && quizStatus.every((quiz) => quiz.passed);
+  const allQuizzesPassed = quizStatus.every((quiz) => quiz.passed);
   const checks = [];
 
   if (settings.requireAllChapters) checks.push(allChaptersCompleted);
