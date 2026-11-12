@@ -1,3 +1,5 @@
+import { getCustomCategories } from "../utils/adminSettings.js";
+
 export const courses = [
   {
     id: "react-debutant",
@@ -334,8 +336,36 @@ courses.forEach((course) => {
 
 export const categories = ["Toutes", "Développement web", "Design graphique", "Marketing digital", "Bureautique", "Entrepreneuriat & Business", "Relation client", "Développement personnel"];
 
+export function getCategories() {
+  return [...new Set([...categories.slice(1), ...getCustomCategories()])];
+}
+
+const ADMIN_COURSES_KEY = "learnspace-admin-courses";
+
+export function getCatalogCourses({ includeUnpublished = false } = {}) {
+  const stored = localStorage.getItem(ADMIN_COURSES_KEY);
+  const catalog = stored ? JSON.parse(stored) : courses;
+  if (!Array.isArray(catalog)) {
+    throw new Error("Le catalogue local des formations est invalide.");
+  }
+
+  const normalized = catalog.map((course) => ({ ...course, isPublished: course.isPublished !== false }));
+  return includeUnpublished ? normalized : normalized.filter((course) => course.isPublished);
+}
+
+export function saveCatalogCourses(nextCourses) {
+  if (!Array.isArray(nextCourses)) {
+    throw new TypeError("Le catalogue doit être une liste de formations.");
+  }
+  const ids = nextCourses.map((course) => course.id);
+  if (ids.some((id) => !id) || new Set(ids).size !== ids.length) {
+    throw new TypeError("Chaque formation doit avoir un identifiant unique.");
+  }
+  localStorage.setItem(ADMIN_COURSES_KEY, JSON.stringify(nextCourses));
+}
+
 export function getCourse(id) {
-  return courses.find((course) => course.id === id);
+  return getCatalogCourses().find((course) => course.id === id);
 }
 
 export function getAllChapters(course) {

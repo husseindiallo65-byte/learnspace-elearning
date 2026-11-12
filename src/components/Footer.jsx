@@ -10,8 +10,10 @@ import instagramIcon from "../assets/social/instagram.png";
 import youtubeIcon from "../assets/social/youtube.png";
 import linkedinIcon from "../assets/social/linkedin.png";
 import tiktokIcon from "../assets/social/tiktok.png";
+import { getSiteSettings } from "../utils/adminSettings.js";
 
 function Footer() {
+  const siteSettings = getSiteSettings();
   return (
     <footer className="learnspace-footer">
       <div className="footer-main">
@@ -21,13 +23,11 @@ function Footer() {
               <Layers3 size={36} strokeWidth={2.5} />
             </div>
 
-            <span>
-              Learn<span className="footer-logo-accent">Space</span>
-            </span>
+            <span>{siteSettings.name}</span>
           </Link>
 
           <p className="footer-description">
-            Apprends aujourd'hui, construis ton avenir.
+            {siteSettings.tagline}
           </p>
 
           <div className="footer-socials">

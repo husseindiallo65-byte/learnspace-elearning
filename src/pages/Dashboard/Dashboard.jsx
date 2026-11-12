@@ -1,7 +1,7 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { getCourseProgress, getProfile, getProgress, getQuizResults, getStudyPlan, saveProfile, saveStudyPlan } from "../../utils/storage.js";
-import { courses, getAllChapters } from "../../data/courses.js";
+import { getAllChapters, getCatalogCourses } from "../../data/courses.js";
 import Quiz from "../../components/Quiz.jsx";
 import CourseHub from "../../components/CourseHub.jsx";
 import { logoutDemoAccount } from "../../utils/demoAuth.js";
@@ -235,6 +235,7 @@ function getLocalDateKey() {
 }
 
 export default function Dashboard() {
+  const courses = getCatalogCourses();
   const [profile, setProfile] = useState(() => getProfile());
   const location = useLocation();
   const navigate = useNavigate();

@@ -43,10 +43,19 @@ export function getDemoSession() {
   return readStoredJson(SESSION_KEY);
 }
 
-export function isDemoAuthenticated() {
+export function getDemoRole() {
   const session = getDemoSession();
   const account = getDemoAccount();
-  return Boolean(session?.email && session.email === account?.email);
+
+  if (session?.role === "ADMIN" && session.demo === true) return "ADMIN";
+  if (session?.email && session.email === account?.email && !account.suspended) {
+    return session.role === "ADMIN" ? "ADMIN" : "STUDENT";
+  }
+  return null;
+}
+
+export function isDemoAuthenticated() {
+  return getDemoRole() !== null;
 }
 
 export async function registerDemoAccount({ firstName, lastName, email, password }) {
@@ -64,6 +73,7 @@ export async function registerDemoAccount({ firstName, lastName, email, password
     firstName: firstName.trim(),
     lastName: lastName.trim(),
     email: normalizedEmail,
+    role: "STUDENT",
     salt: encodeBytes(salt),
     passwordHash: encodeBytes(passwordHash),
   };
@@ -76,7 +86,7 @@ export async function registerDemoAccount({ firstName, lastName, email, password
     lastName: account.lastName,
     email: account.email,
   });
-  localStorage.setItem(SESSION_KEY, JSON.stringify({ email: account.email }));
+  localStorage.setItem(SESSION_KEY, JSON.stringify({ email: account.email, role: "STUDENT" }));
 }
 
 export async function loginDemoAccount({ email, password }) {
@@ -95,8 +105,47 @@ export async function loginDemoAccount({ email, password }) {
   if (encodeBytes(passwordHash) !== account.passwordHash) {
     throw new Error("Adresse email ou mot de passe incorrect.");
   }
+  if (account.suspended) {
+    throw new Error("Ce compte est suspendu. Contacte l’administrateur de la plateforme.");
+  }
 
-  localStorage.setItem(SESSION_KEY, JSON.stringify({ email: account.email }));
+  localStorage.setItem(SESSION_KEY, JSON.stringify({ email: account.email, role: account.role === "ADMIN" ? "ADMIN" : "STUDENT" }));
+}
+
+export function updateDemoStudentAccount(updates) {
+  const account = getDemoAccount();
+  if (!account) throw new Error("Aucun compte étudiant local n’existe.");
+  const updatedAccount = {
+    ...account,
+    firstName: updates.firstName.trim(),
+    lastName: updates.lastName.trim(),
+    suspended: Boolean(updates.suspended),
+    role: "STUDENT",
+  };
+  localStorage.setItem(ACCOUNT_KEY, JSON.stringify(updatedAccount));
+  const profile = getProfile();
+  saveProfile({
+    ...profile,
+    firstName: updatedAccount.firstName,
+    lastName: updatedAccount.lastName,
+    email: updatedAccount.email,
+  });
+  return updatedAccount;
+}
+
+export function deleteDemoStudentAccount() {
+  const session = getDemoSession();
+  const account = getDemoAccount();
+  localStorage.removeItem(ACCOUNT_KEY);
+  if (!session?.demo && session?.email === account?.email) localStorage.removeItem(SESSION_KEY);
+}
+
+export function startAdminDemoSession() {
+  localStorage.setItem(SESSION_KEY, JSON.stringify({
+    email: "admin-demo@learnspace.local",
+    role: "ADMIN",
+    demo: true,
+  }));
 }
 
 export function logoutDemoAccount() {

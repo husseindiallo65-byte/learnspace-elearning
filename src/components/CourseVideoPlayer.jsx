@@ -1,18 +1,23 @@
 import { useState } from "react";
 import { ArrowRight, BookOpen, CheckCircle2, ChevronLeft, ChevronRight, CirclePlay } from "lucide-react";
-import { courses, getAllChapters } from "../data/courses.js";
+import { Link } from "react-router-dom";
+import { courses as defaultCourses, getAllChapters, getCatalogCourses } from "../data/courses.js";
+import { getDemoRole } from "../utils/demoAuth.js";
 import { getProgress, saveProgress } from "../utils/storage.js";
 import Quiz from "./Quiz.jsx";
 import "./CourseVideoPlayer.css";
 
-const initialCourse = courses.find((course) =>
+const initialCourses = getCatalogCourses();
+const initialCourse = initialCourses.find((course) =>
   getAllChapters(course).some((chapter) => chapter.videoEmbedUrl)
-) || courses[0];
+) || initialCourses[0] || defaultCourses[0];
 
 export default function CourseVideoPlayer() {
+  const isStudent = getDemoRole() === "STUDENT";
+  const courses = getCatalogCourses();
   const [activeCourseId, setActiveCourseId] = useState(initialCourse.id);
   const [activeLessonId, setActiveLessonId] = useState(getAllChapters(initialCourse)[0].id);
-  const [completedByCourse, setCompletedByCourse] = useState(() => getProgress());
+  const [completedByCourse, setCompletedByCourse] = useState(() => isStudent ? getProgress() : {});
   const [showQuiz, setShowQuiz] = useState(false);
 
   const activeCourse = courses.find((course) => course.id === activeCourseId) || initialCourse;
@@ -34,7 +39,7 @@ export default function CourseVideoPlayer() {
   }
 
   function completeLesson() {
-    if (completedLessons.includes(activeLesson.id)) return;
+    if (!isStudent || completedLessons.includes(activeLesson.id)) return;
 
     const nextProgress = {
       ...completedByCourse,
@@ -47,6 +52,18 @@ export default function CourseVideoPlayer() {
   function moveLesson(offset) {
     const nextLesson = allLessons[activeLessonIndex + offset];
     if (nextLesson) selectLesson(nextLesson);
+  }
+
+  if (!isStudent) {
+    return (
+      <section className="dashboard-video-section">
+        <div className="video-lesson-unavailable">
+          <strong>Réservé à l’espace étudiant</strong>
+          <span>Le compte administrateur n’a pas de progression pédagogique personnelle.</span>
+          <Link to="/admin">Retour au Dashboard Admin</Link>
+        </div>
+      </section>
+    );
   }
 
   return (

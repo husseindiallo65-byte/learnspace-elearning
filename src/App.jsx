@@ -10,23 +10,29 @@ import FormationDetail from "./pages/FormationDetail/FormationDetail.jsx";
 import Course from "./pages/Course/Course.jsx";
 import CoursePlayer from "./pages/Course/CoursePlayer.jsx";
 import Dashboard from "./pages/Dashboard/Dashboard.jsx";
+import AdminDashboard from "./pages/Admin/AdminDashboard.jsx";
 import Profile from "./pages/Profile/Profile.jsx";
 import Certificate from "./pages/Certificate/Certificate.jsx";
 import NotFound from "./pages/NotFound.jsx";
-import { isDemoAuthenticated } from "./utils/demoAuth.js";
+import { getDemoRole } from "./utils/demoAuth.js";
+import { getSiteSettings } from "./utils/adminSettings.js";
 
-function ProtectedRoute({ children }) {
+function ProtectedRoute({ children, role }) {
   const location = useLocation();
-  return isDemoAuthenticated()
-    ? children
-    : <Navigate to="/connexion" state={{ from: location }} replace />;
+  const activeRole = getDemoRole();
+
+  if (!activeRole) return <Navigate to="/connexion" state={{ from: location }} replace />;
+  if (role && activeRole !== role) {
+    return <Navigate to={activeRole === "ADMIN" ? "/admin" : "/dashboard"} replace />;
+  }
+  return children;
 }
 
 export default function App() {
   const location = useLocation();
   const { pathname } = location;
   const [isRefreshing, setIsRefreshing] = useState(true);
-  const hideHeader = pathname === "/dashboard" || pathname === "/" || pathname.startsWith("/course/");
+  const hideHeader = pathname === "/dashboard" || pathname.startsWith("/admin") || pathname === "/" || pathname.startsWith("/course/");
 
   useEffect(() => {
     setIsRefreshing(true);
@@ -36,6 +42,12 @@ export default function App() {
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [pathname]);
+
+  useEffect(() => {
+    const settings = getSiteSettings();
+    document.title = `${settings.name} — Apprends, progresse, réussis`;
+    document.documentElement.style.setProperty("--primary", settings.accentColor);
   }, [pathname]);
 
   useEffect(() => {
@@ -79,12 +91,15 @@ export default function App() {
           <Route path="/inscription" element={<Auth mode="register" />} />
           <Route path="/connexion" element={<Auth mode="login" />} />
           <Route path="/formations" element={<Formations />} />
-          <Route path="/formations/:id" element={<ProtectedRoute><FormationDetail /></ProtectedRoute>} />
-          <Route path="/course/:id" element={<ProtectedRoute><CoursePlayer /></ProtectedRoute>} />
-          <Route path="/formations/:id/cours/:chapterId" element={<ProtectedRoute><Course /></ProtectedRoute>} />
-          <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-          <Route path="/profil" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-          <Route path="/certificats/:id" element={<Certificate />} />
+          <Route path="/formations/:id" element={<ProtectedRoute role="STUDENT"><FormationDetail /></ProtectedRoute>} />
+          <Route path="/course/:id" element={<ProtectedRoute role="STUDENT"><CoursePlayer /></ProtectedRoute>} />
+          <Route path="/formations/:id/cours/:chapterId" element={<ProtectedRoute role="STUDENT"><Course /></ProtectedRoute>} />
+          <Route path="/dashboard" element={<ProtectedRoute role="STUDENT"><Dashboard /></ProtectedRoute>} />
+          <Route path="/admin" element={<ProtectedRoute role="ADMIN"><AdminDashboard /></ProtectedRoute>} />
+          <Route path="/admin/*" element={<ProtectedRoute role="ADMIN"><AdminDashboard /></ProtectedRoute>} />
+          <Route path="/profil" element={<ProtectedRoute role="STUDENT"><Profile /></ProtectedRoute>} />
+          <Route path="/profile" element={<ProtectedRoute role="STUDENT"><Profile /></ProtectedRoute>} />
+          <Route path="/certificats/:id" element={<ProtectedRoute role="STUDENT"><Certificate /></ProtectedRoute>} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>

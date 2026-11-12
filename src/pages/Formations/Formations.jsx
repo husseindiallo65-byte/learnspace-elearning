@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { useLocation, useSearchParams } from "react-router-dom";
 import CourseCard from "../../components/CourseCard.jsx";
-import { courses, categories } from "../../data/courses.js";
+import { getCategories, getCatalogCourses } from "../../data/courses.js";
 import courseDesign from "../../assets/course-design.webp";
 import courseMarketing from "../../assets/course-marketing.webp";
 import courseOffice from "../../assets/course-office.webp";
@@ -16,6 +16,8 @@ const courseImages = {
 };
 
 export default function Formations() {
+  const courses = getCatalogCourses();
+  const categories = [...new Set([...getCategories(), ...courses.map((course) => course.category)])];
   const [params] = useSearchParams();
   const location = useLocation();
   const [search, setSearch] = useState(params.get("search") || "");

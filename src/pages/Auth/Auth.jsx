@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { loginDemoAccount, registerDemoAccount } from "../../utils/demoAuth.js";
+import { loginDemoAccount, registerDemoAccount, startAdminDemoSession } from "../../utils/demoAuth.js";
 import "./Auth.css";
 
 export default function Auth({ mode }) {
@@ -48,6 +48,11 @@ export default function Auth({ mode }) {
     } finally {
       setSubmitting(false);
     }
+  }
+
+  function enterAdminDemo() {
+    startAdminDemoSession();
+    navigate("/admin", { replace: true });
   }
 
   return (
@@ -134,6 +139,12 @@ export default function Auth({ mode }) {
                 <span>{submitting ? "Patiente..." : isRegistration ? "Créer mon compte" : "Se connecter"}</span>
               </button>
             </form>
+
+            {!isRegistration && (
+              <button className="auth-admin-demo" type="button" onClick={enterAdminDemo}>
+                Accéder au Dashboard Admin (démo)
+              </button>
+            )}
 
             <p className="auth-switch">
               {isRegistration ? "Tu as déjà un compte ?" : "Tu n’as pas encore de compte ?"}{" "}

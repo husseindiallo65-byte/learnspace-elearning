@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import CourseCard from "../../components/CourseCard.jsx";
-import { courses, categories } from "../../data/courses.js";
-import { isDemoAuthenticated } from "../../utils/demoAuth.js";
+import { getCategories, getCatalogCourses } from "../../data/courses.js";
+import { getDemoRole, isDemoAuthenticated, startAdminDemoSession } from "../../utils/demoAuth.js";
+import { getSiteSettings } from "../../utils/adminSettings.js";
 import { getProfile } from "../../utils/storage.js";
 import courseReact from "../../assets/course-react.webp";
 import courseDesign from "../../assets/course-design.webp";
@@ -133,6 +134,7 @@ function BenefitIcon({ title }) {
 
   export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [dashboardMenuOpen, setDashboardMenuOpen] = useState(false);
   const [contactNotice, setContactNotice] = useState("");
   const [statCounts, setStatCounts] = useState({ courses: 1, online: 1 });
   const closeMenu = () => setMenuOpen(false);
@@ -149,9 +151,13 @@ function BenefitIcon({ title }) {
     closeMenu();
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+  const role = getDemoRole();
   const authenticated = isDemoAuthenticated();
-  const profile = getProfile();
+  const profile = role === "STUDENT" ? getProfile() : null;
+  const siteSettings = getSiteSettings();
   const navigate = useNavigate();
+  const courses = getCatalogCourses();
+  const categories = [...new Set([...getCategories(), ...courses.map((course) => course.category)])];
 
   const handleContactSubmit = (event) => {
     event.preventDefault();
@@ -159,11 +165,11 @@ function BenefitIcon({ title }) {
     const name = formData.get("nom");
     const email = formData.get("email");
     const message = formData.get("message");
-    const subject = `Message LearnSpace de ${name}`;
+    const subject = `Message ${siteSettings.name} de ${name}`;
     const body = `Nom : ${name}\nE-mail : ${email}\n\nMessage :\n${message}`;
 
     setContactNotice("Votre application de messagerie va s’ouvrir pour envoyer votre message.");
-    window.location.href = `mailto:husseindiallo65@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = `mailto:${siteSettings.supportEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   };
 
   useEffect(() => {
@@ -197,9 +203,9 @@ function BenefitIcon({ title }) {
   return (
     <div className="learnspace-home">
       <header className="ls-header">
-        <Link to="/" className="ls-brand" aria-label="LearnSpace accueil" onClick={goHome}>
+        <Link to="/" className="ls-brand" aria-label={`${siteSettings.name} accueil`} onClick={goHome}>
           <span className="ls-brand-icon" aria-hidden="true" />
-          <span className="learn">Learn<span className="space">Space</span></span>
+          <span className="learn">{siteSettings.name}</span>
         </Link>
 
         <button
@@ -224,32 +230,52 @@ function BenefitIcon({ title }) {
           <button className="ls-search" type="button" aria-label="Rechercher une formation" onClick={() => navigate("/formations", { state: { focusSearch: true } })}>
             <Icon name="search" />
           </button>
-          <Link
-            to="/dashboard"
-            className="user-button"
-            aria-label="Accéder au tableau de bord"
-            title="Accéder au tableau de bord"
-          >
-            {authenticated && profile.photo ? (
-              <img src={profile.photo} alt="Profil" style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} />
-            ) : (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
-              >
-                <circle cx="12" cy="8" r="5" />
-                <path d="M20 21a8 8 0 0 0-16 0" />
-              </svg>
+          <div className="dashboard-menu-wrapper">
+            <button
+              type="button"
+              className="user-button"
+              aria-label="Accéder au tableau de bord"
+              aria-haspopup="menu"
+              aria-expanded={dashboardMenuOpen}
+              title="Accéder au tableau de bord"
+              onClick={() => setDashboardMenuOpen((open) => !open)}
+              onKeyDown={(event) => {
+                if (event.key === "Escape") setDashboardMenuOpen(false);
+              }}
+            >
+              {role === "STUDENT" && profile?.photo ? (
+                <img src={profile.photo} alt="" style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} />
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <circle cx="12" cy="8" r="5" />
+                  <path d="M20 21a8 8 0 0 0-16 0" />
+                </svg>
+              )}
+            </button>
+            {dashboardMenuOpen && (
+              <div className="dashboard-choice-menu" role="menu" aria-label="Choisir un tableau de bord">
+                <Link role="menuitem" to="/dashboard" onClick={() => setDashboardMenuOpen(false)}>
+                  <span className="dashboard-choice-icon student" aria-hidden="true">É</span>
+                  <span><strong>Dashboard étudiant</strong><small>Mes cours et ma progression</small></span>
+                </Link>
+                <Link role="menuitem" to="/admin" onClick={() => { startAdminDemoSession(); setDashboardMenuOpen(false); }}>
+                  <span className="dashboard-choice-icon admin" aria-hidden="true">A</span>
+                  <span><strong>Dashboard admin</strong><small>Gestion locale · démo</small></span>
+                </Link>
+              </div>
             )}
-          </Link>
+          </div>
         </div>
       </header>
 
@@ -278,10 +304,17 @@ function BenefitIcon({ title }) {
                 <Icon name="arrow" size={19} />
               </Link>
 
-              <Link to="/dashboard" className="ls-outline-button button-fill-left">
-                <Icon name="grid" size={19} />
-                <span>Mon espace étudiant</span>
-              </Link>
+              {role === "ADMIN" ? (
+                <Link to="/admin" className="ls-outline-button button-fill-left">
+                  <Icon name="grid" size={19} />
+                  <span>Mon espace administrateur</span>
+                </Link>
+              ) : (
+                <Link to="/dashboard" className="ls-outline-button button-fill-left">
+                  <Icon name="grid" size={19} />
+                  <span>Mon espace étudiant</span>
+                </Link>
+              )}
             </div>
           </div>
 

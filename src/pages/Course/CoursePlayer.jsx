@@ -13,12 +13,15 @@ import {
   Video,
 } from "lucide-react";
 import { getAllChapters, getCourse } from "../../data/courses.js";
+import { getDemoRole } from "../../utils/demoAuth.js";
 import {
   getCourseProgress,
   getLastChapter,
   getProgress,
+  getProfile,
   getResumeChapter,
   saveLastChapter,
+  saveEnrollment,
   saveProgress,
 } from "../../utils/storage.js";
 import ModuleResources from "../../components/ModuleResources.jsx";
@@ -52,15 +55,16 @@ function getInstructorInitials(instructor) {
 export default function CoursePlayer() {
   const { id } = useParams();
   const course = getCourse(id);
+  const isStudent = getDemoRole() === "STUDENT";
   const [searchParams, setSearchParams] = useSearchParams();
-  const [completedByCourse, setCompletedByCourse] = useState(() => getProgress());
+  const [completedByCourse, setCompletedByCourse] = useState(() => isStudent ? getProgress() : {});
   const [shareMessage, setShareMessage] = useState("");
   const [shareError, setShareError] = useState("");
   const chapters = useMemo(() => course ? getAllChapters(course) : [], [course]);
-  const resumeChapter = course ? getResumeChapter(course) : null;
+  const resumeChapter = course && isStudent ? getResumeChapter(course) : null;
   const requestedChapter = searchParams.get("chapter");
   const activeChapter = chapters.find((chapter) => chapter.id === requestedChapter)
-    || chapters.find((chapter) => chapter.id === getLastChapter(id))
+    || (isStudent ? chapters.find((chapter) => chapter.id === getLastChapter(id)) : null)
     || resumeChapter
     || chapters[0]
     || null;
@@ -73,7 +77,7 @@ export default function CoursePlayer() {
     ? course.modules.map((module) => module.chapters.every((chapter) => completedChapters.includes(chapter.id)))
     : [];
   const completedModuleCount = completedModules.filter(Boolean).length;
-  const progress = course ? getCourseProgress(course.id, course) : 0;
+  const progress = course && isStudent ? getCourseProgress(course.id, course) : 0;
   const moduleIsComplete = activeModule ? completedModules[activeModuleIndex] : false;
   const previousModule = activeModuleIndex > 0 ? course.modules[activeModuleIndex - 1] : null;
   const nextModule = activeModuleIndex >= 0 ? course?.modules[activeModuleIndex + 1] : null;
@@ -84,9 +88,32 @@ export default function CoursePlayer() {
     : 0;
 
   useEffect(() => {
-    if (course && activeChapter) saveLastChapter(course.id, activeChapter.id);
-  }, [course, activeChapter]);
+    if (isStudent && course && activeChapter) saveLastChapter(course.id, activeChapter.id);
+  }, [course, activeChapter, isStudent]);
 
+  useEffect(() => {
+    if (!isStudent || !course) return;
+    const profile = getProfile();
+    if (profile.email) {
+      saveEnrollment({
+        courseId: course.id,
+        email: profile.email,
+        studentName: `${profile.firstName} ${profile.lastName}`.trim(),
+      });
+    }
+  }, [course, isStudent]);
+
+  if (!isStudent) {
+    return (
+      <main className="course-player-page">
+        <section className="course-player-video-unavailable">
+          <strong>Réservé à l’espace étudiant</strong>
+          <span>Le compte administrateur n’a pas de progression pédagogique personnelle.</span>
+          <Link to="/admin">Retour au Dashboard Admin</Link>
+        </section>
+      </main>
+    );
+  }
   if (!course || !activeChapter || !activeModule) return <NotFound />;
 
   function selectChapter(chapterId) {
@@ -101,6 +128,7 @@ export default function CoursePlayer() {
   }
 
   function completeModule() {
+    if (!isStudent) return;
     const existing = Array.isArray(completedByCourse[course.id]) ? completedByCourse[course.id] : [];
     const nextCompleted = [...new Set([...existing, ...activeModule.chapters.map((chapter) => chapter.id)])];
     const nextProgress = { ...completedByCourse, [course.id]: nextCompleted };

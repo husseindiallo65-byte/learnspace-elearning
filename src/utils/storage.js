@@ -6,6 +6,7 @@ const STUDY_PLAN_KEY = "learnspace-study-plan";
 const LAST_CHAPTER_KEY = "learnspace-last-chapter";
 const VISITED_CHAPTERS_KEY = "learnspace-visited-chapters";
 const RESOURCE_DOWNLOADS_KEY = "learnspace-resource-downloads";
+const ENROLLMENTS_KEY = "learnspace-enrollments";
 
 const defaultProfile = {
   firstName: "Étudiant",
@@ -79,6 +80,25 @@ export function saveResourceDownload({ courseId, moduleId, resourceId }) {
     date: new Date().toISOString(),
   });
   write(RESOURCE_DOWNLOADS_KEY, downloads.slice(0, 100));
+}
+
+export function getEnrollments() {
+  const enrollments = read(ENROLLMENTS_KEY, []);
+  return Array.isArray(enrollments) ? enrollments : [];
+}
+
+export function saveEnrollment({ courseId, email, studentName }) {
+  if (!courseId || !email) throw new TypeError("Une inscription doit inclure une formation et un compte étudiant.");
+  const enrollments = getEnrollments();
+  if (enrollments.some((item) => item.courseId === courseId && item.email === email)) return;
+  write(ENROLLMENTS_KEY, [
+    { courseId, email, studentName, enrolledAt: new Date().toISOString() },
+    ...enrollments,
+  ]);
+}
+
+export function removeEnrollment({ courseId, email }) {
+  write(ENROLLMENTS_KEY, getEnrollments().filter((item) => item.courseId !== courseId || item.email !== email));
 }
 
 export function getResumeChapter(course) {

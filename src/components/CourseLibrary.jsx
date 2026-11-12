@@ -1,8 +1,10 @@
+import { useMemo } from "react";
 import { Download, FileText } from "lucide-react";
-import { courses } from "../data/courses.js";
+import { getCatalogCourses } from "../data/courses.js";
 import "./CourseLibrary.css";
 
 export default function CourseLibrary() {
+  const courses = useMemo(() => getCatalogCourses(), []);
   return (
     <section className="course-library">
       <header className="library-header">

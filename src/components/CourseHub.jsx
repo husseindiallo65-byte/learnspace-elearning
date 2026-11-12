@@ -1,7 +1,7 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, BookOpen, Clock3, Play, Search } from "lucide-react";
-import { courses } from "../data/courses.js";
+import { getCategories, getCatalogCourses } from "../data/courses.js";
 import { getCourseProgress, getLastChapter } from "../utils/storage.js";
 import courseReact from "../assets/course-react.webp";
 import courseDesign from "../assets/course-design.webp";
@@ -27,10 +27,8 @@ function getCourseStatus(progress, hasBeenVisited) {
 export default function CourseHub() {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("Toutes");
-  const categories = useMemo(
-    () => ["Toutes", ...new Set(courses.map((course) => course.category))],
-    [],
-  );
+  const courses = getCatalogCourses();
+  const categories = ["Toutes", ...new Set([...getCategories(), ...courses.map((course) => course.category)])];
   const filteredCourses = courses.filter((course) => {
     const matchesCategory = category === "Toutes" || course.category === category;
     const matchesSearch = `${course.title} ${course.category} ${course.instructor}`
