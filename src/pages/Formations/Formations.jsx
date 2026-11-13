@@ -4,13 +4,12 @@ import CourseCard from "../../components/CourseCard.jsx";
 import { getCategories, getCatalogCourses } from "../../data/courses.js";
 import courseDesign from "../../assets/course-design.webp";
 import courseMarketing from "../../assets/course-marketing.webp";
-import courseOffice from "../../assets/course-office.webp";
 
 const courseImages = {
   "react-debutant": "https://i.ibb.co/G6s9vjt/programer-sitting-desk-with-multiple-screens-running-code-talking-with-colleague-about-artificial-in.jpg",
   "design-graphique": courseDesign,
   "marketing-digital": courseMarketing,
-  bureautique: courseOffice,
+  bureautique: "https://i.ibb.co/5Xc7WYjz/remote-worker-typing-notebook-inputting-paperwork-data-online.jpg",
   "html-css": "https://i.ibb.co/XZdxVW2V/html-programming-advanced-technology-web-concept.jpg",
   "javascript-debutant": "https://i.ibb.co/CGhVdv0/teleworker-using-laptop-coding-software-developing.jpg"
 };

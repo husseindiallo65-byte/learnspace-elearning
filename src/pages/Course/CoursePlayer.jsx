@@ -94,6 +94,7 @@ export default function CoursePlayer() {
   const certificateEligibility = course && isStudent
     ? getCertificateEligibility(course, certificateSettings)
     : null;
+  const returnUrl = isStudent ? "/dashboard" : "/admin";
 
   useEffect(() => {
     if (isStudent && course && activeChapter) saveLastChapter(course.id, activeChapter.id);
@@ -121,17 +122,6 @@ export default function CoursePlayer() {
     }
   }, [course, isStudent, certificateSettings.enabled, certificateEligibility?.eligible]);
 
-  if (!isStudent) {
-    return (
-      <main className="course-player-page">
-        <section className="course-player-video-unavailable">
-          <strong>Réservé à l’espace étudiant</strong>
-          <span>Le compte administrateur n’a pas de progression pédagogique personnelle.</span>
-          <Link to="/admin">Retour au Dashboard Admin</Link>
-        </section>
-      </main>
-    );
-  }
   if (!course || !activeChapter || !activeModule) return <NotFound />;
 
   function selectChapter(chapterId) {
@@ -176,10 +166,10 @@ export default function CoursePlayer() {
   return (
     <main className="course-player-page">
       <header className="course-player-topbar">
-        <Link className="course-player-back" to="/dashboard" state={{ dashboardSection: "Cours" }}>
+        <Link className="course-player-back" to="/formations">
           <ArrowLeft size={17} /> Quitter le cours
         </Link>
-        <Link className="course-player-brand" to="/dashboard" aria-label="Retour au Dashboard LearnSpace">
+        <Link className="course-player-brand" to={returnUrl} aria-label="Retour au tableau de bord LearnSpace">
           Learn<span>Space</span>
         </Link>
       </header>
@@ -192,7 +182,7 @@ export default function CoursePlayer() {
               <h1>{course.title}</h1>
               <p>{activeModule.title} <span>·</span> {activeChapter.title}</p>
             </div>
-            <span className="course-player-course-progress">{progress}% terminé</span>
+            <span className="course-player-course-progress">{isStudent ? `${progress}% terminé` : "Aperçu administrateur"}</span>
           </header>
 
           <div className="course-player-video">
@@ -234,8 +224,8 @@ export default function CoursePlayer() {
             <button type="button" disabled={!previousModule} onClick={() => selectModule(previousModule)}>
               <ArrowLeft size={16} /> Module précédent
             </button>
-            <button type="button" disabled={!nextModule || nextIsLocked} onClick={() => selectModule(nextModule)}>
-              {nextIsLocked ? <LockKeyhole size={15} /> : null}
+            <button type="button" disabled={!nextModule || (isStudent && nextIsLocked)} onClick={() => selectModule(nextModule)}>
+              {isStudent && nextIsLocked ? <LockKeyhole size={15} /> : null}
               Module suivant <ArrowRight size={16} />
             </button>
           </nav>
@@ -280,7 +270,7 @@ export default function CoursePlayer() {
                 moduleId={activeModule.id}
                 moduleTitle={activeModule.title}
                 nextUrl={nextModuleUrl}
-                canProceed={moduleIsComplete}
+                canProceed={!isStudent || moduleIsComplete}
                 onPass={completeModule}
               />
             </div>
@@ -288,7 +278,7 @@ export default function CoursePlayer() {
         </article>
 
         <aside className="course-player-sidebar">
-          <section className="course-player-progress-card" aria-label="Progression de la formation">
+          {isStudent && <section className="course-player-progress-card" aria-label="Progression de la formation">
             <div className="course-player-progress-heading">
               <span><BookOpen size={17} /> Ta progression</span>
               <strong>{progress}%</strong>
@@ -304,7 +294,7 @@ export default function CoursePlayer() {
               </Link>
             )}
             {certificateIssueError && <p className="course-player-certificate-error" role="alert">{certificateIssueError}</p>}
-          </section>
+          </section>}
 
           <section className="course-player-modules-card">
             <header>
@@ -315,7 +305,7 @@ export default function CoursePlayer() {
               {course.modules.map((module, index) => {
                 const isActive = module.id === activeModule.id;
                 const isComplete = completedModules[index];
-                const isLocked = index > 0
+                const isLocked = isStudent && index > 0
                   && course.modules.slice(0, index).some((previous, previousIndex) =>
                     previous.quiz?.required && !completedModules[previousIndex]
                   );

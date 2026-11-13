@@ -18,12 +18,13 @@ import NotFound from "./pages/NotFound.jsx";
 import { getDemoRole } from "./utils/demoAuth.js";
 import { getSiteSettings } from "./utils/adminSettings.js";
 
-function ProtectedRoute({ children, role }) {
+function ProtectedRoute({ children, role, roles }) {
   const location = useLocation();
   const activeRole = getDemoRole();
+  const allowedRoles = roles || (role ? [role] : []);
 
   if (!activeRole) return <Navigate to="/connexion" state={{ from: location }} replace />;
-  if (role && activeRole !== role) {
+  if (allowedRoles.length > 0 && !allowedRoles.includes(activeRole)) {
     return <Navigate to={activeRole === "ADMIN" ? "/admin" : "/dashboard"} replace />;
   }
   return children;
@@ -34,6 +35,7 @@ export default function App() {
   const { pathname } = location;
   const [isRefreshing, setIsRefreshing] = useState(true);
   const hideHeader = pathname === "/dashboard" || pathname.startsWith("/admin") || pathname === "/" || pathname.startsWith("/course/");
+  const hideFooter = pathname === "/dashboard" || pathname.startsWith("/admin") || pathname.startsWith("/course/");
 
   useEffect(() => {
     setIsRefreshing(true);
@@ -42,8 +44,13 @@ export default function App() {
   }, [location.key]);
 
   useEffect(() => {
+    const section = location.hash ? document.getElementById(decodeURIComponent(location.hash.slice(1))) : null;
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+      return;
+    }
     window.scrollTo({ top: 0, behavior: "smooth" });
-  }, [pathname]);
+  }, [pathname, location.hash]);
 
   useEffect(() => {
     const settings = getSiteSettings();
@@ -93,7 +100,7 @@ export default function App() {
           <Route path="/connexion" element={<Auth mode="login" />} />
           <Route path="/formations" element={<Formations />} />
           <Route path="/formations/:id" element={<ProtectedRoute role="STUDENT"><FormationDetail /></ProtectedRoute>} />
-          <Route path="/course/:id" element={<ProtectedRoute role="STUDENT"><CoursePlayer /></ProtectedRoute>} />
+          <Route path="/course/:id" element={<ProtectedRoute roles={["STUDENT", "ADMIN"]}><CoursePlayer /></ProtectedRoute>} />
           <Route path="/formations/:id/cours/:chapterId" element={<ProtectedRoute role="STUDENT"><Course /></ProtectedRoute>} />
           <Route path="/dashboard" element={<ProtectedRoute role="STUDENT"><Dashboard /></ProtectedRoute>} />
           <Route path="/admin" element={<ProtectedRoute role="ADMIN"><AdminDashboard /></ProtectedRoute>} />
@@ -105,7 +112,7 @@ export default function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
-      {!hideHeader && <Footer />}
+      {!hideFooter && <Footer />}
       {!hideHeader && <BackToTop />}
       {isRefreshing && (
         <div className="page-refresh-loader" role="status" aria-label="Chargement de la page">

@@ -12,6 +12,7 @@ import courseOffice from "../../assets/course-office.webp";
 import "./Home.css";
 
 const featuredCourseImages = [courseReact, courseDesign, courseMarketing];
+const computerBasicsImage = "https://i.ibb.co/9kXcDVZj/software-development-agency-it-coworkers-doing-brainstorming-coding.jpg";
 const categoryImages = {
   "Développement web": courseReact,
   "Design graphique": courseDesign,
@@ -406,7 +407,13 @@ function BenefitIcon({ title }) {
           </div>
           <div className="course-grid">
             {courses.slice(0, 3).map((course, index) => (
-              <CourseCard course={course} image={featuredCourseImages[index]} key={course.id} />
+              <CourseCard
+                course={course}
+                image={course.title.trim().toLocaleLowerCase("fr") === "initiation à l'informatique"
+                  ? computerBasicsImage
+                  : featuredCourseImages[index]}
+                key={course.id}
+              />
             ))}
           </div>
           <div className="center-action">

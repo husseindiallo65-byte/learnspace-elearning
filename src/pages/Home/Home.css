@@ -929,8 +929,17 @@
 }
 
 .learnspace-home .ls-category-card.purple {
-  --category-color: #9560f5;
+  --category-color: #5feb98;
   border-color: #e5dcff;
+}
+
+.learnspace-home .ls-category-card.purple:hover {
+  --category-color: #5feb98;
+}
+
+.learnspace-home .ls-category-card.purple:hover .category-icon {
+  border-color: #5feb98;
+  color: #5feb98;
 }
 
 .learnspace-home .ls-category-card.mint {
@@ -938,7 +947,7 @@
 }
 
 .learnspace-home .ls-category-card.blue {
-  --category-color: #35b8f5;
+  --category-color: #5feb98;
   border-color: #d6efff;
 }
 
