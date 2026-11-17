@@ -249,6 +249,31 @@
 .admin-save-button { width: 100%; margin-top: 2px; }
 .admin-footer { padding-top: 18px; color: #909aa5; font-size: 9px; text-align: center; }
 
+/* Image fieldset */
+.admin-image-fieldset { display: grid; gap: 10px; padding: 13px; border: 1px solid #dfe7e2; border-radius: 9px; background: #fbfefe; }
+.admin-image-fieldset legend { padding: 0 6px; color: #475569; font-size: 10px; font-weight: 750; }
+.admin-image-tabs { display: flex; gap: 6px; border-bottom: 1px solid #e1e8e4; margin-bottom: 4px; }
+.admin-image-tab { display: flex; align-items: center; gap: 7px; padding: 8px 11px; border: 0; border-bottom: 2px solid transparent; border-radius: 0; color: #697586; background: transparent; font: inherit; font-size: 10px; font-weight: 700; cursor: pointer; transition: color 0.18s ease, border-color 0.18s ease; }
+.admin-image-tab:hover { color: #176b3f; }
+.admin-image-tab.is-active { color: #176b3f; border-bottom-color: #5feb98; }
+.admin-image-tab svg { flex: 0 0 auto; }
+
+/* URL input within image fieldset */
+.admin-image-fieldset label > input[type="url"] { width: 100%; min-width: 0; padding: 9px 10px; border: 1px solid #dfe7e2; border-radius: 7px; outline-color: #5feb98; color: #263445; background: #fff; font: inherit; font-size: 10px; font-weight: 400; }
+
+/* File upload zone */
+.admin-image-upload { display: flex; flex-direction: column; align-items: center; gap: 9px; padding: 18px 12px; border: 2px dashed #d1dbd4; border-radius: 10px; color: #475569; background: #fbfefe; cursor: pointer; transition: border-color 0.2s ease, background 0.2s ease; }
+.admin-image-upload:hover { border-color: #5feb98; background: #f0fdf7; }
+.admin-image-upload svg { width: 34px; height: 34px; color: #176b3f; }
+.admin-image-upload span { font-size: 10px; font-weight: 700; text-align: center; }
+.admin-image-upload input { display: none; }
+
+/* Image preview */
+.admin-image-preview { display: grid; place-items: center; gap: 8px; margin-top: 8px; }
+.admin-image-preview img { width: 100%; max-width: 220px; height: 140px; object-fit: cover; border-radius: 8px; border: 1px solid #dfe7e2; background: #f5f9f7; }
+.admin-image-remove { display: grid; place-items: center; width: 26px; height: 26px; border: 1px solid #e1e8e4; border-radius: 50%; color: #a22b25; background: #fff; font-size: 12px; cursor: pointer; }
+.admin-image-remove:hover { color: #fff; background: #a22b25; }
+
 @media (max-width: 1000px) {
   .admin-workspace { grid-template-columns: 1fr; }
   .admin-editor { position: static; }

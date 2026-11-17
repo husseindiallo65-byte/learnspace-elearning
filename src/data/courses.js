@@ -104,7 +104,7 @@ export const courses = [
     rating: "4.6",
     color: "orange",
     icon: "📊",
-    Image: "https://www.magnific.com/free-photo/african-american-girl-comparing-course-notes-with-data-from-library-collection_416754179.htm#fromView=search&page=1&position=30&uuid=3310a279-9c48-40a8-bc21-5873a2a0ebd7&track=ais_hybrid&query=apprendre+React",
+    image: "https://www.magnific.com/free-photo/african-american-girl-comparing-course-notes-with-data-from-library-collection_416754179.htm#fromView=search&page=1&position=30&uuid=3310a279-9c48-40a8-bc21-5873a2a0ebd7&track=ais_hybrid&query=apprendre+React",
     shortDescription: "Organise tes documents, tableaux et présentations.",
     description: "Une introduction pratique aux outils bureautiques utiles pour les études et le travail.",
     instructor: "Ibrahima Ba",

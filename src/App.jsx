@@ -10,28 +10,20 @@ import FormationDetail from "./pages/FormationDetail/FormationDetail.jsx";
 import Course from "./pages/Course/Course.jsx";
 import CoursePlayer from "./pages/Course/CoursePlayer.jsx";
 import Dashboard from "./pages/Dashboard/Dashboard.jsx";
+import TeacherDashboard from "./pages/Dashboard/TeacherDashboard.jsx";
 import AdminDashboard from "./pages/Admin/AdminDashboard.jsx";
 import Profile from "./pages/Profile/Profile.jsx";
 import Certificate from "./pages/Certificate/Certificate.jsx";
 import CertificateVerification from "./pages/Certificate/CertificateVerification.jsx";
 import NotFound from "./pages/NotFound.jsx";
-import { getDemoRole } from "./utils/demoAuth.js";
+import ProtectedRoute from "./auth/ProtectedRoute.jsx";
+import RoleBasedRedirect from "./auth/RoleBasedRedirect.jsx";
+import { useAuth } from "./auth/AuthContext.jsx";
 import { getSiteSettings } from "./utils/adminSettings.js";
-
-function ProtectedRoute({ children, role, roles }) {
-  const location = useLocation();
-  const activeRole = getDemoRole();
-  const allowedRoles = roles || (role ? [role] : []);
-
-  if (!activeRole) return <Navigate to="/connexion" state={{ from: location }} replace />;
-  if (allowedRoles.length > 0 && !allowedRoles.includes(activeRole)) {
-    return <Navigate to={activeRole === "ADMIN" ? "/admin" : "/dashboard"} replace />;
-  }
-  return children;
-}
 
 export default function App() {
   const location = useLocation();
+  const { user, isLoading, isAuthenticated } = useAuth();
   const { pathname } = location;
   const [isRefreshing, setIsRefreshing] = useState(true);
   const hideHeader = pathname === "/dashboard" || pathname.startsWith("/admin") || pathname === "/" || pathname.startsWith("/course/");
@@ -90,6 +82,20 @@ export default function App() {
     };
   }, [pathname]);
 
+  if (isLoading) {
+    return (
+      <div className="page-refresh-loader" role="status" aria-label="Chargement de la page">
+        <span className="page-refresh-loader-ring">
+          <span className="page-refresh-loader-icon" aria-hidden="true" />
+        </span>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return <Navigate to="/connexion" state={{ from: location }} replace />;
+  }
+
   return (
     <div className="app-shell">
       {!hideHeader && <Header />}
@@ -99,16 +105,96 @@ export default function App() {
           <Route path="/inscription" element={<Auth mode="register" />} />
           <Route path="/connexion" element={<Auth mode="login" />} />
           <Route path="/formations" element={<Formations />} />
-          <Route path="/formations/:id" element={<ProtectedRoute role="STUDENT"><FormationDetail /></ProtectedRoute>} />
+          <Route path="/formations/:id" element={<ProtectedRoute roles={["STUDENT"]}><FormationDetail /></ProtectedRoute>} />
           <Route path="/course/:id" element={<ProtectedRoute roles={["STUDENT", "ADMIN"]}><CoursePlayer /></ProtectedRoute>} />
-          <Route path="/formations/:id/cours/:chapterId" element={<ProtectedRoute role="STUDENT"><Course /></ProtectedRoute>} />
-          <Route path="/dashboard" element={<ProtectedRoute role="STUDENT"><Dashboard /></ProtectedRoute>} />
-          <Route path="/admin" element={<ProtectedRoute role="ADMIN"><AdminDashboard /></ProtectedRoute>} />
-          <Route path="/admin/*" element={<ProtectedRoute role="ADMIN"><AdminDashboard /></ProtectedRoute>} />
-          <Route path="/profil" element={<ProtectedRoute role="STUDENT"><Profile /></ProtectedRoute>} />
-          <Route path="/profile" element={<ProtectedRoute role="STUDENT"><Profile /></ProtectedRoute>} />
-          <Route path="/certificats/:id" element={<ProtectedRoute role="STUDENT"><Certificate /></ProtectedRoute>} />
-          <Route path="/verify-certificate/:certificateId" element={<CertificateVerification />} />
+          <Route path="/formations/:id/cours/:chapterId" element={<ProtectedRoute roles={["STUDENT"]}><Course /></ProtectedRoute>} />
+
+          {/* Tableau de bord étudiant */}
+          <Route
+            path="/dashboard/student"
+            element={
+              <ProtectedRoute roles={["STUDENT"]}>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          {/* Redirection /dashboard vers le bon tableau de bord selon le rôle */}
+          <Route
+            path="/dashboard"
+            element={<RoleBasedRedirect />}
+          />
+          {/* Tableau de bord professeur */}
+          <Route
+            path="/dashboard/teacher"
+            element={
+              <ProtectedRoute roles={["TEACHER"]}>
+                <TeacherDashboard />
+              </ProtectedRoute>
+            }
+          />
+          {/* Tableau de bord administrateur */}
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute roles={["ADMIN"]}>
+                <AdminDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/*"
+            element={
+              <ProtectedRoute roles={["ADMIN"]}>
+                <AdminDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profil"
+            element={
+              <ProtectedRoute
+                roles={["STUDENT", "ADMIN", "TEACHER"]}
+                fallbackTo={{
+                  STUDENT: "/dashboard",
+                  ADMIN: "/admin",
+                  TEACHER: "/dashboard/teacher",
+                }}
+              >
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute
+                roles={["STUDENT", "ADMIN", "TEACHER"]}
+                fallbackTo={{
+                  STUDENT: "/dashboard",
+                  ADMIN: "/admin",
+                  TEACHER: "/dashboard/teacher",
+                }}
+              >
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/certificats/:id"
+            element={
+              <ProtectedRoute roles={["STUDENT", "ADMIN"]}>
+                <Certificate />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/verify-certificate/:certificateId"
+            element={
+              <ProtectedRoute roles={["STUDENT", "ADMIN"]}>
+                <CertificateVerification />
+              </ProtectedRoute>
+            }
+          />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>

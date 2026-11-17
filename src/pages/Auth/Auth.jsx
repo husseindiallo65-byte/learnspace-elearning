@@ -1,7 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { loginDemoAccount, registerDemoAccount, startAdminDemoSession } from "../../utils/demoAuth.js";
+import { useAuth } from "../../auth/AuthContext";
+import { loginDemoAccount, registerDemoAccount } from "../../utils/demoAuth.js";
+import { getDemoRole } from "../../utils/demoAuth.js";
 import "./Auth.css";
+
+function getRoleDashboardPath(role) {
+  if (!role) return "/dashboard/student";
+  switch (role) {
+    case "TEACHER": return "/dashboard/teacher";
+    case "ADMIN": return "/admin";
+    default: return "/dashboard/student";
+  }
+}
 
 export default function Auth({ mode }) {
   const [showPassword, setShowPassword] = useState(false);
@@ -13,9 +24,19 @@ export default function Auth({ mode }) {
   });
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const { user, login, register, isAuthenticated } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
   const isRegistration = mode === "register";
+
+  useEffect(() => {
+    if (!isAuthenticated) return;
+    const role = getDemoRole();
+    if (role) {
+      const redirectTo = location.state?.from?.pathname || getRoleDashboardPath(role);
+      navigate(redirectTo, { replace: true });
+    }
+  }, [isAuthenticated, location.state, navigate]);
 
   function update(event) {
     setValues((current) => ({ ...current, [event.target.name]: event.target.value }));
@@ -29,30 +50,23 @@ export default function Auth({ mode }) {
 
     try {
       if (isRegistration) {
-        await registerDemoAccount(values);
+        await register(values);
       } else {
-        await loginDemoAccount(values);
+        await login(values.email, values.password);
       }
-      navigate(
-        location.state?.from
-          ? {
-              pathname: location.state.from.pathname,
-              search: location.state.from.search,
-              hash: location.state.from.hash,
-            }
-          : "/dashboard",
-        { replace: true },
-      );
+      const role = getDemoRole();
+      const redirectTo = location.state?.from?.pathname || getRoleDashboardPath(role);
+      navigate(redirectTo, { replace: true });
     } catch (authError) {
-      setError(authError instanceof Error ? authError.message : "Impossible de terminer l’opération.");
+      setError(authError instanceof Error ? authError.message : "Impossible de terminer l'opération.");
     } finally {
       setSubmitting(false);
     }
   }
 
   function enterAdminDemo() {
-    startAdminDemoSession();
-    navigate("/admin", { replace: true });
+    logoutDemoAccount();
+    navigate("/connexion", { replace: true });
   }
 
   return (
@@ -61,12 +75,12 @@ export default function Auth({ mode }) {
         <div className="panel auth-card">
           <div className="auth-form-panel">
             <div className="auth-heading">
-              <span className="eyebrow">LEARNSPACE · ESPACE ÉTUDIANT</span>
+              <span className="eyebrow">LEARNSPACE · ESPACE MEMBRE</span>
               <h1>{isRegistration ? "Créer ton compte" : "Connexion"}</h1>
               <p className="auth-intro">
                 {isRegistration
-                  ? "Inscris-toi pour accéder à ton espace étudiant."
-                  : "Connecte-toi pour retrouver ton espace étudiant."}
+                  ? "Inscris-toi pour accéder à ton espace membre."
+                  : "Connecte-toi pour retrouver ton espace membre."}
               </p>
             </div>
 
@@ -147,12 +161,12 @@ export default function Auth({ mode }) {
             )}
 
             <p className="auth-switch">
-              {isRegistration ? "Tu as déjà un compte ?" : "Tu n’as pas encore de compte ?"}{" "}
+              {isRegistration ? "Tu as déjà un compte ?" : "Tu n'as pas encore de compte ?"}{" "}
               <Link
                 to={isRegistration ? "/connexion" : "/inscription"}
                 state={location.state?.from ? { from: location.state.from } : undefined}
               >
-                {isRegistration ? "Se connecter" : "S’inscrire"}
+                {isRegistration ? "Se connecter" : "S'inscrire"}
               </Link>
             </p>
 

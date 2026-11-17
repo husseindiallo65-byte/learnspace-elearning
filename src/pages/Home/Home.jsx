@@ -8,17 +8,10 @@ import { getProfile } from "../../utils/storage.js";
 import courseReact from "../../assets/course-react.webp";
 import courseDesign from "../../assets/course-design.webp";
 import courseMarketing from "../../assets/course-marketing.webp";
-import courseOffice from "../../assets/course-office.webp";
 import "./Home.css";
 
 const featuredCourseImages = [courseReact, courseDesign, courseMarketing];
 const computerBasicsImage = "https://i.ibb.co/9kXcDVZj/software-development-agency-it-coworkers-doing-brainstorming-coding.jpg";
-const categoryImages = {
-  "Développement web": courseReact,
-  "Design graphique": courseDesign,
-  "Marketing digital": courseMarketing,
-  Bureautique: courseOffice,
-};
 const categoryColors = {
   "Développement web": "green",
   "Design graphique": "purple",
@@ -133,7 +126,7 @@ function BenefitIcon({ title }) {
   return <svg {...common}><path d="M8 39V26m11 13V18m11 21V29m11 10V10M6 40h36" /><path d="m8 20 11-8 11 9 11-12" /></svg>;
 }
 
-  export default function Home() {
+export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [dashboardMenuOpen, setDashboardMenuOpen] = useState(false);
   const [contactNotice, setContactNotice] = useState("");
@@ -153,7 +146,6 @@ function BenefitIcon({ title }) {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
   const role = getDemoRole();
-  const authenticated = isDemoAuthenticated();
   const profile = role === "STUDENT" ? getProfile() : null;
   const siteSettings = getSiteSettings();
   const navigate = useNavigate();

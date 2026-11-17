@@ -1,25 +1,60 @@
 import { useState } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
-import { getDemoRole, isDemoAuthenticated, logoutDemoAccount } from "../utils/demoAuth.js";
+import { useAuth } from "../auth/AuthContext";
+import { logoutDemoAccount } from "../utils/demoAuth.js";
 import { getSiteSettings } from "../utils/adminSettings.js";
+import { LayoutDashboard } from "lucide-react";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-  const authenticated = isDemoAuthenticated();
-  const role = getDemoRole();
+  const { isAuthenticated, role, isTeacher, isAdmin, isStudent } = useAuth();
   const siteSettings = getSiteSettings();
   const close = () => setOpen(false);
+
   const goHome = () => {
     close();
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  function logout() {
+  const logout = () => {
     logoutDemoAccount();
     close();
     navigate("/");
+  };
+
+  function getDashboardPath() {
+    switch (role) {
+      case "TEACHER": return "/dashboard/teacher";
+      case "ADMIN": return "/admin";
+      default: return "/dashboard/student";
+    }
   }
+
+  function getDashboardLabel() {
+    switch (role) {
+      case "TEACHER": return "Dashboard professeur";
+      case "ADMIN": return "Dashboard administrateur";
+      default: return "Tableau de bord étudiant";
+    }
+  }
+
+  function getProfileLink() {
+    switch (role) {
+      case "TEACHER": return "/profil";
+      case "ADMIN": return "/admin";
+      default: return "/profil";
+    }
+  }
+
+  const handleDashboardClick = () => {
+    close();
+    if (!isAuthenticated) {
+      navigate("/connexion");
+      return;
+    }
+    navigate(getDashboardPath());
+  };
 
   return (
     <header className="site-header">
@@ -31,19 +66,23 @@ export default function Header() {
         <nav className={`main-nav ${open ? "is-open" : ""}`}>
           <NavLink to="/" end onClick={goHome}>Accueil</NavLink>
           <NavLink to="/formations" onClick={close}>Formations</NavLink>
-          {role === "ADMIN" ? (
-            <NavLink to="/admin" onClick={close}>Dashboard Admin</NavLink>
+          {isAuthenticated ? (
+            <NavLink to={getDashboardPath()} onClick={close}>
+              <LayoutDashboard size={16} /> {getDashboardLabel()}
+            </NavLink>
           ) : (
-            <>
-              <NavLink to="/dashboard" onClick={close}>Tableau de bord étudiant</NavLink>
-              <NavLink to="/profil" onClick={close}>Mon profil</NavLink>
-            </>
+            <button type="button" className="admin-nav-link" onClick={handleDashboardClick}>
+              <LayoutDashboard size={16} /> {getDashboardLabel()}
+            </button>
           )}
-          {authenticated && (
+          {isStudent ? (
+            <NavLink to={getProfileLink()} onClick={close}>Mon profil</NavLink>
+          ) : null}
+          {isAuthenticated && (
             <button className="mobile-auth-action" type="button" onClick={logout}>Se déconnecter</button>
           )}
         </nav>
-        {authenticated && (
+        {isAuthenticated && (
           <button className="button button-small header-cta" type="button" onClick={logout}>Se déconnecter</button>
         )}
       </div>

@@ -49,7 +49,30 @@ export function getDemoRole() {
 
   if (session?.role === "ADMIN" && session.demo === true) return "ADMIN";
   if (session?.email && session.email === account?.email && !account.suspended) {
-    return session.role === "ADMIN" ? "ADMIN" : "STUDENT";
+    if (session.role === "ADMIN") return "ADMIN";
+    if (session.role === "TEACHER") return "TEACHER";
+    return "STUDENT";
+  }
+  return null;
+}
+
+export function getDemoUser() {
+  const session = getDemoSession();
+  const account = getDemoAccount();
+  const role = getDemoRole();
+  if (!role) return null;
+
+  if (session?.demo === true && session.role === "ADMIN") {
+    return { email: session.email, firstName: "Admin", lastName: "Démo", role: "ADMIN" };
+  }
+
+  if (account) {
+    return {
+      email: account.email,
+      firstName: account.firstName,
+      lastName: account.lastName,
+      role,
+    };
   }
   return null;
 }
@@ -109,7 +132,7 @@ export async function loginDemoAccount({ email, password }) {
     throw new Error("Ce compte est suspendu. Contacte l’administrateur de la plateforme.");
   }
 
-  localStorage.setItem(SESSION_KEY, JSON.stringify({ email: account.email, role: account.role === "ADMIN" ? "ADMIN" : "STUDENT" }));
+  localStorage.setItem(SESSION_KEY, JSON.stringify({ email: account.email, role: account.role }));
 }
 
 export function updateDemoStudentAccount(updates) {

@@ -12,6 +12,7 @@ import {
   CirclePlay,
   Eye,
   EyeOff,
+  Globe,
   GraduationCap,
   House,
   LayoutDashboard,
@@ -25,6 +26,7 @@ import {
   ShieldAlert,
   Settings,
   Trash2,
+  Upload,
   Users,
   X,
 } from "lucide-react";
@@ -96,6 +98,9 @@ export default function AdminDashboard() {
   const [form, setForm] = useState(emptyForm);
   const [notice, setNotice] = useState("");
   const [error, setError] = useState("");
+  const [imageInputMode, setImageInputMode] = useState(null);
+  const [imageFile, setImageFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState("");
 
   const filteredCourses = useMemo(() => {
     const query = search.trim().toLocaleLowerCase("fr");
@@ -133,12 +138,16 @@ export default function AdminDashboard() {
   function beginCreate() {
     setEditingId(null);
     setForm(emptyForm);
+    setImageInputMode(null);
+    setImageFile(null);
+    setImagePreview("");
     setError("");
     setNotice("");
   }
 
   function beginEdit(course) {
     setEditingId(course.id);
+    const isDataUrl = course.image?.startsWith("data:");
     setForm({
       title: course.title || "",
       category: course.category || "",
@@ -149,6 +158,9 @@ export default function AdminDashboard() {
       description: course.description || "",
       image: course.image || "",
     });
+    setImageInputMode(isDataUrl ? "file" : "url");
+    setImagePreview(isDataUrl ? course.image : "");
+    setImageFile(null);
     setError("");
     setNotice("");
   }
@@ -173,7 +185,7 @@ export default function AdminDashboard() {
         modules: [createModule(id, form.title, form.description)],
       }),
       ...form,
-      image: form.image.trim(),
+      image: imageInputMode === "file" ? imagePreview : form.image.trim(),
       isPublished: existing?.isPublished ?? false,
     };
     const nextCourses = existing
@@ -193,6 +205,8 @@ export default function AdminDashboard() {
         description: updatedCourse.description,
         image: updatedCourse.image,
       });
+      setImageInputMode(updatedCourse.image?.startsWith("data:") ? "file" : "url");
+      setImagePreview(updatedCourse.image?.startsWith("data:") ? updatedCourse.image : "");
       setNotice(existing ? "Formation mise à jour dans ce navigateur." : "Brouillon créé dans ce navigateur.");
     } catch {
       setError("Impossible d’enregistrer la formation dans le stockage local de ce navigateur.");
@@ -229,6 +243,42 @@ export default function AdminDashboard() {
   function updateField(event) {
     const { name, value } = event.target;
     setForm((current) => ({ ...current, [name]: value }));
+  }
+
+  function handleImageModeChange(mode) {
+    setImageInputMode(mode);
+    if (mode === "url") {
+      setImageFile(null);
+      setImagePreview("");
+    }
+  }
+
+  function handleImageFileChange(event) {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    const allowedTypes = ["image/png", "image/jpeg", "image/jpg", "image/webp"];
+    if (!allowedTypes.includes(file.type)) {
+      setError("Seuls les formats PNG, JPG, JPEG et WEBP sont acceptés.");
+      return;
+    }
+    const maxSize = 5 * 1024 * 1024;
+    if (file.size > maxSize) {
+      setError("L’image ne doit pas dépasser 5 Mo.");
+      return;
+    }
+    setError("");
+    setImageFile(file);
+    setImageInputMode("file");
+    const reader = new FileReader();
+    reader.onload = () => setImagePreview(reader.result);
+    reader.readAsDataURL(file);
+  }
+
+  function clearImage() {
+    setImageFile(null);
+    setImagePreview("");
+    setImageInputMode(null);
+    setForm((current) => ({ ...current, image: "" }));
   }
 
   return (
@@ -386,7 +436,55 @@ export default function AdminDashboard() {
                 <label>Formateur<input name="instructor" value={form.instructor} onChange={updateField} required maxLength={80} /></label>
                 <label>Durée<input name="duration" value={form.duration} onChange={updateField} required placeholder="Ex. 6 heures" maxLength={30} /></label>
               </div>
-              <label>Image de couverture (URL)<input name="image" type="url" value={form.image} onChange={updateField} placeholder="https://..." /></label>
+              <fieldset className="admin-image-fieldset">
+                <legend>Image de la formation</legend>
+                <div className="admin-image-tabs">
+                  <button
+                    type="button"
+                    className={`admin-image-tab ${imageInputMode === "url" ? "is-active" : ""}`}
+                    onClick={() => handleImageModeChange("url")}
+                  >
+                    <Globe size={15} /> Ajouter par URL
+                  </button>
+                  <button
+                    type="button"
+                    className={`admin-image-tab ${imageInputMode === "file" ? "is-active" : ""}`}
+                    onClick={() => handleImageModeChange("file")}
+                  >
+                    <Upload size={15} /> Importer depuis mon ordinateur
+                  </button>
+                </div>
+
+                {imageInputMode === "url" && (
+                  <>
+                    <label>
+                      URL de l’image<input name="image" type="url" value={form.image} onChange={updateField} placeholder="https://monsite.com/image.png" />
+                    </label>
+                    {form.image && (
+                      <div className="admin-image-preview">
+                        <img src={form.image} alt="Aperçu" />
+                        <button type="button" className="admin-image-remove" onClick={clearImage} aria-label="Supprimer l’image">×</button>
+                      </div>
+                    )}
+                  </>
+                )}
+
+                {imageInputMode === "file" && (
+                  <>
+                    <label className="admin-image-upload">
+                      <Upload size={18} />
+                      <span>Sélectionner une image (PNG, JPG, JPEG, WEBP)</span>
+                      <input type="file" accept="image/png,image/jpeg,image/jpg,image/webp" onChange={handleImageFileChange} aria-label="Sélectionner une image" />
+                    </label>
+                    {imagePreview && (
+                      <div className="admin-image-preview">
+                        <img src={imagePreview} alt="Aperçu" />
+                        <button type="button" className="admin-image-remove" onClick={clearImage} aria-label="Supprimer l’image">×</button>
+                      </div>
+                    )}
+                  </>
+                )}
+              </fieldset>
               <label>Description courte<textarea name="shortDescription" value={form.shortDescription} onChange={updateField} required rows={2} maxLength={180} /></label>
               <label>Description complète<textarea name="description" value={form.description} onChange={updateField} required rows={4} maxLength={1200} /></label>
               {!editingId && <p className="admin-draft-hint">La nouvelle formation sera créée comme brouillon avec un module d’introduction. Tu pourras la publier depuis le catalogue.</p>}
